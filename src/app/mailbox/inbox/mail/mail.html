@@ -24,15 +24,24 @@
                 <dd>{{$ctrl.mail.date}}</dd>
             </dl>
 
-            <label class="btn btn-primary" ng-show="$ctrl.showTextButton()" ng-model="$ctrl.displayMode"
-                   uib-btn-radio="'text'">Text</label>
-            <label class="btn btn-primary" ng-show="$ctrl.showHtmlButton()" ng-model="$ctrl.displayMode"
-                   uib-btn-radio="'html'">Html</label>
         </div>
     </div>
-    <div class="row email-body" ng-switch="$ctrl.displayMode">
-        <div class="col-sm-10" ng-switch-when="html" ng-bind-html="$ctrl.mail.textHtml"></div>
-        <div class="col-sm-10" ng-switch-when="text" ng-bind-html="$ctrl.mail.textPlain | nl2br | autolink "></div>
+    <div class="row">
+        <div class="col-sm-12">
+            <uib-tabset active="1">
+
+                <uib-tab index="1" disable="!$ctrl.showTextButton()">
+                    <uib-tab-heading><i class="glyphicon glyphicon-align-left"></i> text</uib-tab-heading>
+                    <span ng-bind-html="$ctrl.mail.textPlain | nl2br | autolink "></span>
+                </uib-tab>
+
+                <uib-tab index="2" disable="!$ctrl.showHtmlButton()" select="htmlActive=true">
+                    <uib-tab-heading><i class="glyphicon glyphicon-picture"></i> html</uib-tab-heading>
+                    <span ng-if="htmlActive" ng-bind-html="$ctrl.mail.textHtml"></span>
+                </uib-tab>
+
+            </uib-tabset>
+        </div>
     </div>
 </section>
 
