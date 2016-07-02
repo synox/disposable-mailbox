@@ -5,7 +5,7 @@ import Autolinker from 'autolinker';
 
 import template from './mail.html';
 import controller from './mail.controller';
-import './mail.css';
+import './mail.scss';
 
 
 export default angular.module('mailbox.inbox.mail', [uiRouter, ngSanitize])

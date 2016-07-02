@@ -1,15 +1,16 @@
-<section ng-hide="$ctrl.deleted">
-    <div class="row email-header">
-        <div class="col-sm-4">{{$ctrl.mail.fromAddress}}</div>
-        <div class="col-sm-6">{{$ctrl.mail.subject}}</div>
-        <div class="col-sm-2">
+<section ng-hide="$ctrl.deleted" class="email">
+    <div class="row ">
+        <div class="col-sm-4 email-summary">{{$ctrl.mail.fromAddress}}</div>
+        <div class="col-sm-8 email-summary">{{$ctrl.mail.subject}}</div>
+        <!--<div class="col-sm-2 email-summary">-->
+            <!--&nbsp;-->
             <!--<button class="btn btn-primary" ng-click="$ctrl.deleteMail($ctrl.mail.id)">Delete</button>-->
-        </div>
+        <!--</div>-->
     </div>
 
-    <div class="row email-info">
-        <div class="col-sm-12">
-            <dl class="info-list">
+    <div class="row">
+        <div class="col-sm-12 email-headers">
+            <dl>
                 <dt>To:</dt>
                 <dd>{{$ctrl.mail.toString}}</dd>
                 <div ng-if="$ctrl.mail.cc" ng-repeat="(address,name) in $ctrl.mail.cc">
@@ -26,8 +27,7 @@
 
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
+    <div class="row email-tabs">
             <uib-tabset active="1">
 
                 <uib-tab index="1" disable="!$ctrl.showTextButton()">
@@ -41,7 +41,6 @@
                 </uib-tab>
 
             </uib-tabset>
-        </div>
     </div>
 </section>
 

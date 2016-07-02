@@ -1,0 +1,72 @@
+
+$email-border-color: #7C96AB;
+$email-summary-background: white;
+$email-header-background: white;
+
+$tab-button-color: white;
+$tab-button-color-inactive: #e0e0e0;
+$tab-content-background: white;
+
+.email .email-summary {
+    font-weight: bold;
+    border-top: 5px solid $email-border-color;
+    border-bottom: 1px solid $email-border-color;
+    padding: 10px;
+    background-color: $email-summary-background;
+}
+
+.email .email-headers {
+    background-color: $email-header-background;
+
+    dl {
+        padding: 0 0 4px;
+        color: black;
+        overflow: hidden;
+
+        dt {
+            float: left;
+            color: black;
+            margin: 0 3px 0 0;
+        }
+        dd {
+            display: block;
+            overflow: hidden;
+        }
+    }
+}
+
+
+.email .email-tabs {
+    background-color: $email-header-background;
+    border-bottom: 1px solid $email-border-color;
+
+    .nav {
+        padding-left: 10px;
+    }
+
+    .tab-content {
+        background-color: $tab-content-background;
+        padding: 20px;
+        overflow: hidden;
+    }
+
+    /* Tab Button (disabled)*/
+    .nav-tabs > li.disabled > a:hover,
+    .nav-tabs > li.disabled > a:focus {
+        background-color: $tab-button-color-inactive;
+    }
+
+    /* Tab Button (incative)*/
+    .nav-tabs > li > a{
+        background-color: $tab-button-color-inactive;
+    }
+
+    /* Tab Button (active)*/
+    .nav-tabs > li.active > a,
+    .nav-tabs > li.active > a:hover,
+    .nav-tabs > li.active > a:focus {
+        background-color: $tab-button-color;
+    }
+
+}
+
