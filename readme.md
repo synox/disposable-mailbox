@@ -6,7 +6,9 @@
  * easy to install: just copy files in `dist`
  * minimal code base: minimal features and complexity
 
-![screenshot](screenshot.png)
+
+
+<img src="screenshot.png" alt="Screenshot" title="Screenshot of the application" style="border: 1px solid #ddd; border-radius: 4px; padding: 5px;">
 
 ## Quality/Status:
 This is **alpha-tested** software, do not use it in production yes, it may lose your mails and people may gain access to your mails. There are still unsolved problems. Contributions are welcome!
