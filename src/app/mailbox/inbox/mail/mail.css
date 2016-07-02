@@ -7,18 +7,25 @@
 
 .email .tab-content {
     background-color: white;
-    padding:5px
+    padding:20px
 }
 
 /* Tab Button (disabled): gray*/
-.nav-tabs > li.disabled > a:hover,
-.nav-tabs > li.disabled > a:focus {
+.email .nav-tabs > li.disabled > a:hover,
+.email .nav-tabs > li.disabled > a:focus {
     background-color: #e0e0e0;
 }
 
 /* Tab Button (incative): gray*/
-.nav-tabs > li > a{
+.email .nav-tabs > li > a{
     background-color: #e0e0e0;
+}
+
+/* Tab Button (active): white*/
+.email .nav-tabs > li.active > a,
+.email .nav-tabs > li.active > a:hover,
+.email .nav-tabs > li.active > a:focus {
+    background-color: white;
 }
 
 
