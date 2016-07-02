@@ -1,0 +1,20 @@
+<div class="navbar" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand"><span class="octicon-inbox"></span> Mailbox</a>
+        </div>
+
+        <form class="navbar-form navbar-left">
+            <a class="btn btn-default" ng-click="$ctrl.createMailbox()" role="button">
+                <span class="glyphicon glyphicon-random" aria-hidden="true"></span>
+                create random
+            </a>
+        </form>
+
+
+        <form class="navbar-form navbar-left" role="search" ng-submit="$ctrl.openMailbox($ctrl.address)">
+            <input ng-model="$ctrl.address" type='text' class="form-control"/>
+            <button type="submit" class="btn btn-default">open</button>
+        </form>
+    </div>
+</div>

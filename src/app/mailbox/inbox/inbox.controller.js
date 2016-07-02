@@ -1,0 +1,37 @@
+class MailboxController {
+    /*@ngInject*/
+    constructor($log, $interval, config, mailboxService) {
+        this.$log = $log;
+        this.$interval = $interval;
+        this.config = config;
+        this.mailboxService = mailboxService;
+        this.loadingData = true;
+        this.mails = [];
+        this.address = null;
+    }
+
+    $onInit() {
+        this.username = this.mailboxService.getCurrentUsername();
+        this.intervalPromise = this.$interval(() => this.loadMails(), this.config.reload_interval_ms);
+        this.loadMails();
+
+    }
+
+    $onDestroy() {
+        this.$log.debug("destroying controller");
+        this.$interval.cancel(this.intervalPromise);
+    }
+
+
+    loadMails() {
+        this.mailboxService.loadEmails(this.username)
+            .then(data => {
+                this.mails = data.mails;
+                this.address = this.mailboxService.getCurrentAddress();
+                this.loadingData = false;
+            });
+    }
+
+}
+
+export default MailboxController;

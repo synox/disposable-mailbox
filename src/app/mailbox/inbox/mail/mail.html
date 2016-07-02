@@ -1,0 +1,39 @@
+<section ng-hide="$ctrl.deleted">
+    <div class="row email-header">
+        <div class="col-sm-4">{{$ctrl.mail.fromAddress}}</div>
+        <div class="col-sm-6">{{$ctrl.mail.subject}}</div>
+        <div class="col-sm-2">
+            <!--<button class="btn btn-primary" ng-click="$ctrl.deleteMail($ctrl.mail.id)">Delete</button>-->
+        </div>
+    </div>
+
+    <div class="row email-info">
+        <div class="col-sm-12">
+            <dl class="info-list">
+                <dt>To:</dt>
+                <dd>{{$ctrl.mail.toString}}</dd>
+                <div ng-if="$ctrl.mail.cc" ng-repeat="(address,name) in $ctrl.mail.cc">
+                    <dt>CC:</dt>
+                    <dd>{{address}}</dd>
+                </div>
+                <dt>From:</dt>
+                <dd>{{$ctrl.mail.fromName}} &lt;{{$ctrl.mail.fromAddress}}&gt;</dd>
+                <dt>Subject:</dt>
+                <dd>{{$ctrl.mail.subject}}</dd>
+                <dt>Date:</dt>
+                <dd>{{$ctrl.mail.date}}</dd>
+            </dl>
+
+            <label class="btn btn-primary" ng-show="$ctrl.showTextButton()" ng-model="$ctrl.displayMode"
+                   uib-btn-radio="'text'">Text</label>
+            <label class="btn btn-primary" ng-show="$ctrl.showHtmlButton()" ng-model="$ctrl.displayMode"
+                   uib-btn-radio="'html'">Html</label>
+        </div>
+    </div>
+    <div class="row email-body" ng-switch="$ctrl.displayMode">
+        <div class="col-sm-10" ng-switch-when="html" ng-bind-html="$ctrl.mail.textHtml"></div>
+        <div class="col-sm-10" ng-switch-when="text" ng-bind-html="$ctrl.mail.textPlain | nl2br | autolink "></div>
+    </div>
+</section>
+
+       

@@ -1,0 +1,8 @@
+{
+    "require": {
+        "php-imap/php-imap": "~2.0"
+    },
+    "config": {
+        "vendor-dir": "dist/backend-libs"
+    }
+}
