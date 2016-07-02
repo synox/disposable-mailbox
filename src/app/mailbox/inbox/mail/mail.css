@@ -1,39 +1,61 @@
+.email .email-headers {
+    background-color: gray;
+}
+.email .email-tabs {
+    background-color: gray;
+}
 
-
-.email-table .email-header {
-    font-weight: bold;
-    border-top: 5px solid #7C96AB;
-    border-bottom: 1px solid #7C96AB;
-    padding: 10px;
+.email .tab-content {
     background-color: white;
+    padding:5px
 }
 
-.email-table .email-info {
-    background-color: white;
+/* Tab Button (disabled): gray*/
+.nav-tabs > li.disabled > a:hover,
+.nav-tabs > li.disabled > a:focus {
+    background-color: #e0e0e0;
+}
+
+/* Tab Button (incative): gray*/
+.nav-tabs > li > a{
+    background-color: #e0e0e0;
 }
 
 
-.email-table .email-body {
-    overflow: hidden;
-    background-color: white;
-}
+/*.email-table .email-header {*/
+    /*font-weight: bold;*/
+    /*border-top: 5px solid #7C96AB;*/
+    /*border-bottom: 1px solid #7C96AB;*/
+    /*padding: 10px;*/
+    /*background-color: white;*/
+/*}*/
 
-.info-list {
-    margin: 0 0 21px;
-    border-bottom: 1px solid #ccc;
-    padding: 0 0 16px;
-    color: #999;
-    overflow: hidden;
-}
+/*.email-table .email-info {*/
+    /*background-color: white;*/
+/*}*/
 
-.info-list dt {
-    float: left;
-    color: #666;
-    margin: 0 3px 0 0;
-}
 
-.info-list dd {
-    display: block;
-    overflow: hidden;
-}
+/*.email-table .email-body {*/
+    /*overflow: hidden;*/
+    /*background-color: white;*/
+/*}*/
+
+/*.info-list {*/
+    /*margin: 0 0 21px;*/
+    /*border-bottom: 1px solid #ccc;*/
+    /*padding: 0 0 16px;*/
+    /*color: #999;*/
+    /*overflow: hidden;*/
+/*}*/
+
+/*.info-list dt {*/
+    /*float: left;*/
+    /*color: #666;*/
+    /*margin: 0 3px 0 0;*/
+/*}*/
+
+/*.info-list dd {*/
+    /*display: block;*/
+    /*overflow: hidden;*/
+/*}*/
 
