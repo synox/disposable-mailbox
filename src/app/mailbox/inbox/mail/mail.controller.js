@@ -12,18 +12,7 @@ class MailController {
                 this.deleted = true;
             });
     }
-
-    showTextButton() {
-        if ( this.mail.textPlain && !this.mail.textHtml){
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    showHtmlButton() {
-        return !! this.mail.textHtml;
-    }
+ 
 }
 
 export default MailController;
