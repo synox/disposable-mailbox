@@ -8,21 +8,23 @@ class NavbarController {
     }
 
     $onInit() {
+        // the address is updated after loading the page. the value must be watched and upated later.
         this.$rootScope.$watch(
             ()=> this.mailboxService.getCurrentAddress(),
             (newValue, oldValue)=> {
                 this.address = newValue;
             }
         );
+        // load the temporary address (which is the username)
         this.address = this.mailboxService.getCurrentAddress();
     }
 
-    openMailbox(username) {
-        this.mailboxService.openMailbox(username);
+    gotoMailbox(username) {
+        this.mailboxService.gotoMailbox(username);
     }
 
-    createMailbox() {
-        this.mailboxService.createMailbox();
+    gotoRandomAddress() {
+        this.mailboxService.gotoRandomAddress();
     }
 }
 

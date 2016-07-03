@@ -5,14 +5,14 @@
         </div>
 
         <form class="navbar-form navbar-left">
-            <a class="btn btn-default" ng-click="$ctrl.createMailbox()" role="button">
+            <a class="btn btn-default" ng-click="$ctrl.gotoRandomAddress()" role="button">
                 <span class="glyphicon glyphicon-random" aria-hidden="true"></span>
                 create random
             </a>
         </form>
 
 
-        <form class="navbar-form navbar-left" role="search" ng-submit="$ctrl.openMailbox($ctrl.address)">
+        <form class="navbar-form navbar-left" role="search" ng-submit="$ctrl.gotoMailbox($ctrl.address)">
             <input ng-model="$ctrl.address" type='text' class="form-control"/>
             <button type="submit" class="btn btn-default">open</button>
         </form>

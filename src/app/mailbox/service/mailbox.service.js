@@ -13,16 +13,16 @@ class MailboxService {
         this.chance = new Chance();
     }
 
-    openMailbox(username) {
+    gotoMailbox(username) {
         username = MailboxService.cleanUsername(username);
-        this.setCurrentAddress(username);
+        this.address = username; // use username until real address has been loaded
         this.$state.go('inbox', {username: username});
     }
 
     loadEmails(username) {
         return this.$http.get(this.config.backend_url, {params: {username: username, action: "get"}})
             .then(response=> {
-                    this.setCurrentAddress(response.data.address);
+                    this.address = response.data.address;
                     return response.data;
                 }
             );
@@ -32,9 +32,9 @@ class MailboxService {
         return username.replace(/[@].*$/, '');
     }
 
-    createMailbox() {
+    gotoRandomAddress() {
         let username = this.generateRandomUsername();
-        this.openMailbox(username);
+        this.gotoMailbox(username);
     }
 
     generateRandomUsername() {
@@ -42,7 +42,7 @@ class MailboxService {
         if (this.chance.bool()) {
             username = this.chance.word({syllables: 3});
         } else {
-            username = this.chance.first();
+            username = this.chance.first(); // first name
         }
         if (this.chance.bool()) {
             username += this.chance.integer({min: 50, max: 99});
@@ -58,9 +58,6 @@ class MailboxService {
         return this.$stateParams.username;
     }
 
-    setCurrentAddress(address) {
-        this.address = address;
-    }
 
     getCurrentAddress() {
         return this.address
