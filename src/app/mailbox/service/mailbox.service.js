@@ -19,17 +19,6 @@ class MailboxService {
         this.$state.go('inbox', {username: username});
     }
 
-    deleteMail(id) {
-        this.$log.info('deleting mails with id ' + id);
-        return this.$http.post(this.config.backend_url, {
-            params: {
-                id: id,
-                username: this.getCurrentUsername(),
-                action: "delete"
-            }
-        });
-    }
-
     loadEmails(username) {
         return this.$http.get(this.config.backend_url, {params: {username: username, action: "get"}})
             .then(response=> {
