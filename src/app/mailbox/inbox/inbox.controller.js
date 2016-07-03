@@ -7,11 +7,10 @@ class MailboxController {
         this.mailboxService = mailboxService;
         this.loadingData = true;
         this.mails = [];
-        this.address = null;
+        this.address = null; // is set when mails are loaded
     }
 
     $onInit() {
-        this.username = this.mailboxService.getCurrentUsername();
         this.intervalPromise = this.$interval(() => this.loadMails(), this.config.reload_interval_ms);
         this.loadMails();
 
@@ -24,7 +23,7 @@ class MailboxController {
 
 
     loadMails() {
-        this.mailboxService.loadEmails(this.username)
+        this.mailboxService.loadEmails(this.mailboxService.getCurrentUsername())
             .then(data => {
                 this.mails = data.mails;
                 this.address = this.mailboxService.getCurrentAddress();
