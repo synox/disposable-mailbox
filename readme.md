@@ -57,7 +57,8 @@ There is a [Vagrantfile](Vagrantfile), in case you are familiar  with [vagrant](
  1. reduce total dist size (<1 MB)
  1. setup a link redirection provider (to keep the existence of your installation secret)
  1. maybe make mails collapsible
-
+ 1. provide error message if config.php is missing or in a public folder. 
+ 
 ## Credit
 
 This could not be possible without...
