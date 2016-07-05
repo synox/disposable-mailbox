@@ -58,5 +58,8 @@
     "type": "git",
     "url": "https://github.com/synox/disposable-mailbox.git"
   },
-  "license": "CC-BY-NC-SA-4.0"
+  "license": "CC-BY-NC-SA-4.0",
+  "scripts": {
+    "test": "gulp test-phantomjs"
+  }
 }
