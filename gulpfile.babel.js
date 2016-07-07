@@ -8,8 +8,11 @@ import webpackConfig from './webpack.config';
 import del from    'del';
 
 
-gulp.task('clean:distjs', function () {
-    return del(['dist/*.js']);
+gulp.task('clean', function () {
+    return del([
+        'dist/*.js',
+        'target/build']
+    );
 });
 
 /**
@@ -54,13 +57,13 @@ gulp.task('webpack-prod', [], (done) => {
 });
 
 
-gulp.task('build', ['test-phantomjs', 'clean:distjs', 'webpack-prod'], (done) => {
+gulp.task('build', ['test-phantomjs', 'clean', 'webpack-prod'], (done) => {
     return gulp
         .src(path.join('target', 'build', '*'))
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('build-skipTests', ['clean:distjs', 'webpack-prod'], (done) => {
+gulp.task('build-skipTests', ['clean', 'webpack-prod'], (done) => {
     return gulp
         .src(path.join('target', 'build', '*'))
         .pipe(gulp.dest('dist'));
