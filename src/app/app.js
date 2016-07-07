@@ -1,7 +1,6 @@
 // Vendor-Imports
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
-import ngResource from 'angular-resource';
 import uiBootstrap from 'angular-ui-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'babel-polyfill';
