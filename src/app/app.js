@@ -12,7 +12,7 @@ import Navbar from './navbar/navbar';
 import AppComponent from './app.component';
 
 angular.module('app', [
-    uiRouter, ngResource, uiBootstrap, Mailbox.name, Navbar.name
+    uiRouter, uiBootstrap, Mailbox.name, Navbar.name
 ])
     .constant('config', {
         'backend_url': './backend.php',
