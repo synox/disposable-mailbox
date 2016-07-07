@@ -12,11 +12,19 @@ var proxyMiddleware = require('proxy-middleware');
  * Gemeinsame Konfigurationsdatei fuer Webpack (der Teil, der fuer alle Umgebungen gleich ist)
  * @type {} Webpack Konfiguration
  */
-var commonConfig =  {
+var commonConfig = {
     context: path.resolve(__dirname, 'src/app'),
     // Einstiegspunkt fuer Webpack
     entry: {
         app: './app.js'
+        // angular: 'angular',
+        // anguboot: 'angular-ui-bootstrap',
+        // angurouter: 'angular-ui-router',
+        // bootcss: 'bootstrap/dist/css/bootstrap.css',
+        // angusan: 'angular-sanitize',
+        // autolinker: 'autolinker',
+        // babelpolyfill: 'babel-polyfill',
+        // phonetic: 'phonetic'
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -44,6 +52,7 @@ var production = extend({}, commonConfig, {
     plugins: [
         new ngAnnotatePlugin({add: true}),
         new webpack.optimize.DedupePlugin(),
+        new webpack.NoErrorsPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             minimize: true,
             compress: {
@@ -51,7 +60,7 @@ var production = extend({}, commonConfig, {
             },
             sourceMap: false
         }),
-        // automatisches Einfügen der Dateien app und vendor
+        // add js files
         new HtmlWebpackPlugin({
             template: '../index.html'
         })
