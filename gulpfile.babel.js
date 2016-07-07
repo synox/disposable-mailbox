@@ -5,11 +5,12 @@ import WebpackDevServer from 'webpack-dev-server';
 import karma    from 'karma';
 import ip from 'ip';
 import webpackConfig from './webpack.config';
+import del from    'del';
 
-let paths = {
-    build: path.join(__dirname, 'target/build')
-};
 
+gulp.task('clean:distjs', function () {
+    return del(['dist/*.js']);
+});
 
 /**
  * Gulp-Task: Fuehrt webpack aus und startet den Development-Server
@@ -53,16 +54,16 @@ gulp.task('webpack-prod', [], (done) => {
 });
 
 
-gulp.task('build', ['test-phantomjs', 'webpack-prod'], (done) => {
+gulp.task('build', ['test-phantomjs', 'clean:distjs', 'webpack-prod'], (done) => {
     return gulp
         .src(path.join('target', 'build', '*'))
-        .pipe(gulp.dest('dist'))();
+        .pipe(gulp.dest('dist'));
 });
 
-gulp.task('build-skipTests', ['webpack-prod'], (done) => {
+gulp.task('build-skipTests', ['clean:distjs', 'webpack-prod'], (done) => {
     return gulp
         .src(path.join('target', 'build', '*'))
-        .pipe(gulp.dest('dist'))();
+        .pipe(gulp.dest('dist'));
 });
 
 
