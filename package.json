@@ -11,7 +11,7 @@
     "autolinker": "^0.27.0",
     "babel-polyfill": "^6.9.1",
     "bootstrap": "^3.3.6",
-    "chance": "^1.0.3"
+    "phonetic": "^0.1.1"
   },
   "devDependencies": {
     "angular-mocks": "^1.5.2",

@@ -1,4 +1,4 @@
-import Chance from 'chance';
+import phonetic from 'phonetic';
 
 class MailboxService {
     /*@ngInject*/
@@ -10,7 +10,6 @@ class MailboxService {
         this.$stateParams = $stateParams;
         this.config = config;
         this.address = null;
-        this.chance = new Chance();
     }
 
     gotoMailbox(username) {
@@ -38,20 +37,24 @@ class MailboxService {
     }
 
     generateRandomUsername() {
-        let username = null;
-        if (this.chance.bool()) {
-            username = this.chance.word({syllables: 3});
+        let username = '';
+
+        phonetic.generate({syllables: 3});
+
+        if (Math.random() >= 0.5) {
+            username += phonetic.generate({syllables: 3});
         } else {
-            username = this.chance.first(); // first name
+            username += phonetic.generate({syllables: 2});
+            username += phonetic.generate({syllables: 2});
         }
-        if (this.chance.bool()) {
-            username += this.chance.integer({min: 50, max: 99});
+        if (Math.random() >= 0.5) {
+            username += this.getRandomInt(30, 99);
         }
-        if (this.chance.bool()) {
-            username += this.chance.tld();
-        }
-        username = username.toLowerCase();
-        return username;
+        return username.toLowerCase();
+    }
+
+    getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
     }
 
     getCurrentUsername() {
