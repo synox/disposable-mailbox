@@ -5,7 +5,6 @@ import WebpackDevServer from 'webpack-dev-server';
 import karma    from 'karma';
 import ip from 'ip';
 import webpackConfig from './webpack.config';
-import fileInline from 'gulp-file-inline';
 
 let paths = {
     build: path.join(__dirname, 'target/build')
@@ -54,26 +53,16 @@ gulp.task('webpack-prod', [], (done) => {
 });
 
 
-let inlineScript = function () {
-    return gulp
-        .src(path.join('target', 'build', 'index.html'))
-        .pipe(fileInline({
-            css: {
-                minify: false
-            },
-            js: {
-                minify: false
-            }
-        }))
-        .pipe(gulp.dest('dist'))
-};
-
 gulp.task('build', ['test-phantomjs', 'webpack-prod'], (done) => {
-    return inlineScript();
+    return gulp
+        .src(path.join('target', 'build', '*'))
+        .pipe(gulp.dest('dist'))();
 });
 
 gulp.task('build-skipTests', ['webpack-prod'], (done) => {
-    return inlineScript();
+    return gulp
+        .src(path.join('target', 'build', '*'))
+        .pipe(gulp.dest('dist'))();
 });
 
 
