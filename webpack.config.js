@@ -16,7 +16,7 @@ var commonConfig = {
     context: path.resolve(__dirname, 'src/app'),
     // Einstiegspunkt fuer Webpack
     entry: {
-        app: './app.js'
+        mailbox: './app.js'
         // angular: 'angular',
         // anguboot: 'angular-ui-bootstrap',
         // angurouter: 'angular-ui-router',
@@ -47,7 +47,7 @@ var commonConfig = {
 var production = extend({}, commonConfig, {
     output: {
         path: path.join(__dirname, 'target/build'),
-        filename: '[name].js'
+        filename: '[name]_[hash].js'
     },
     plugins: [
         new ngAnnotatePlugin({add: true}),
