@@ -12,4 +12,6 @@ $config['imap']['host'] = "localhost";
 $config['imap']['url'] = '{' . $config['imap']['host'] . '/imap/ssl}INBOX';
 $config['imap']['username'] = "test";
 $config['imap']['password'] = "test";
+
+// email domain, usually different from imap hostname:
 $config['mailHostname'] = "example.com";

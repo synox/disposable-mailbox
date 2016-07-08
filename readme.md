@@ -49,7 +49,7 @@ Build frontend:
 
     gulp build
 
-The files are written to the `dist` directory.
+The files are written to the `dist` directory. See also `build.sh`.
 
 There is a [Vagrantfile](Vagrantfile), in case you are familiar  with [vagrant](https://www.vagrantup.com/).
 
