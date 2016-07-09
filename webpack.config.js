@@ -13,7 +13,7 @@ var proxyMiddleware = require('proxy-middleware');
  * @type {} Webpack Konfiguration
  */
 var commonConfig = {
-    context: path.resolve(__dirname, 'src/app'),
+    context: path.resolve(__dirname, 'src'),
     // Einstiegspunkt fuer Webpack
     entry: {
         mailbox: './app.js'
@@ -62,7 +62,7 @@ var production = extend({}, commonConfig, {
         }),
         // add js files
         new HtmlWebpackPlugin({
-            template: '../index.html'
+            template: './index.html'
         })
     ]
 });
@@ -80,7 +80,7 @@ var development = extend({}, commonConfig, {
             middleware: proxyMiddleware(proxyOptions)
         }),
         new HtmlWebpackPlugin({
-            template: '../index.html'
+            template: './index.html'
         })
     ],
     watch: true,

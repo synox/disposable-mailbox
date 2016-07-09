@@ -4,9 +4,8 @@ import uiRouter from 'angular-ui-router';
 import template from './inbox.html';
 import controller from './inbox.controller';
 import './inbox.scss';
-import Mail from './mail/mail'
 
-export default angular.module('mailbox.inbox', [uiRouter, Mail.name])
+export default angular.module('mailbox.inbox', [uiRouter])
     .component('inbox', {
         template, controller,
         bindings: {

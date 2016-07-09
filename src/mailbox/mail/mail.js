@@ -10,8 +10,7 @@ import './mail.scss';
 
 export default angular.module('mailbox.inbox.mail', [uiRouter, ngSanitize])
     .component('mail', {
-        template,
-        controller,
+        template, controller,
         bindings: {
             mail: '='
         }

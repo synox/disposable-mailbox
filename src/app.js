@@ -7,15 +7,12 @@ import 'babel-polyfill';
 
 // Interne Modul-Imports
 import Mailbox from './mailbox/mailbox';
-import Navbar from './navbar/navbar';
-
-import AppComponent from './app.component';
 
 angular.module('app', [
-    uiRouter, uiBootstrap, Mailbox.name, Navbar.name
+    uiRouter, uiBootstrap, Mailbox.name
 ])
+
     .constant('config', {
         'backend_url': './backend.php',
         'reload_interval_ms': 10000
     })
-    .directive('app', AppComponent);
