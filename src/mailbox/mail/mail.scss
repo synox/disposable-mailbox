@@ -6,6 +6,11 @@ $tab-button-color: white;
 $tab-button-color-inactive: #e0e0e0;
 $tab-content-background: white;
 
+.sticky-header {
+  top: 0;
+  z-index: 1000;
+}
+
 .email {
   .email-summary {
     font-weight: bold;
