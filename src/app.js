@@ -3,11 +3,11 @@ import "bootstrap/scss/bootstrap.scss";
 import "babel-polyfill";
 import angularStickyfill from "angular-stickyfill";
 import "angular-stickyfill/dist/angular-stickyfill.css";
-import {cleanUsername, generateRandomUsername} from "./util";
+import {cleanUsername, generateRandomUsername} from "./mailbox/util";
 import hasher from "hasher";
-import Header from "./components/header/header";
-import List from "./components/list/list";
-import Mail from "./components/mail/mail";
+import Header from "./mailbox/header/header";
+import List from "./mailbox/list/list";
+import Mail from "./mailbox/mail/mail";
 
 // config:
 const reload_interval_ms = 10000;
@@ -15,21 +15,16 @@ const backend_url = './backend.php';
 
 class AppController {
     /*@ngInject*/
-    constructor($http, $log, config, $interval) {
+    constructor($http, $log, $interval) {
         this.$interval = $interval;
         this.$http = $http;
-        this.config = config;
         this.$log = $log;
-        this.$log.log('start controller');
         this.address = null;
         this.username = null;
         this.mails = [];
-        this.state = {isUpdating: false};
     }
 
     $onInit() {
-        this.$log.debug("init");
-
         hasher.changed.add(this.onHashChange.bind(this));
         hasher.initialized.add(this.onHashChange.bind(this)); //add initialized listener (to grab initial value in case it is already set)
         hasher.init(); //initialize hasher (start listening for history changes)
@@ -64,12 +59,10 @@ class AppController {
 
     loadEmailsAsync(username) {
         this.$log.debug("updating mails for ", username);
-        this.state.isUpdating = true;
         this.loadEmails(this.username).then(data=> {
             this.mails = data.mails;
             this.address = data.address;
             this.username = data.username;
-            this.state.isUpdating = false;
             this.$log.debug("received mails for ", username);
         });
     }
