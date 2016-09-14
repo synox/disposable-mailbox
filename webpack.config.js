@@ -3,6 +3,7 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var validate = require('webpack-validator');
 var merge = require('webpack-merge');
+var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 
 var TARGET = process.env.npm_lifecycle_event;
 
@@ -20,7 +21,8 @@ const commonConfig = {
         new webpack.NoErrorsPlugin(),
         new HtmlWebpackPlugin({
             template: './index.html'
-        })
+        }),
+        new ngAnnotatePlugin({add: true})
     ],
     module: {
         loaders: [
@@ -51,6 +53,7 @@ switch (TARGET) {
     case 'size':
     case 'build':
         config = merge(commonConfig, {
+            devtool: 'source-map',
             plugins: [
                 new webpack.optimize.DedupePlugin(),
                 new webpack.optimize.UglifyJsPlugin({
