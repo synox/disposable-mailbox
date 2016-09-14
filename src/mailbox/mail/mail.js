@@ -1,6 +1,8 @@
 import angular from "angular";
 import ngSanitize from "angular-sanitize";
 import Autolinker from "autolinker";
+import angularStickyfill from "angular-stickyfill";
+import "angular-stickyfill/dist/angular-stickyfill.css";
 import template from "./mail.html";
 import "./mail.scss";
 
@@ -12,7 +14,7 @@ class MailController {
 
 }
 
-export default angular.module('mailbox.inbox.mail', [ngSanitize])
+export default angular.module('mailbox.inbox.mail', [ngSanitize, angularStickyfill])
     .component('mail', {
         template,
         controller: MailController,

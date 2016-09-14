@@ -1,8 +1,6 @@
 import angular from "angular";
 import "bootstrap/scss/bootstrap.scss";
 import "babel-polyfill";
-import angularStickyfill from "angular-stickyfill";
-import "angular-stickyfill/dist/angular-stickyfill.css";
 import {cleanUsername, generateRandomUsername} from "./mailbox/util";
 import hasher from "hasher";
 import Header from "./mailbox/header/header";
@@ -88,9 +86,7 @@ class AppController {
 }
 
 
-angular.module('app', [
-    List, Mail, angularStickyfill, Header
-])
+angular.module('app', [List, Mail, Header])
 
     .component('app', {
         template: `
