@@ -1,90 +1,123 @@
 var webpack = require('webpack');
-var extend = require('node.extend');
 var path = require('path');
-var browserSyncPlugin = require('browser-sync-webpack-plugin');
-var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var webjsConfig = require('./shared.build.config');
-var url = require('url');
-var proxyMiddleware = require('proxy-middleware');
+var validate = require('webpack-validator');
+var merge = require('webpack-merge');
 
-/**
- * Gemeinsame Konfigurationsdatei fuer Webpack (der Teil, der fuer alle Umgebungen gleich ist)
- * @type {} Webpack Konfiguration
- */
-var commonConfig = {
+var TARGET = process.env.npm_lifecycle_event;
+
+// based on https://github.com/gaearon/react-hot-boilerplate
+const commonConfig = {
     context: path.resolve(__dirname, 'src'),
-    // Einstiegspunkt fuer Webpack
-    entry: {
-        mailbox: './app.js'
-        // angular: 'angular',
-        // anguboot: 'angular-ui-bootstrap',
-        // angurouter: 'angular-ui-router',
-        // bootcss: 'bootstrap/dist/css/bootstrap.css',
-        // angusan: 'angular-sanitize',
-        // autolinker: 'autolinker',
-        // babelpolyfill: 'babel-polyfill',
-        // phonetic: 'phonetic'
-    },
+    entry: [
+        './app.js'
+    ],
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: '[name]bundle.js'
-    },
-    // Modulkonfiguration fuer alle Dateitypen, welcher Loader soll verwendet werden
-    module: {
-        loaders: webjsConfig.webpackLoaders
-    },
-    resolve: {
-        fallback: path.join(__dirname, 'node_modules')
-    },
-    resolveLoader: {fallback: path.join(__dirname, 'node_modules')}
-};
-
-/**
- * Production Konfigurationsdatei fuer Webpack (der Teil, der nur fuer den produktiven Build ist)
- * @type {} Webpack Konfiguration
- */
-var production = extend({}, commonConfig, {
-    output: {
-        path: path.join(__dirname, 'target/build'),
-        filename: '[name]_[hash].js'
+        filename: 'bundle_[hash].js'
     },
     plugins: [
-        new ngAnnotatePlugin({add: true}),
-        new webpack.optimize.DedupePlugin(),
         new webpack.NoErrorsPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            minimize: true,
-            compress: {
-                warnings: true
-            },
-            sourceMap: false
-        }),
-        // add js files
-        new HtmlWebpackPlugin({
-            template: './index.html'
-        })
-    ]
-});
-
-// development config
-
-// forward requests (you may also have to change  "backend_url" in app.js
-var proxyOptions = url.parse('http://localhost:8080');
-proxyOptions.route = '/backend.php';
-
-var development = extend({}, commonConfig, {
-    plugins: [
-        new browserSyncPlugin({
-            proxy: 'localhost:3000',
-            middleware: proxyMiddleware(proxyOptions)
-        }),
         new HtmlWebpackPlugin({
             template: './index.html'
         })
     ],
-    watch: true,
-    devtool: 'source-map'
-});
+    module: {
+        loaders: [
+            {
+                test: /\.json$/, loader: 'json'
+            }, {
+                test: /\.html$/, loader: 'html'
+            }, {
+                test: /\.css$/, loader: 'style!css'
+            }, {
+                test: /\.scss$/, loader: 'style!css!sass'
+            }, {
+                test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url'
+            }, {
+                test: /\.(woff|woff2)$/, loader: 'url?mimetype=application/font-woff'
+            }, {
+                test: /\.ttf$/, loader: 'url'
+            }, {
+                test: /\.eot$/, loader: 'url'
+            }
 
-module.exports = {production: production, development: development};
+        ]
+    }
+};
+
+var config;
+switch (TARGET) {
+    case 'size':
+    case 'build':
+        config = merge(commonConfig, {
+            plugins: [
+                new webpack.optimize.DedupePlugin(),
+                new webpack.optimize.UglifyJsPlugin({
+                    minimize: true,
+                    compress: {
+                        warnings: false
+                    }
+                }),
+                new webpack.DefinePlugin({
+                    DEVELOPMENT: JSON.stringify(false)
+                }),
+                new webpack.DefinePlugin({
+                    'process.env': {
+                        'NODE_ENV': JSON.stringify('production')
+                    }
+                })
+
+            ],
+            // without react-hot in prod
+            module: {
+                loaders: [
+                    {
+                        test: /\.js$/, exclude: [/node_modules/],
+                        loader: 'babel',
+                        query: {
+                            // https://github.com/babel/babel-loader#options
+                            cacheDirectory: true,
+                            presets: ['es2015']
+                        }
+                    }
+                ]
+            }
+        });
+        break;
+    default:
+        // develop
+        config = merge(commonConfig, {
+            devtool: 'eval',
+            plugins: [
+                new webpack.HotModuleReplacementPlugin(),
+                new webpack.DefinePlugin({
+                    DEVELOPMENT: JSON.stringify(true)
+                })
+            ],
+            module: {
+                loaders: [
+                    {
+                        test: /\.js$/,
+                        loaders: ['babel'],
+                        include: path.join(__dirname, 'src')
+                    },
+                ]
+            }
+
+        });
+        // replace entry instead of merge
+        config.entry = [
+            'webpack-dev-server/client?http://localhost:3000',
+            'webpack/hot/only-dev-server',
+            './app.js'
+        ];
+}
+
+if (TARGET === "size") {
+    // no validation with size target
+    module.exports = config;
+} else {
+    module.exports = validate(config);
+}
+

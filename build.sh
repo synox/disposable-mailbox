@@ -7,7 +7,6 @@ composer install
 cp -rv src/{backend.php,config.sample.php} dist/
 
 # build Javascript frontend
-npm install
-gulp build
+npm run build
 
 echo "done"

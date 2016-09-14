@@ -1,18 +1,23 @@
-import angular from 'angular';
-import uiRouter from 'angular-ui-router';
-import ngSanitize from 'angular-sanitize';
-import Autolinker from 'autolinker';
-
-import template from './mail.html';
-import controller from './mail.controller';
-import './mail.scss';
+import angular from "angular";
+import ngSanitize from "angular-sanitize";
+import Autolinker from "autolinker";
+import template from "./mail.html";
+import "./mail.scss";
 
 
-export default angular.module('mailbox.inbox.mail', [uiRouter, ngSanitize])
+class MailController {
+    /*@ngInject*/
+    constructor() {
+    }
+
+}
+
+export default angular.module('mailbox.inbox.mail', [ngSanitize])
     .component('mail', {
-        template, controller,
+        template,
+        controller: MailController,
         bindings: {
-            mail: '='
+            mail: '<'
         }
     })
     // http://stackoverflow.com/a/20033625/79461
@@ -29,4 +34,4 @@ export default angular.module('mailbox.inbox.mail', [uiRouter, ngSanitize])
                 return Autolinker.link(data, {truncate: {length: 50, location: 'middle', newWindow: true}});
             }
         }
-    );
+    ).name;
