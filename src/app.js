@@ -1,4 +1,3 @@
-// Vendor-Imports
 import angular from "angular";
 import "bootstrap/scss/bootstrap.scss";
 import "babel-polyfill";
@@ -10,6 +9,9 @@ import Header from "./components/header/header";
 import List from "./components/list/list";
 import Mail from "./components/mail/mail";
 
+// config:
+const reload_interval_ms = 10000;
+const backend_url = './backend.php';
 
 class AppController {
     /*@ngInject*/
@@ -32,7 +34,7 @@ class AppController {
         hasher.initialized.add(this.onHashChange.bind(this)); //add initialized listener (to grab initial value in case it is already set)
         hasher.init(); //initialize hasher (start listening for history changes)
 
-        this.intervalPromise = this.$interval(() => this.updateMails(), this.config.reload_interval_ms);
+        this.intervalPromise = this.$interval(() => this.updateMails(), reload_interval_ms);
     }
 
     $onDestroy() {
@@ -53,7 +55,7 @@ class AppController {
     }
 
     loadEmails(username) {
-        return this.$http.get(this.config.backend_url, {params: {username: username, action: "get"}})
+        return this.$http.get(backend_url, {params: {username: username, action: "get"}})
             .then(response=> {
                     return response.data;
                 }
@@ -115,9 +117,5 @@ angular.module('app', [
             </inbox>
     `,
         controller: AppController
-    })
+    });
 
-    .constant('config', {
-        'backend_url': './backend.php',
-        'reload_interval_ms': 10000
-    })
