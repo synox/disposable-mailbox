@@ -27,6 +27,17 @@ const commonConfig = {
     module: {
         loaders: [
             {
+                test: /\.js$/,
+                loader: 'babel',
+                exclude: [/node_modules/],
+                include: path.join(__dirname, 'src'),
+                query: {
+                    // https://github.com/babel/babel-loader#options
+                    cacheDirectory: true,
+                    presets: ['es2015']
+                }
+            },
+            {
                 test: /\.json$/, loader: 'json'
             }, {
                 test: /\.html$/, loader: 'html'
@@ -71,21 +82,7 @@ switch (TARGET) {
                     }
                 })
 
-            ],
-            // without react-hot in prod
-            module: {
-                loaders: [
-                    {
-                        test: /\.js$/, exclude: [/node_modules/],
-                        loader: 'babel',
-                        query: {
-                            // https://github.com/babel/babel-loader#options
-                            cacheDirectory: true,
-                            presets: ['es2015']
-                        }
-                    }
-                ]
-            }
+            ]
         });
         break;
     default:
@@ -97,16 +94,7 @@ switch (TARGET) {
                 new webpack.DefinePlugin({
                     DEVELOPMENT: JSON.stringify(true)
                 })
-            ],
-            module: {
-                loaders: [
-                    {
-                        test: /\.js$/,
-                        loaders: ['babel'],
-                        include: path.join(__dirname, 'src')
-                    },
-                ]
-            }
+            ]
 
         });
         // replace entry instead of merge
