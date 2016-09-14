@@ -10,7 +10,7 @@ var TARGET = process.env.npm_lifecycle_event;
 const commonConfig = {
     context: path.resolve(__dirname, 'src'),
     entry: [
-        './app.js'
+        './index.js'
     ],
     output: {
         path: path.join(__dirname, 'dist'),
@@ -110,7 +110,7 @@ switch (TARGET) {
         config.entry = [
             'webpack-dev-server/client?http://localhost:3000',
             'webpack/hot/only-dev-server',
-            './app.js'
+            './index.js'
         ];
 }
 

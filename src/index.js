@@ -108,7 +108,7 @@ angular.module('app', [
                 address="$ctrl.address"
                 state="$ctrl.state">
             </inbox>
-    `,
+        `,
         controller: AppController
     });
 
