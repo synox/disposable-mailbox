@@ -13,7 +13,10 @@
 
 
 ## Quality/Status:
-This is **alpha-tested** software, do not use it in production yet, it may lose your mails and people may gain access to your mails. There are still unsolved problems. Contributions are welcome!
+This is **WORK IN PROGRESS (WIP)** software, do not use it in production yet! It may lose your mails and people may gain access to your mails. There are still unsolved problems. Contributions are welcome!
+
+You should sign up for the chat and you will be notified about issues and bugfixes: [![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 ## Licence
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">disposable-mailbox</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/synox/disposable-mailbox" property="cc:attributionName" rel="cc:attributionURL">github:synox</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
