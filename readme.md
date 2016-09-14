@@ -38,10 +38,16 @@ This is **alpha-tested** software, do not use it in production yes, it may lose 
 
 ## Build it yourself
 Instead of using the files in the `dist` directory you can also build it yourself. You must have [npm](https://docs.npmjs.com/cli/install) and [composer](https://getcomposer.org/download/) installed.
+The files are written to the `dist` directory. See also `build.sh`.
+
 
 Install php dependecies:
 
     composer install
+
+Copy backend files:
+
+    cp -rv src/{backend.php,config.sample.php} dist/
 
 Install javascript dependencies:
 
@@ -49,22 +55,24 @@ Install javascript dependencies:
 
 Build frontend:
 
-    gulp build
+    npm run build
+    
+Run frontend with development server: 
 
-The files are written to the `dist` directory. See also `build.sh`.
+    npm start
+
 
 There is a [Vagrantfile](Vagrantfile), in case you are familiar  with [vagrant](https://www.vagrantup.com/).
 
 ## TODO
- 1. reduce total dist size (<1 MB)
  1. setup a link redirection provider (to keep the existence of your installation secret)
- 1. maybe make mails collapsible
- 1. provide error message if config.php is missing or in a public folder. 
+ 2. provide error message if config.php is missing or in a public folder. 
  
 ## Credit
 
 This could not be possible without...
 
  * http://angularjs.org/
- * https://github.com/SchweizerischeBundesbahnen/esta-webjs
  * https://github.com/barbushin/php-imap
+ * https://github.com/gregjacobs/Autolinker.js/
+ * https://github.com/TomFrost/node-phonetic
