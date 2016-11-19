@@ -1,7 +1,12 @@
 <?php
 
+// set your time zone:
 date_default_timezone_set('Europe/Paris');
-error_reporting(0);
+
+// enable while testing:
+error_reporting(E_ALL)
+// enable in production:
+// error_reporting(0);
 
 // configure this option if you want to allow requests from clients from other domains:
 // see https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
