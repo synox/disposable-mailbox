@@ -4,7 +4,7 @@
 date_default_timezone_set('Europe/Paris');
 
 // enable while testing:
-error_reporting(E_ALL)
+error_reporting(E_ALL);
 // enable in production:
 // error_reporting(0);
 
