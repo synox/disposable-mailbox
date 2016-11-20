@@ -1,0 +1,82 @@
+
+body {
+    background: #eeeeee;
+}
+
+footer p {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.email-table {
+    margin-top: 20px;
+}
+
+div.min-height {
+    min-height: 400px;
+}
+
+.nav-container {
+    background-color: #D9E2E9;
+}
+
+.octicon-inbox {
+    display: inline-block;
+    width: 26px;
+    height: 23px;
+    background: url('octicon-inbox.gif') no-repeat;
+}
+
+.sticky-header {
+    top: 0;
+    z-index: 1000;
+}
+
+.email {
+    border-bottom: 1px solid #7C96AB;
+}
+
+.email .email-summary {
+    font-weight: bold;
+    border-top: 5px solid #7C96AB;
+    border-bottom: 1px solid #7C96AB;
+    padding: 10px;
+    background-color: white;
+}
+
+.email .email-headers {
+    background-color: white;
+}
+
+.email .email-headers dl {
+    padding: 0 0 4px;
+    color: black;
+    overflow: hidden;
+}
+
+.email .email-headers dl dt {
+    float: left;
+    color: black;
+    margin: 0 3px 0 0;
+}
+
+.email .email-headers dl dd {
+    display: block;
+    overflow: hidden;
+    margin-bottom: .3rem;
+}
+
+.email .mail-content {
+    background-color: white;
+    padding-left: 20px;
+    overflow: hidden;
+}
+
+.waiting-screen {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+div.min-height {
+    min-height: 400px;
+}

@@ -1,0 +1,12 @@
+[ec-stickyfill] {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+}
+
+[ec-stickyfill]:before,
+[ec-stickyfill]:after {
+    content: '';
+    display: table;
+}
+

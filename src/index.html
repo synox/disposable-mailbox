@@ -9,11 +9,15 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="description" content="Mailbox">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="angular-stickyfill-0.1.0/angular-stickyfill.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
+          integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
 </head>
-<body><!-- ng-cloak-->
+<body>
 
 
-<main ng-controller="MailboxController as $ctrl">
+<div ng-controller="MailboxController as $ctrl"> <!-- ng-cloak-->
 
     <div class="nav-container">
         <div class="container">
@@ -47,15 +51,72 @@
     </div>
 
 
-    <!--<inbox-->
-    <!--mails="$ctrl.mails"-->
-    <!--username="$ctrl.username"-->
-    <!--address="$ctrl.address"-->
-    <!--state="$ctrl.state">-->
-    <!--</inbox>-->
+    <main>
+        <div class="container min-height">
+            <p ng-if="!$ctrl.username">
+                Use the buttons above to create a new inbox, or open a specific mailbox.
+            </p>
+
+            <div ng-if="$ctrl.username && $ctrl.mails.length == 0">
+                <div class="waiting-screen">
+                    <h1>{{$ctrl.address}}</h1>
+                    <p class="lead">Inbox is empty.</p>
+                    <p><br/>
+                        <img src="spinner.gif">
+                        <br/></p>
+                    <p class="lead">Emails to {{address}} will be automatically displayed on this page. </p>
+                </div>
+            </div>
+
+            <div ng-if="$ctrl.username" ng-repeat="mail in $ctrl.mails | orderBy:'-date' track by $index"
+                 class="email-table">
+
+                <!-- email -->
+                <section class="email">
+                    <div class="row sticky-header" ec-stickyfill>
+                        <div class="col-sm-12 email-summary">{{mail.subject}}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 email-headers">
+                            <dl>
+                                <dt>To:</dt>
+                                <dd>{{mail.toString}}</dd>
+                                <div ng-if="mail.cc" ng-repeat="(address,name) in mail.cc">
+                                    <dt>CC:</dt>
+                                    <dd>{{address}}</dd>
+                                </div>
+                                <dt>From:</dt>
+                                <dd>{{mail.fromName}} &lt;{{mail.fromAddress}}&gt;</dd>
+                                <dt>Date:</dt>
+                                <dd>{{mail.date}}</dd>
+                            </dl>
+
+                        </div>
+                    </div>
+                    <div class="row mail-content" ng-init="htmlTabActive=false">
 
 
-</main>
+                        <button ng-show="htmlTabActive" class="btn btn-outline-info btn-sm"
+                                ng-click="htmlTabActive=false">show text
+                        </button>
+                        <button ng-show="mail.textHtml && !htmlTabActive" class="btn btn-outline-info btn-sm"
+                                ng-click="htmlTabActive=true">show html
+                        </button>
+
+                        <div ng-if="!htmlTabActive" ng-bind-html="mail.textPlain | nl2br | autolink "></div>
+                        <div ng-if="htmlTabActive" class="mail-conent" ng-bind-html="mail.textHtml"></div>
+
+                    </div>
+                </section>
+
+
+            </div>
+
+        </div>
+    </main>
+
+</div>
 
 
 <footer>
@@ -65,7 +126,10 @@
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-<script src="chance.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/autolinker/1.2.0/Autolinker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.4/chance.min.js"></script>
+<script src="angular-stickyfill-0.1.0/angular-stickyfill.js"></script>
 <script src="index.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hasher/1.2.0/hasher.js"></script>

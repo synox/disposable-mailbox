@@ -3,6 +3,6 @@
         "php-imap/php-imap": "~2.0"
     },
     "config": {
-        "vendor-dir": "dist/backend-libs"
+        "vendor-dir": "src/backend-libs"
     }
 }

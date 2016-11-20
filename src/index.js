@@ -21,10 +21,26 @@ function cleanUsername(username) {
 }
 
 
-var app = angular.module('app', []);
+var app = angular.module('app', ["ngSanitize"]);
+
+// http://stackoverflow.com/a/20033625/79461
+app.filter("nl2br", function () {
+        return function (data) {
+            if (!data) return data;
+            return data.replace(/\r?\n/g, '<br/>');
+        }
+    }
+);
+
+// http://stackoverflow.com/a/20033625/79461
+app.filter("autolink", function () {
+    return function (data) {
+        return Autolinker.link(data, {truncate: {length: 50, location: 'middle', newWindow: true}});
+    }
+});
+
 app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", function ($scope, $interval, $http, $log) {
     var self = this;
-
 
     self.updateUsername = function (username) {
         self.username = cleanUsername(username);
