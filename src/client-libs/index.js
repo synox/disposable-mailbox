@@ -94,7 +94,7 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
                     self.address = response.data.address;
                     self.username = response.data.username;
                 } else {
-                    self.error = "There is a problem with fetching the JSON. (JSON_ERROR). Make sure the backend works corrently using the webbrowser developer tools. Reponse:" + response.data;
+                    self.error = "There is a problem with fetching the JSON. (JSON_ERROR). Reponse:" + response.data;
                 }
             }, function errorCallback(response) {
                 $log.error(response);
