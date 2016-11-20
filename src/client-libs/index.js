@@ -1,7 +1,6 @@
 // config:
 var reload_interval_ms = 10000;
-// var backend_url = './backend.php';
-var backend_url = 'http://dubgo.com/m3/backend.php';
+var backend_url = './backend.php';
 
 
 function getRandomInt(min, max) {
