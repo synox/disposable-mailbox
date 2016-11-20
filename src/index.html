@@ -29,23 +29,14 @@
                     <span ng-if="$ctrl.mailcount" class="tag tag-pill tag-default">{{$ctrl.mailcount}}</span>
                 </a>
 
-
-                <ul class="nav navbar-nav">
-
-                    <button type="button nav-link" class="btn btn-outline-primary pull-xs-right"
-                            ng-click="$ctrl.randomize()">
-                        <span class="glyphicon glyphicon-random"></span>&nbsp;
-                        randomize
+                <form class="form-inline float-xs-right" ng-submit="$ctrl.updateUsername($ctrl.inputFieldUsername)">
+                    <input ng-model="$ctrl.inputFieldUsername"
+                           placeholder="username"
+                           type="text" class="form-control"/>
+                    <button type="submit" class="btn btn-outline-success">login</button>
+                    <button ng-click="$ctrl.randomize()" type="submit" class="btn btn-outline-primary">randomize
                     </button>
-
-                    <form class="form-inline pull-xs-right" ng-submit="$ctrl.updateUsername($ctrl.inputFieldUsername)">
-                        <input ng-model="$ctrl.inputFieldUsername"
-                               placeholder="username"
-                               type="text" class="form-control"/>
-                        <button type="submit" class="btn btn-outline-success">login</button>
-                    </form>
-
-                </ul>
+                </form>
             </nav>
         </div>
     </div>
