@@ -85,21 +85,23 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
 
     self.loadEmailsAsync = function (username) {
         $log.debug("updating mails for ", username);
-        self.loadEmails(self.username).then(function (data) {
-            self.mails = data.mails;
-            self.address = data.address;
-            self.username = data.username;
-            $log.debug("received mails for ", username);
-        });
+        $http.get(backend_url, {params: {username: username, action: "get"}})
+            .then(function successCallback(response) {
+                $log.debug("received mails for ", username);
+                if (response.data.mails) {
+                    self.error = null;
+                    self.mails = response.data.mails;
+                    self.address = response.data.address;
+                    self.username = response.data.username;
+                } else {
+                    self.error = "There is a problem with fetching the JSON. (JSON_ERROR). Make sure the backend works corrently using the webbrowser developer tools. Reponse:" + response.data;
+                }
+            }, function errorCallback(response) {
+                $log.error(response);
+                self.error = "There is a problem with fetching the JSON. (HTTP_ERROR). Status:" + response.status;
+            });
     };
 
-    self.loadEmails = function (username) {
-        return $http.get(backend_url, {params: {username: username, action: "get"}})
-            .then(function (response) {
-                    return response.data;
-                }
-            );
-    };
 
     self.updateMails()
 }]);

@@ -44,6 +44,12 @@
 
     <main>
         <div class="container min-height">
+
+            <div ng-if="$ctrl.error" class="alert alert-danger" role="alert">
+                Opps! {{$ctrl.error}}
+            </div>
+
+
             <p ng-if="!$ctrl.username">
                 Use the buttons above to create a new inbox, or open a specific mailbox.
             </p>
