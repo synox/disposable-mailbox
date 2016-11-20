@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" ng-app="app" ng-strict-di>
 <head>
     <meta charset="utf-8">
     <title>Mailbox</title>
@@ -9,11 +9,54 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="description" content="Mailbox">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-
 </head>
-<body ng-app="app" ng-cloak>
+<body><!-- ng-cloak-->
 
-<app></app>
+
+<main ng-controller="MailboxController as $ctrl">
+
+    <div class="nav-container">
+        <div class="container">
+            <nav class="navbar navbar-light">
+                <a class="navbar-brand"><span class="octicon-inbox"></span>
+                    &nbsp;
+                    {{$ctrl.address}}
+                    &nbsp;
+                    <span ng-if="$ctrl.mailcount" class="tag tag-pill tag-default">{{$ctrl.mailcount}}</span>
+                </a>
+
+
+                <ul class="nav navbar-nav">
+
+                    <button type="button nav-link" class="btn btn-outline-primary pull-xs-right"
+                            ng-click="$ctrl.randomize()">
+                        <span class="glyphicon glyphicon-random"></span>&nbsp;
+                        randomize
+                    </button>
+
+                    <form class="form-inline pull-xs-right" ng-submit="$ctrl.updateUsername($ctrl.inputFieldUsername)">
+                        <input ng-model="$ctrl.inputFieldUsername"
+                               placeholder="username"
+                               type="text" class="form-control"/>
+                        <button type="submit" class="btn btn-outline-success">login</button>
+                    </form>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+    <!--<inbox-->
+    <!--mails="$ctrl.mails"-->
+    <!--username="$ctrl.username"-->
+    <!--address="$ctrl.address"-->
+    <!--state="$ctrl.state">-->
+    <!--</inbox>-->
+
+
+</main>
+
 
 <footer>
     <p>Powered by <a href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
@@ -21,6 +64,11 @@
             me on github</a></p>
 </footer>
 
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script src="chance.min.js"></script>
+<script src="index.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hasher/1.2.0/hasher.js"></script>
 
 </body>
 </html>

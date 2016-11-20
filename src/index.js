@@ -1,110 +1,91 @@
-import angular from "angular";
-import "bootstrap/scss/bootstrap.scss";
-import "babel-polyfill";
-import {cleanUsername, generateRandomUsername} from "./mailbox/util";
-import hasher from "hasher";
-import Header from "./mailbox/header/header";
-import List from "./mailbox/list/list";
-import Mail from "./mailbox/mail/mail";
-
 // config:
-const reload_interval_ms = 10000;
-const backend_url = './backend.php';
+var reload_interval_ms = 10000;
+// var backend_url = './backend.php';
+var backend_url = 'http://dubgo.com/m3/backend.php';
 
-class AppController {
-    /*@ngInject*/
-    constructor($http, $log, $interval) {
-        this.$interval = $interval;
-        this.$http = $http;
-        this.$log = $log;
-        this.address = null;
-        this.username = null;
-        this.mails = [];
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function generateRandomUsername() {
+    let username = chance.first();
+    if (Math.random() >= 0.5) {
+        username += getRandomInt(30, 99);
     }
+    return username.toLowerCase();
+}
 
-    $onInit() {
-        hasher.changed.add(this.onHashChange.bind(this));
-        hasher.initialized.add(this.onHashChange.bind(this)); //add initialized listener (to grab initial value in case it is already set)
-        hasher.init(); //initialize hasher (start listening for history changes)
-
-        this.intervalPromise = this.$interval(() => this.updateMails(), reload_interval_ms);
-    }
-
-    $onDestroy() {
-        this.$interval.cancel(this.intervalPromise);
-    }
-
-    onHashChange(hash) {
-        this.updateUsername(hash);
-    }
-
-    onChangeUsername({username}) {
-        this.updateUsername(username);
-    }
-
-    onGotoRandom() {
-        let username = generateRandomUsername();
-        this.updateUsername(username);
-    }
-
-    loadEmails(username) {
-        return this.$http.get(backend_url, {params: {username: username, action: "get"}})
-            .then(response=> {
-                    return response.data;
-                }
-            );
-    }
-
-    loadEmailsAsync(username) {
-        this.$log.debug("updating mails for ", username);
-        this.loadEmails(this.username).then(data=> {
-            this.mails = data.mails;
-            this.address = data.address;
-            this.username = data.username;
-            this.$log.debug("received mails for ", username);
-        });
-    }
-
-    updateMails() {
-        if (this.username) {
-            this.loadEmailsAsync(this.username);
-        }
-    }
-
-    updateUsername(username) {
-        this.username = cleanUsername(username);
-        if (this.username.length > 0) {
-            hasher.setHash(this.username);
-            this.address = this.username; // use username until real address has been loaded
-            this.updateMails();
-        } else {
-            this.address = null;
-            this.mails = [];
-        }
-    }
-
+function cleanUsername(username) {
+    return username.replace(/[@].*$/, '');
 }
 
 
-angular.module('app', [List, Mail, Header])
+var app = angular.module('app', []);
+app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", function ($scope, $interval, $http, $log) {
+    var self = this;
 
-    .component('app', {
-        template: `
-            <header
-                username="$ctrl.username"
-                address="$ctrl.address"
-                mailcount="$ctrl.mails.length"
-                on-change-username="$ctrl.onChangeUsername($event)" 
-                on-goto-random="$ctrl.onGotoRandom($event)">
-            </header>
-            
-            <inbox
-                mails="$ctrl.mails"
-                username="$ctrl.username"
-                address="$ctrl.address"
-                state="$ctrl.state">
-            </inbox>
-        `,
-        controller: AppController
-    });
+
+    self.updateUsername = function (username) {
+        self.username = cleanUsername(username);
+        if (self.username.length > 0) {
+            hasher.setHash(self.username);
+            self.address = self.username; // use username until real address has been loaded
+            self.updateMails();
+        } else {
+            self.address = null;
+            self.mails = [];
+        }
+        self.inputFieldUsername = self.address;
+
+    };
+
+
+    self.randomize = function () {
+        let username = generateRandomUsername();
+        self.updateUsername(username);
+    };
+
+
+    self.onHashChange = function (hash) {
+        self.updateUsername(hash);
+    };
+
+    self.$onInit = function () {
+        hasher.changed.add(self.onHashChange.bind(self));
+        hasher.initialized.add(self.onHashChange.bind(self)); //add initialized listener (to grab initial value in case it is already set)
+        hasher.init(); //initialize hasher (start listening for history changes)
+
+        self.intervalPromise = $interval(function () {
+            self.updateMails()
+        }, reload_interval_ms);
+    }
+    ;
+
+    self.updateMails = function () {
+        if (self.username) {
+            self.loadEmailsAsync(self.username);
+        }
+    };
+
+    self.loadEmailsAsync = function (username) {
+        $log.debug("updating mails for ", username);
+        self.loadEmails(self.username).then(function (data) {
+            self.mails = data.mails;
+            self.address = data.address;
+            self.username = data.username;
+            $log.debug("received mails for ", username);
+        });
+    };
+
+    self.loadEmails = function (username) {
+        return $http.get(backend_url, {params: {username: username, action: "get"}})
+            .then(function (response) {
+                    return response.data;
+                }
+            );
+    };
+
+    self.updateMails()
+}]);
 
