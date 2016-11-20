@@ -1,6 +1,7 @@
 
-body {
-    background: #eeeeee;
+html > body {
+    /* override bootstrap background */
+    background: #f9f9f9;
 }
 
 footer p {
@@ -79,4 +80,16 @@ div.min-height {
 
 div.min-height {
     min-height: 400px;
+}
+
+.ec-stickyfill {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
+.ec-stickyfill:before,
+.ec-stickyfill:after {
+    content: '';
+    display: table;
 }
