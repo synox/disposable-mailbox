@@ -58,4 +58,5 @@ This could not be possible without...
  * http://angularjs.org/
  * https://github.com/barbushin/php-imap
  * https://github.com/gregjacobs/Autolinker.js/
+ * http://chancejs.com/
  * https://github.com/TomFrost/node-phonetic
