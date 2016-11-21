@@ -5,7 +5,7 @@
 ## Goals:
  * easy to use: generate random name or use custom name, auto refresh
  * easy to host: just php5 + imap extension
- * easy to install: just copy files in `dist`
+ * easy to install: just copy some files
  * minimal code base: minimal features and complexity
 
 | ![Screenshot](screenshot.png)        | 
