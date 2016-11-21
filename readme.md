@@ -34,38 +34,18 @@ You should sign up for the chat and you will be notified about issues and bugfix
         <?php print imap_base64("SU1BUCBleHRlbnNpb24gc2VlbXMgdG8gYmUgaW5zdGFsbGVkLiA="); ?>
 
 2. clone or download this repository
-3. copy the `dist` directory to your web server.
+3. copy the `src` directory to your web server.
 4. rename `config.sample.php` to `config.php` and apply the imap settings. Move `config.php` to a safe location outside the `public_html`.
 5. open `backend.php` and set the new path to `config.php`.
 
 
 ## Build it yourself
-Instead of using the files in the `dist` directory you can also build it yourself. You must have [npm](https://docs.npmjs.com/cli/install) and [composer](https://getcomposer.org/download/) installed.
-The files are written to the `dist` directory. See also `build.sh`.
+The src directory contains all required files. If you want to update the php dependencies, you can update them yourself.  You must have [composer](https://getcomposer.org/download/) installed. See also `build.sh`.
 
 
 Install php dependecies:
 
     composer install
-
-Copy backend files:
-
-    cp -rv src/{backend.php,config.sample.php} dist/
-
-Install javascript dependencies:
-
-    npm install
-
-Build frontend:
-
-    npm run build
-    
-Run frontend with development server: 
-
-    npm start
-
-
-There is a [Vagrantfile](Vagrantfile), in case you are familiar  with [vagrant](https://www.vagrantup.com/).
 
 ## TODO
  1. setup a link redirection provider (to keep the existence of your installation secret)
