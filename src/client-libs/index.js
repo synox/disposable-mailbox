@@ -2,23 +2,21 @@
 var reload_interval_ms = 10000;
 var backend_url = './backend.php';
 
-
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-}
-
 function generateRandomUsername() {
-    let username = chance.first();
-    if (Math.random() >= 0.5) {
-        username += getRandomInt(30, 99);
+    let username = "";
+    if (chance.bool()) {
+        username += chance.first();
+        if (chance.bool()) {
+            username += chance.last();
+        }
+    } else {
+        username += chance.word({syllables: 3})
+    }
+    if (chance.bool()) {
+        username += chance.integer({min: 30, max: 99});
     }
     return username.toLowerCase();
 }
-
-function cleanUsername(username) {
-    return username.replace(/[@].*$/, '');
-}
-
 
 var app = angular.module('app', ["ngSanitize"]);
 
@@ -42,17 +40,21 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
     var self = this;
 
     self.updateUsername = function (username) {
-        self.username = cleanUsername(username);
-        if (self.username.length > 0) {
+        username = username.replace(/[@].*$/, ''); // remove part after "@"
+        if (self.username != username) {
+            // changed
+            self.username = username;
             hasher.setHash(self.username);
-            self.address = self.username; // use username until real address has been loaded
-            self.updateMails();
-        } else {
-            self.address = null;
-            self.mails = [];
+
+            if (self.username.length > 0) {
+                self.address = self.username; // use username until real address has been loaded
+                self.updateMails();
+            } else {
+                self.address = null;
+                self.mails = [];
+            }
         }
         self.inputFieldUsername = self.address;
-
     };
 
 
@@ -74,8 +76,7 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
         self.intervalPromise = $interval(function () {
             self.updateMails()
         }, reload_interval_ms);
-    }
-    ;
+    };
 
     self.updateMails = function () {
         if (self.username) {
@@ -94,15 +95,14 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
                     self.address = response.data.address;
                     self.username = response.data.username;
                 } else {
-                    self.error = "There is a problem with fetching the JSON. (JSON_ERROR). Reponse:" + response.data;
+                    self.error = "There is a problem with fetching the JSON. (JSON_ERROR). Reponse: " + response.data;
                 }
             }, function errorCallback(response) {
                 $log.error(response);
-                self.error = "There is a problem with fetching the JSON. (HTTP_ERROR). Status:" + response.status;
+                self.error = "There is a problem with fetching the JSON. (HTTP_ERROR). Status: " + response.status;
             });
     };
 
-
+    // Initial load
     self.updateMails()
 }]);
-
