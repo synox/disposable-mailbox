@@ -100,8 +100,6 @@
                         </div>
                     </div>
                     <div class="row mail-content" ng-init="htmlTabActive=false">
-
-
                         <button ng-show="htmlTabActive" class="btn btn-outline-info btn-sm"
                                 ng-click="htmlTabActive=false">show text
                         </button>
@@ -109,20 +107,15 @@
                                 ng-click="htmlTabActive=true">show html
                         </button>
 
-                        <div ng-if="!htmlTabActive" ng-bind-html="mail.textPlain | nl2br | autolink "></div>
-                        <div ng-if="htmlTabActive" class="mail-conent" ng-bind-html="mail.textHtml"></div>
-
+                        <div ng-if="!htmlTabActive" class="mail-content"
+                             ng-bind-html="mail.textPlain | nl2br | autolink "></div>
+                        <div ng-if="htmlTabActive" class="mail-content" ng-bind-html="mail.textHtml"></div>
                     </div>
                 </section>
-
-
             </div>
-
         </div>
     </main>
-
 </div>
-
 
 <footer>
     <p>Powered by <a href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
