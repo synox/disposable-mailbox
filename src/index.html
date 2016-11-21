@@ -41,22 +41,13 @@
         </div>
     </div>
 
-
     <main>
         <div class="container min-height">
-
             <div ng-if="$ctrl.error" class="alert alert-danger" role="alert">
-                <p>
-                    <strong>Sorry, there was a problem. </strong>
-                </p>
-                <p>
-                    {{$ctrl.error}}
-                </p>
-                <p>
-                    Make sure the backend works corrently using the developer tools of your web browser.
-                </p>
+                <p><strong>Sorry, there was a problem. </strong></p>
+                <p> {{$ctrl.error}} </p>
+                <p> Make sure the backend works corrently using the developer tools of your web browser. </p>
             </div>
-
 
             <p ng-if="!$ctrl.username">
                 Use the buttons above to create a new inbox, or open a specific mailbox.
@@ -76,7 +67,6 @@
             <div ng-if="$ctrl.username" ng-repeat="mail in $ctrl.mails | orderBy:'-date' track by $index"
                  class="email-table">
 
-                <!-- email -->
                 <section class="email">
                     <div class="row sticky-header" ec-stickyfill>
                         <div class="col-sm-12 email-summary">{{mail.subject}}</div>
