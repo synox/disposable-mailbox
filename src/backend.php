@@ -30,14 +30,19 @@ function print_inbox($username) {
     if (strlen($name) === 0) {
         error(400, 'invalid username');
     }
-    $to = get_address($name, $config['mailHostname']);
-    $mail_ids = search_mails($to, $mailbox);
+    $address = get_address($name, $config['mailHostname']);
+    $mail_ids = search_mails($address, $mailbox);
 
     $emails = array();
     foreach ($mail_ids as $id) {
-        $emails[] = $mailbox->getMail($id);
+        $mail = $mailbox->getMail($id);
+        // imap_search also returns partials matches. The mails have to be filtered again:
+        if (!array_key_exists($address, $mail->to) && !array_key_exists($address, $mail->cc)) {
+            continue;
+        }
+        $emails[] = $mail;
     }
-    $address = get_address($name, $config['mailHostname']);
+
     $data = array("mails" => $emails, 'username' => $name, 'address' => $address);
     print(json_encode($data));
 
@@ -48,9 +53,9 @@ function print_inbox($username) {
  * Search for mails with the recipient $to.
  * @return array mail ids
  */
-function search_mails($to, $mailbox) {
-    $filterTO = 'TO "' . $to . '"';
-    $filterCC = 'CC "' . $to . '"';
+function search_mails($address, $mailbox) {
+    $filterTO = 'TO "' . $address . '"';
+    $filterCC = 'CC "' . $address . '"';
     $mailsIdsTo = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, $filterTO);
     $mailsIdsCc = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, $filterCC);
     return array_merge($mailsIdsTo, $mailsIdsCc);
