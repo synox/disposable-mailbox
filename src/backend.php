@@ -5,8 +5,9 @@ require_once '../../config.php';
 # load php dependencies:
 require_once './backend-libs/autoload.php';
 
-$imap_settings = $config['imap'];
-$mailbox = new PhpImap\Mailbox($imap_settings['url'], $imap_settings['username'], $imap_settings['password']);
+$mailbox = new PhpImap\Mailbox($config['imap']['url'],
+    $config['imap']['username'],
+    $config['imap']['password']);
 
 /**
  * print error and stop program.
@@ -104,12 +105,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-if (!isset($_GET['action'])) {
-    error(400, 'invalid parameter');
-}
-$action = $_GET['action'];
-
-if ($action === "get" && isset($_GET['username'])) {
+if (isset($_GET['username'])) {
     print_inbox($_GET['username']);
 } else {
     error(400, 'invalid action');
