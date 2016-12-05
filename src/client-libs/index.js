@@ -3,7 +3,7 @@ var reload_interval_ms = 10000;
 var backend_url = './backend.php';
 
 function generateRandomUsername() {
-    let username = "";
+    var username = "";
     if (chance.bool()) {
         username += chance.first();
         if (chance.bool()) {
@@ -59,7 +59,7 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
 
 
     self.randomize = function () {
-        let username = generateRandomUsername();
+        var username = generateRandomUsername();
         self.updateUsername(username);
     };
 
