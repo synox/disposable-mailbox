@@ -114,17 +114,21 @@ function delete_mail($mailid, $username) {
         error(400, 'invalid username');
     }
     $address = get_address($name, $config['mailHostname']);
-    $mail_ids = search_mails($address, $mailbox);
 
-    if (in_array($mailid, $mail_ids)) {
-        $mailbox->deleteMail($mailid);
-        $mailbox->expungeDeletedMails();
-        print(json_encode(array("success" => true)));
+    $mail = $mailbox->getMail($mailid);
+    if ($mail !== null) {
+        // imap_search also returns partials matches. The mails have to be filtered again:
+        if (array_key_exists($address, $mail->to) || array_key_exists($address, $mail->cc)) {
+            $mailbox->deleteMail($mailid);
+            $mailbox->expungeDeletedMails();
+            print(json_encode(array("success" => true)));
+        } else {
+            error(404, 'delete error: invalid username/mailid combination');
+
+        }
     } else {
         error(404, 'delete error: invalid username/mailid combination');
     }
-
-
 }
 
 
