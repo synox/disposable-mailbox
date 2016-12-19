@@ -68,6 +68,7 @@ function search_mails($address, $mailbox) {
  * @return clean username
  */
 function clean_name($username) {
+    $username = strtolower($username);
     $username = preg_replace('/@.*$/', "", $username);   // remove part after @
     $username = preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
     return $username;
