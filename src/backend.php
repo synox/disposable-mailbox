@@ -11,8 +11,8 @@ $mailbox = new PhpImap\Mailbox($config['imap']['url'],
 
 /**
  * print error and stop program.
- * @param $status http status
- * @param $text error text
+ * @param $status integer http status
+ * @param $text string error text
  */
 function error($status, $text) {
     @http_response_code($status);
@@ -22,17 +22,46 @@ function error($status, $text) {
 
 /**
  * print all mails for the given $user as a json string.
- * @param $username
+ * @param $username string username
+ * @param $address string email address
  */
-function print_inbox($username) {
-    global $mailbox, $config;
+function print_emails($username, $address) {
+    $mail_ids = _search_mails($address);
+    $emails = _load_emails($mail_ids, $address);
+    print(json_encode(array("mails" => $emails, 'username' => $username, 'address' => $address)));
+}
 
-    $name = clean_name($username);
-    if (strlen($name) === 0) {
-        error(400, 'invalid username');
+
+/**
+ * deletes emails by id and username. The $address must match the recipient in the email.
+ *
+ * @param $mailid integer imap email id (integer)
+ * @param $address string email address
+ * @internal param the $username matching username
+ */
+function delete_email($mailid, $address) {
+    global $mailbox;
+
+    // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
+    // the recipient in the email has to match the $address.
+    $emails = _load_emails(array($mailid), $address);
+    if (count($emails) === 1) {
+        $mailbox->deleteMail($mailid);
+        $mailbox->expungeDeletedMails();
+        print(json_encode(array("success" => true)));
+    } else {
+        error(404, 'delete error: invalid username/mailid combination');
     }
-    $address = get_address($name, $config['mailHostname']);
-    $mail_ids = search_mails($address, $mailbox);
+}
+
+/**
+ * Load emails using the $mail_ids, the mails have to match the $address in TO or CC.
+ * @param $mail_ids array of integer ids
+ * @param $address String address
+ * @return array of emails
+ */
+function _load_emails($mail_ids, $address) {
+    global $mailbox;
 
     $emails = array();
     foreach ($mail_ids as $id) {
@@ -43,18 +72,17 @@ function print_inbox($username) {
         }
         $emails[] = $mail;
     }
-
-    $data = array("mails" => $emails, 'username' => $name, 'address' => $address);
-    print(json_encode($data));
-
+    return $emails;
 }
 
 
 /**
- * Search for mails with the recipient $to.
- * @return array mail ids
+ * Search for mails with the recipient $address.
+ * @param $address string address that has to match TO or CC.
+ * @return array email ids
  */
-function search_mails($address, $mailbox) {
+function _search_mails($address) {
+    global $mailbox;
     $filterTO = 'TO "' . $address . '"';
     $filterCC = 'CC "' . $address . '"';
     $mailsIdsTo = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, $filterTO);
@@ -65,24 +93,15 @@ function search_mails($address, $mailbox) {
 /**
  * Remove illegal characters from username and remove everything after the @-sign. You may extend it if your server supports them.
  * @param $username
- * @return clean username
+ * @return string clean username
  */
-function clean_name($username) {
+function _clean_username($username) {
     $username = strtolower($username);
     $username = preg_replace('/@.*$/', "", $username);   // remove part after @
     $username = preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
     return $username;
 }
 
-/**
- * creates the full email address
- * @param $username
- * @param $domain
- * @return $username@$domain
- */
-function get_address($username, $domain) {
-    return $username . "@" . $domain;
-}
 
 /**
  * deletes messages older than X days.
@@ -98,39 +117,6 @@ function delete_old_messages() {
     $mailbox->expungeDeletedMails();
 }
 
-/**
- * deletes emails by id and username. The username must match the id.
- *
- * @param $mailid internal id (integer)
- * @param $username the matching username
- */
-function delete_mail($mailid, $username) {
-    global $mailbox, $config;
-
-    // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
-    // the $username must match the $mailid.
-    $name = clean_name($username);
-    if (strlen($name) === 0) {
-        error(400, 'invalid username');
-    }
-    $address = get_address($name, $config['mailHostname']);
-
-    $mail = $mailbox->getMail($mailid);
-    if ($mail !== null) {
-        // imap_search also returns partials matches. The mails have to be filtered again:
-        if (array_key_exists($address, $mail->to) || array_key_exists($address, $mail->cc)) {
-            $mailbox->deleteMail($mailid);
-            $mailbox->expungeDeletedMails();
-            print(json_encode(array("success" => true)));
-        } else {
-            error(404, 'delete error: invalid username/mailid combination');
-
-        }
-    } else {
-        error(404, 'delete error: invalid username/mailid combination');
-    }
-}
-
 
 header('Content-type: application/json');
 
@@ -140,10 +126,20 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 
-if (isset($_GET['username']) && isset($_GET['delete_email_id'])) {
-    delete_mail($_GET['delete_email_id'], $_GET['username']);
-} else if (isset($_GET['username'])) {
-    print_inbox($_GET['username']);
+if (isset($_GET['username'])) {
+    // perform common validation:
+    $username = _clean_username($_GET['username']);
+    if (strlen($username) === 0) {
+        error(400, 'invalid username');
+    }
+    $address = $username . "@" . $config['mailHostname'];
+
+    // simple router:
+    if (isset($_GET['delete_email_id'])) {
+        delete_email($_GET['delete_email_id'], $address);
+    } else {
+        print_emails($username, $address);
+    }
 } else {
     error(400, 'invalid action');
 }

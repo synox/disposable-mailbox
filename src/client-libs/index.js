@@ -59,8 +59,7 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
 
 
     self.randomize = function () {
-        var username = generateRandomUsername();
-        self.updateUsername(username);
+        self.updateUsername(generateRandomUsername());
     };
 
 
@@ -73,7 +72,7 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
         hasher.initialized.add(self.onHashChange.bind(self)); //add initialized listener (to grab initial value in case it is already set)
         hasher.init(); //initialize hasher (start listening for history changes)
 
-        self.intervalPromise = $interval(function () {
+        $interval(function () {
             self.updateMails()
         }, reload_interval_ms);
     };
@@ -112,7 +111,10 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
             });
     };
 
-    self.deleteMail = function (mailid) {
+    self.deleteMail = function (mailid, index) {
+        // insantly remove mail.
+        self.mails.splice(index, 1);
+        // remove on backend.
         $http.get(backend_url, {params: {username: self.username, delete_email_id: mailid}})
             .then(
                 function successCallback(response) {
