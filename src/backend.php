@@ -98,6 +98,35 @@ function delete_old_messages() {
     $mailbox->expungeDeletedMails();
 }
 
+/**
+ * deletes emails by id and username. The username must match the id.
+ *
+ * @param $mailid internal id (integer)
+ * @param $username the matching username
+ */
+function delete_mail($mailid, $username) {
+    global $mailbox, $config;
+
+    // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
+    // the $username must match the $mailid.
+    $name = clean_name($username);
+    if (strlen($name) === 0) {
+        error(400, 'invalid username');
+    }
+    $address = get_address($name, $config['mailHostname']);
+    $mail_ids = search_mails($address, $mailbox);
+
+    if (in_array($mailid, $mail_ids)) {
+        $mailbox->deleteMail($mailid);
+        $mailbox->expungeDeletedMails();
+        print(json_encode(array("success" => true)));
+    } else {
+        error(404, 'delete error: invalid username/mailid combination');
+    }
+
+
+}
+
 
 header('Content-type: application/json');
 
@@ -106,7 +135,10 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-if (isset($_GET['username'])) {
+
+if (isset($_GET['username']) && isset($_GET['delete_email_id'])) {
+    delete_mail($_GET['delete_email_id'], $_GET['username']);
+} else if (isset($_GET['username'])) {
     print_inbox($_GET['username']);
 } else {
     error(400, 'invalid action');

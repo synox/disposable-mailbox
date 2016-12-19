@@ -72,7 +72,13 @@
 
                 <section class="email">
                     <div class="row sticky-header" ec-stickyfill>
-                        <div class="col-sm-12 email-summary">{{mail.subject}}</div>
+                        <div class="col-sm-12 email-summary">{{mail.subject}}
+                            <form class="form-inline float-xs-right">
+                                <button ng-click="$ctrl.deleteMail(mail.id)" type="button"
+                                        class="btn btn-sm btn-outline-danger">Delete
+                                </button>
+                            </form>
+                        </div>
                     </div>
 
                     <div class="row">

@@ -112,6 +112,23 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
             });
     };
 
+    self.deleteMail = function (mailid) {
+        $http.get(backend_url, {params: {username: self.username, delete_email_id: mailid}})
+            .then(
+                function successCallback(response) {
+                    self.updateMails();
+                },
+                function errorCallback(response) {
+                    $log.error(response, this);
+                    self.error = {
+                        title: "HTTP_ERROR",
+                        desc: "There is a problem with deleting the mail. (HTTP_ERROR).",
+                        detail: response
+                    };
+                });
+
+    };
+
     // Initial load
     self.updateMails()
 }]);
