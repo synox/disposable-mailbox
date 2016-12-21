@@ -36,12 +36,12 @@ app.filter("autolink", function () {
     }
 });
 
-app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", function ($scope, $interval, $http, $log) {
+app.controller('MailboxController', ["$interval", "$http", "$log", function ($interval, $http, $log) {
     var self = this;
 
     self.updateUsername = function (username) {
         username = username.replace(/[@].*$/, ''); // remove part after "@"
-        if (self.username != username) {
+        if (self.username !== username) {
             // changed
             self.username = username;
             hasher.setHash(self.username);
@@ -54,7 +54,7 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
                 self.mails = [];
             }
         }
-        self.inputFieldUsername = self.address;
+        self.inputFieldUsername = self.username;
     };
 
 
@@ -72,9 +72,7 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
         hasher.initialized.add(self.onHashChange.bind(self)); //add initialized listener (to grab initial value in case it is already set)
         hasher.init(); //initialize hasher (start listening for history changes)
 
-        $interval(function () {
-            self.updateMails()
-        }, reload_interval_ms);
+        $interval(self.updateMails, reload_interval_ms);
     };
 
     self.updateMails = function () {
@@ -112,7 +110,7 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
     };
 
     self.deleteMail = function (mailid, index) {
-        // insantly remove mail.
+        // instantly remove from frontend.
         self.mails.splice(index, 1);
         // remove on backend.
         $http.get(backend_url, {params: {username: self.username, delete_email_id: mailid}})
@@ -128,7 +126,6 @@ app.controller('MailboxController', ["$scope", "$interval", "$http", "$log", fun
                         detail: response
                     };
                 });
-
     };
 
     // Initial load
