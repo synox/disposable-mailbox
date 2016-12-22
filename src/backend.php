@@ -26,7 +26,13 @@ function error($status, $text) {
  * @param $address string email address
  */
 function print_emails($username, $address) {
-    $mail_ids = _search_mails($address);
+    global $mailbox;
+
+    // Search for mails with the recipient $address in TO or CC.
+    $mailsIdsTo = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'TO "' . $address . '"');
+    $mailsIdsCc = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'CC "' . $address . '"');
+    $mail_ids = array_merge($mailsIdsTo, $mailsIdsCc);
+
     $emails = _load_emails($mail_ids, $address);
     print(json_encode(array("mails" => $emails, 'username' => $username, 'address' => $address)));
 }
@@ -67,27 +73,11 @@ function _load_emails($mail_ids, $address) {
     foreach ($mail_ids as $id) {
         $mail = $mailbox->getMail($id);
         // imap_search also returns partials matches. The mails have to be filtered again:
-        if (!array_key_exists($address, $mail->to) && !array_key_exists($address, $mail->cc)) {
-            continue;
+        if (array_key_exists($address, $mail->to) || array_key_exists($address, $mail->cc)) {
+            $emails[] = $mail;
         }
-        $emails[] = $mail;
     }
     return $emails;
-}
-
-
-/**
- * Search for mails with the recipient $address.
- * @param $address string address that has to match TO or CC.
- * @return array email ids
- */
-function _search_mails($address) {
-    global $mailbox;
-    $filterTO = 'TO "' . $address . '"';
-    $filterCC = 'CC "' . $address . '"';
-    $mailsIdsTo = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, $filterTO);
-    $mailsIdsCc = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, $filterCC);
-    return array_merge($mailsIdsTo, $mailsIdsCc);
 }
 
 /**
@@ -109,8 +99,7 @@ function _clean_username($username) {
 function delete_old_messages() {
     global $mailbox;
 
-    $date = date('d-M-Y', strtotime('30 days ago'));
-    $ids = $mailbox->searchMailbox('BEFORE ' . $date);
+    $ids = $mailbox->searchMailbox('BEFORE ' . date('d-M-Y', strtotime('30 days ago')));
     foreach ($ids as $id) {
         $mailbox->deleteMail($id);
     }
