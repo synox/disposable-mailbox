@@ -12,9 +12,8 @@ error_reporting(E_ALL);
 // see https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
 // header("Access-Control-Allow-Origin: *");
 
-// setup imap connection
-$config['imap']['host'] = "localhost";
-$config['imap']['url'] = '{' . $config['imap']['host'] . '/imap/ssl}INBOX';
+// Change IMAP settings (check SSL flags on http://php.net/manual/en/function.imap-open.php)
+$config['imap']['url'] = '{example.com/imap/ssl}INBOX';
 $config['imap']['username'] = "test";
 $config['imap']['password'] = "test";
 
