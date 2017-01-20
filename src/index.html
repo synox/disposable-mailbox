@@ -74,6 +74,11 @@
                     <div class="row sticky-header" ec-stickyfill>
                         <div class="col-sm-12 email-summary">{{mail.subject}}
                             <form class="form-inline float-xs-right">
+                                <a role="button" class="btn btn-sm btn-outline-primary"
+                                   href="backend.php?download_email_id={{mail.id}}&username={{$ctrl.username}}"
+                                   download="true">Download
+                                </a>
+
                                 <button ng-click="$ctrl.deleteMail(mail.id)" type="button"
                                         class="btn btn-sm btn-outline-danger">Delete
                                 </button>
