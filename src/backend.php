@@ -42,7 +42,7 @@ function print_emails($username, $address) {
 /**
  * deletes emails by id and username. The $address must match the recipient in the email.
  *
- * @param $mailid integer imap email id (integer)
+ * @param $mailid integer imap email id
  * @param $address string email address
  * @internal param the $username matching username
  */
@@ -65,7 +65,7 @@ function delete_email($mailid, $address) {
 /**
  * download email by id and username. The $address must match the recipient in the email.
  *
- * @param $mailid integer imap email id (integer)
+ * @param $mailid integer imap email id
  * @param $address string email address
  * @internal param the $username matching username
  */
