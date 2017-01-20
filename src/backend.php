@@ -97,7 +97,6 @@ function _load_one_email($mailid, $address) {
     return count($emails) === 1 ? $emails[0] : null;
 }
 
-
 /**
  * Load emails using the $mail_ids, the mails have to match the $address in TO or CC.
  * @param $mail_ids array of integer ids
@@ -126,10 +125,8 @@ function _load_emails($mail_ids, $address) {
 function _clean_username($username) {
     $username = strtolower($username);
     $username = preg_replace('/@.*$/', "", $username);   // remove part after @
-    $username = preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
-    return $username;
+    return preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
 }
-
 
 /**
  * deletes messages older than X days.
@@ -144,12 +141,10 @@ function delete_old_messages() {
     $mailbox->expungeDeletedMails();
 }
 
-
 // Never cache requests:
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-
 
 if (isset($_GET['username'])) {
     // perform common validation:
