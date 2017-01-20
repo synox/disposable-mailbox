@@ -49,10 +49,8 @@ function print_emails($username, $address) {
 function delete_email($mailid, $address) {
     global $mailbox;
 
-    // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
-    // the recipient in the email has to match the $address.
-    $emails = _load_emails(array($mailid), $address);
-    if (count($emails) === 1) {
+    $email = _load_one_email($mailid, $address);
+    if ($email !== null) {
         $mailbox->deleteMail($mailid);
         $mailbox->expungeDeletedMails();
         header('Content-type: application/json');
@@ -73,21 +71,30 @@ function delete_email($mailid, $address) {
 function download_email($mailid, $address) {
     global $mailbox;
 
-    // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
-    // the recipient in the email has to match the $address.
-    $emails = _load_emails(array($mailid), $address);
-    if (count($emails) === 1) {
-
+    $email = _load_one_email($mailid, $address);
+    if ($email !== null) {
         header("Content-Type: message/rfc822; charset=utf-8");
         header("Content-Disposition: attachment; filename=\"$address-$mailid.eml\"");
 
         $headers = imap_fetchheader($mailbox->getImapStream(), $mailid, FT_UID);
         $body = imap_body($mailbox->getImapStream(), $mailid, FT_UID);
         print ($headers . "\n" . $body);
-
     } else {
         error(404, 'download error: invalid username/mailid combination');
     }
+}
+
+/**
+ * Load exactly one email, the $address in TO or CC has to match.
+ * @param $mailid integer
+ * @param $address String address
+ * @return email or null
+ */
+function _load_one_email($mailid, $address) {
+    // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
+    // the recipient in the email has to match the $address.
+    $emails = _load_emails(array($mailid), $address);
+    return count($emails) === 1 ? $emails[0] : null;
 }
 
 
