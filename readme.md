@@ -32,9 +32,10 @@
         <?php print imap_base64("SU1BUCBleHRlbnNpb24gc2VlbXMgdG8gYmUgaW5zdGFsbGVkLiA="); ?>
 
 2. download a [release](https://github.com/synox/disposable-mailbox/releases) or clone this repository
-3. copy the files in the `src` directory to your web server.
+3. copy the files in the `src` directory to your web server (not the whole repo!).
 4. rename `config.sample.php` to `config.php` and apply the imap settings. Move `config.php` to a safe location outside the `public_html`.
 5. edit `backend.php` and set the new path to `config.php`.
+6. open it in your browser, check your php error log for messages. 
 
 
 ## Build it yourself
