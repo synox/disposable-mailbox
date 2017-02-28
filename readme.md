@@ -19,11 +19,11 @@
 * Licence: <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">disposable-mailbox</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/synox/disposable-mailbox" property="cc:attributionName" rel="cc:attributionURL">github:synox</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 
-## Webserver requirements
+## Requirements
 
-* php >=5.3.0
-* [imap extension](http://php.net/manual/book.imap.php)
-* apache 2 (let me know how it works on nginx!)
+* apache 2 webserver with php >=5.3.0 (let me know how it works on nginx!)
+* php [imap extension](http://php.net/manual/book.imap.php)
+* IMAP account and a domain with catch-all configuration. (all mails go to one mailbox). 
 
 ## Installation
 
