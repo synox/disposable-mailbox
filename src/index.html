@@ -26,7 +26,7 @@
                     &nbsp;
                     {{$ctrl.address}}
                     &nbsp;
-                    <span ng-if="$ctrl.mailcount" class="tag tag-pill tag-default">{{$ctrl.mailcount}}</span>
+                    <span ng-if="$ctrl.mails.length" class="tag tag-pill tag-default">{{$ctrl.mails.length}}</span>
                 </a>
 
                 <form class="form-inline float-xs-right" ng-submit="$ctrl.updateUsername($ctrl.inputFieldUsername)">
@@ -53,17 +53,14 @@
                     browser and your php error logs. </p>
             </div>
 
-            <p ng-if="!$ctrl.username">
-                Use the buttons above to create a new inbox, or open a specific mailbox.
-            </p>
-
             <div ng-if="$ctrl.username && $ctrl.mails.length == 0">
                 <div class="waiting-screen">
-                    <p class="lead">Inbox is empty.</p>
+                    <p class="lead">Your mailbox <strong>{{$ctrl.address}}</strong> is ready. </p>
+                    <p>You have no emails yet. They will appear here automatically. </p>
                     <p><br/>
                         <img src="client-libs/spinner.gif">
-                        <br/></p>
-                    <p class="lead">Emails to {{address}} will be automatically displayed on this page. </p>
+                        <br/>
+                    </p>
                 </div>
             </div>
 
@@ -75,7 +72,7 @@
                         <div class="col-sm-12 email-summary">{{mail.subject}}
                             <form class="form-inline float-xs-right">
                                 <a role="button" class="btn btn-sm btn-outline-primary"
-                                   href="backend.php?download_email_id={{mail.id}}&username={{$ctrl.username}}"
+                                   href="{{$ctrl.backend_url}}?download_email_id={{mail.id}}&username={{$ctrl.username}}"
                                    download="true">Download
                                 </a>
 

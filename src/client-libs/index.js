@@ -39,6 +39,8 @@ app.filter("autolink", function () {
 app.controller('MailboxController', ["$interval", "$http", "$log", function ($interval, $http, $log) {
     var self = this;
 
+    self.backend_url = backend_url;
+
     self.updateUsername = function (username) {
         username = username.replace(/[@].*$/, ''); // remove part after "@"
         if (self.username !== username) {
@@ -50,8 +52,7 @@ app.controller('MailboxController', ["$interval", "$http", "$log", function ($in
                 self.address = self.username; // use username until real address has been loaded
                 self.updateMails();
             } else {
-                self.address = null;
-                self.mails = [];
+                self.randomize();
             }
         }
         self.inputFieldUsername = self.username;
