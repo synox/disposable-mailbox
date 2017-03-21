@@ -19,13 +19,9 @@ div.min-height {
 
 header {
     background-color: #D9E2E9;
-}
-
-.octicon-inbox {
-    display: inline-block;
-    width: 26px;
-    height: 23px;
-    background: url('octicon-inbox.gif') no-repeat;
+    /* leave some space on top & bottom */
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .sticky-header {

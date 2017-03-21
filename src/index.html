@@ -8,49 +8,30 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="description" content="Mailbox">
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="shortcut icon" href="favicon.gif" type="image/x-icon">
     <link rel="stylesheet" href="client-libs/style.css">
     <link rel="stylesheet" href="client-libs/angular-stickyfill-0.1.0/angular-stickyfill.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
           integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
 </head>
 <body>
-
-
 <div ng-controller="MailboxController as $ctrl" ng-cloak>
     <header>
         <div class="container">
 
-            <form ng-submit="$ctrl.updateUsername($ctrl.inputFieldUsername)">
+            <form class="form-inline" ng-submit="$ctrl.updateUsername($ctrl.inputFieldUsername)">
 
-                <div class="row">
-                    <div class="col-sm-1">
-                        <br>
-                        <span class="octicon-inbox"></span>
-                        <span ng-if="$ctrl.mails.length" class="tag tag-pill tag-default">{{$ctrl.mails.length}}</span>
-                    </div>
+                <small id="emailHelp" class="form-text text-muted">
+                    You have <span class="tag tag-pill tag-default">{{$ctrl.mails.length}}</span> mails in your
+                    mailbox:
+                </small>
 
-                    <div class="col-sm-11">
-                        <label for="inputFieldUsername">
-                            <small id="emailHelp" class="form-text text-muted">Your disposable email address (or change
-                                it):
-                            </small>
+                <input id="inputFieldUsername" ng-model="$ctrl.inputFieldUsername"
+                       placeholder="new username"
+                       type="text" class="form-control mx-sm-3 form-control-lg" onclick="this.select()"/>
 
-                        </label>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <input id="inputFieldUsername" ng-model="$ctrl.inputFieldUsername"
-                                       placeholder="new username"
-                                       type="text" class="form-control form-control-lg" onclick="this.select()"/>
-                            </div>
-                            <div class="col-sm-2">
-                                <button ng-click="$ctrl.randomize()" type="button" class="btn btn-outline-primary">new
-                                    address
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                <button ng-click="$ctrl.randomize()" type="button" class="btn btn-outline-primary">open random</button>
             </form>
         </div>
     </header>
