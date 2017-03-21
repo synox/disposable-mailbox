@@ -19,19 +19,26 @@
     <header>
         <div class="container">
 
-            <form class="form-inline" ng-submit="$ctrl.updateUsername($ctrl.inputFieldUsername)">
+            <form ng-submit="$ctrl.updateUsername($ctrl.inputFieldUsername)">
 
                 <small id="emailHelp" class="form-text text-muted">
                     You have <span class="tag tag-pill tag-default">{{$ctrl.mails.length}}</span> mails in your
                     mailbox:
                 </small>
 
-                <input id="inputFieldUsername" ng-model="$ctrl.inputFieldUsername"
-                       placeholder="new username"
-                       type="text" class="form-control mx-sm-3 form-control-lg" onclick="this.select()"/>
+                <div class="form-group row">
+                    <div class="col-sm-8">
 
-
-                <button ng-click="$ctrl.randomize()" type="button" class="btn btn-outline-primary">open random</button>
+                        <input id="inputFieldUsername" ng-model="$ctrl.inputFieldUsername"
+                               placeholder="new username"
+                               type="text" class="form-control form-control-lg" onclick="this.select()"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="openRandomButton" ng-click="$ctrl.randomize()" type="button"
+                                class="btn btn-outline-primary">open random
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
     </header>

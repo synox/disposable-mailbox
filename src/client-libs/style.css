@@ -19,9 +19,13 @@ div.min-height {
 
 header {
     background-color: #D9E2E9;
-    /* leave some space on top & bottom */
+    /* leave some space on top  */
     padding-top: 5px;
-    padding-bottom: 5px;
+}
+
+#openRandomButton {
+    /* center vertically */
+    margin-top: 6px;
 }
 
 .sticky-header {
@@ -77,3 +81,4 @@ header {
 div.min-height {
     min-height: 400px;
 }
+
