@@ -113,11 +113,13 @@ app.controller('MailboxController', ["$interval", "$http", "$log", function ($in
             });
     };
 
-    self.deleteMail = function (mailid, index) {
+    self.deleteMail = function (mail, index) {
         // instantly remove from frontend.
         self.mails.splice(index, 1);
+
         // remove on backend.
-        $http.get(backend_url, {params: {username: self.username, delete_email_id: mailid}})
+        var firstTo = Object.keys(mail.to)[0];
+        $http.get(backend_url, {params: {username: firstTo, delete_email_id: mail.id}})
             .then(
                 function successCallback(response) {
                     self.updateMails();
