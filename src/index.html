@@ -18,28 +18,42 @@
 
 
 <div ng-controller="MailboxController as $ctrl" ng-cloak>
-
-    <div class="nav-container">
+    <header>
         <div class="container">
-            <nav class="navbar navbar-light">
-                <a class="navbar-brand"><span class="octicon-inbox"></span>
-                    &nbsp;
-                    {{$ctrl.address}}
-                    &nbsp;
-                    <span ng-if="$ctrl.mails.length" class="tag tag-pill tag-default">{{$ctrl.mails.length}}</span>
-                </a>
 
-                <form class="form-inline float-xs-right" ng-submit="$ctrl.updateUsername($ctrl.inputFieldUsername)">
-                    <input ng-model="$ctrl.inputFieldUsername"
-                           placeholder="username"
-                           type="text" class="form-control"/>
-                    <button type="submit" class="btn btn-outline-success">login</button>
-                    <button ng-click="$ctrl.randomize()" type="button" class="btn btn-outline-primary">randomize
-                    </button>
-                </form>
-            </nav>
+            <form ng-submit="$ctrl.updateUsername($ctrl.inputFieldUsername)">
+
+                <div class="row">
+                    <div class="col-sm-1">
+                        <br>
+                        <span class="octicon-inbox"></span>
+                        <span ng-if="$ctrl.mails.length" class="tag tag-pill tag-default">{{$ctrl.mails.length}}</span>
+                    </div>
+
+                    <div class="col-sm-11">
+                        <label for="inputFieldUsername">
+                            <small id="emailHelp" class="form-text text-muted">Your disposable email address (or change
+                                it):
+                            </small>
+
+                        </label>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input id="inputFieldUsername" ng-model="$ctrl.inputFieldUsername"
+                                       placeholder="new username"
+                                       type="text" class="form-control form-control-lg" onclick="this.select()"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <button ng-click="$ctrl.randomize()" type="button" class="btn btn-outline-primary">new
+                                    address
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
+    </header>
 
     <main>
         <div class="container min-height">

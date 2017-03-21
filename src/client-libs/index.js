@@ -92,6 +92,9 @@ app.controller('MailboxController', ["$interval", "$http", "$log", function ($in
                     self.mails = response.data.mails;
                     self.address = response.data.address;
                     self.username = response.data.username;
+                    if (self.inputFieldUsername === self.username) {
+                        self.inputFieldUsername = self.address;
+                    }
                 } else {
                     self.error = {
                         title: "JSON_ERROR",
