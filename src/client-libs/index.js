@@ -83,10 +83,8 @@ app.controller('MailboxController', ["$interval", "$http", "$log", function ($in
     };
 
     self.loadEmailsAsync = function (username) {
-        $log.debug("updating mails for ", username);
         $http.get(backend_url, {params: {username: username}})
             .then(function successCallback(response) {
-                $log.debug("received mails for ", username);
                 if (response.data.mails) {
                     self.error = null;
                     self.mails = response.data.mails;
