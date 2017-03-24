@@ -49,8 +49,7 @@ function print_emails($username, $address) {
 function delete_email($mailid, $address) {
     global $mailbox;
 
-    $email = _load_one_email($mailid, $address);
-    if ($email !== null) {
+    if (_load_one_email($mailid, $address) !== null) {
         $mailbox->deleteMail($mailid);
         $mailbox->expungeDeletedMails();
         header('Content-type: application/json');
@@ -71,8 +70,7 @@ function delete_email($mailid, $address) {
 function download_email($mailid, $address) {
     global $mailbox;
 
-    $email = _load_one_email($mailid, $address);
-    if ($email !== null) {
+    if (_load_one_email($mailid, $address) !== null) {
         header("Content-Type: message/rfc822; charset=utf-8");
         header("Content-Disposition: attachment; filename=\"$address-$mailid.eml\"");
 
@@ -132,9 +130,9 @@ function _clean_username($username) {
  * deletes messages older than X days.
  */
 function delete_old_messages() {
-    global $mailbox;
+    global $mailbox, $config;
 
-    $ids = $mailbox->searchMailbox('BEFORE ' . date('d-M-Y', strtotime('30 days ago')));
+    $ids = $mailbox->searchMailbox('BEFORE ' . date('d-M-Y', strtotime($config['delete_messages_older_than'])));
     foreach ($ids as $id) {
         $mailbox->deleteMail($id);
     }

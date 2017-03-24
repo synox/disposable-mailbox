@@ -19,3 +19,6 @@ $config['imap']['password'] = "test";
 
 // email domain, usually different from imap hostname:
 $config['mailHostname'] = "example.com";
+
+// When to delete old messages?
+$config['delete_messages_older_than'] = '30 days ago';
