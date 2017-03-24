@@ -3,9 +3,9 @@
 [![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Goals:
- * easy to use: generate random name or use custom name, auto refresh
- * easy to host: just php5 + imap extension
- * easy to install: just copy some files
+ * easy to use: random or custom name, auto refresh
+ * easy to host: just php5 with imap extension, catch-all mailbox
+ * easy to install: copy-paste and imap config
  * minimal code base: minimal features and complexity
 
 | ![Screenshot](screenshot.png)        | 
