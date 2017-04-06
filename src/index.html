@@ -10,8 +10,6 @@
     <meta name="description" content="Mailbox">
     <link rel="shortcut icon" href="favicon.gif" type="image/x-icon">
     <link rel="stylesheet" href="client-libs/style.css">
-    <link rel="stylesheet" href="http://daemonite.github.io/material/css/material.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     <link rel="stylesheet" href="client-libs/angular-stickyfill-0.1.0/angular-stickyfill.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
           integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
@@ -50,9 +48,9 @@
             <div ng-if="$ctrl.error" class="alert alert-danger" role="alert">
                 <p><strong>Sorry, there was a problem. </strong></p>
                 <p> {{$ctrl.error.desc}} </p>
-                <p>
-                <pre>{{$ctrl.error.detail|json}}</pre>
-                </p>
+                <div>
+                    <pre>{{$ctrl.error.detail|json}}</pre>
+                </div>
                 <p> If you are the developer you might want to check the developer tools console of your web
                     browser and your php error logs. </p>
             </div>
@@ -72,28 +70,31 @@
                  class="email-table">
 
                 <div class="card">
-                    <div class="card-block header-shadown sticky-header" ec-stickyfill ng-init="htmlTabActive=false">
+                    <div class="card-block header-shadow sticky-header" ec-stickyfill ng-init="htmlTabActive=false">
                         <div class="row">
                             <div class="col-sm-8">
                                 <h3 class="card-title">{{mail.subject}}</h3>
                             </div>
-                            <div class="col-sm-4">
-                                <button ng-show="htmlTabActive" class="btn btn-outline-info btn-sm float-right"
-                                        ng-click="htmlTabActive=false">show text
-                                </button>
-                                <button ng-show="mail.textHtml && !htmlTabActive"
-                                        class="btn btn-outline-info btn-sm float-right"
-                                        ng-click="htmlTabActive=true">show html
-                                </button>
+                            <div class="col-sm-4 text-right">
+                                <form class="form-inline float-xs-right">
 
-                                <a role="button" class="btn btn-sm btn-outline-primary float-right"
-                                   href="{{$ctrl.backend_url}}?download_email_id={{mail.id}}&username={{$ctrl.username}}"
-                                   download="true">Download
-                                </a>
+                                    <button ng-show="htmlTabActive" class="btn btn-outline-info btn-sm "
+                                            ng-click="htmlTabActive=false">show text
+                                    </button>
+                                    <button ng-show="mail.textHtml && !htmlTabActive"
+                                            class="btn btn-outline-info btn-sm"
+                                            ng-click="htmlTabActive=true">show html
+                                    </button>
 
-                                <button ng-click="$ctrl.deleteMail(mail, $index)" type="button"
-                                        class="btn btn-sm btn-outline-danger float-right">Delete
-                                </button>
+                                    <a role="button" class="btn btn-sm btn-outline-primary "
+                                       href="{{$ctrl.backend_url}}?download_email_id={{mail.id}}&username={{$ctrl.username}}"
+                                       download="true">Download
+                                    </a>
+
+                                    <button ng-click="$ctrl.deleteMail(mail, $index)" type="button"
+                                            class="btn btn-sm btn-outline-danger .navbar-right">Delete
+                                    </button>
+                                </form>
                             </div>
                         </div>
                         <div class="row">
