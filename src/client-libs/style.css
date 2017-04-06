@@ -28,7 +28,7 @@ header {
     margin-top: 6px;
 }
 
-/* add card shadow */
+/* add card shadow, see https://blog.alexdevero.com/mastering-card-design-with-bootstrap-4/ */
 .card {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
@@ -43,46 +43,6 @@ header {
     background-color: white;
 }
 
-
-.email {
-    border-bottom: 1px solid #7C96AB;
-}
-
-.email .email-summary {
-    font-weight: bold;
-    border-top: 5px solid #7C96AB;
-    border-bottom: 1px solid #7C96AB;
-    padding: 10px;
-    background-color: white;
-}
-
-.email .email-headers {
-    background-color: white;
-}
-
-.email .email-headers dl {
-    padding: 0 0 4px;
-    color: black;
-    overflow: hidden;
-}
-
-.email .email-headers dl dt {
-    float: left;
-    color: black;
-    margin: 0 3px 0 0;
-}
-
-.email .email-headers dl dd {
-    display: block;
-    overflow: hidden;
-    margin-bottom: .3rem;
-}
-
-.email .mail-content {
-    background-color: white;
-    padding-left: 20px;
-    overflow: hidden;
-}
 
 .waiting-screen {
     padding: 40px 15px;
