@@ -11,11 +11,7 @@
     <link rel="shortcut icon" href="favicon.gif" type="image/x-icon">
     <link rel="stylesheet" href="client-libs/style.css">
     <link rel="stylesheet" href="http://daemonite.github.io/material/css/material.min.css">
-    <link
-            rel="stylesheet"
-            href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-
-
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     <link rel="stylesheet" href="client-libs/angular-stickyfill-0.1.0/angular-stickyfill.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
           integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
@@ -82,21 +78,21 @@
                                 <h3 class="card-title">{{mail.subject}}</h3>
                             </div>
                             <div class="col-sm-4">
-                                <button ng-show="htmlTabActive" class="btn btn-outline-info btn-sm float-right mr-1"
+                                <button ng-show="htmlTabActive" class="btn btn-outline-info btn-sm float-right"
                                         ng-click="htmlTabActive=false">show text
                                 </button>
                                 <button ng-show="mail.textHtml && !htmlTabActive"
-                                        class="btn btn-outline-info btn-sm float-right mr-1"
+                                        class="btn btn-outline-info btn-sm float-right"
                                         ng-click="htmlTabActive=true">show html
                                 </button>
 
-                                <a role="button" class="btn btn-sm btn-outline-primary float-right mr-1"
+                                <a role="button" class="btn btn-sm btn-outline-primary float-right"
                                    href="{{$ctrl.backend_url}}?download_email_id={{mail.id}}&username={{$ctrl.username}}"
                                    download="true">Download
                                 </a>
 
                                 <button ng-click="$ctrl.deleteMail(mail, $index)" type="button"
-                                        class="btn btn-sm btn-outline-danger float-right mr-1">Delete
+                                        class="btn btn-sm btn-outline-danger float-right">Delete
                                 </button>
                             </div>
                         </div>
@@ -113,20 +109,11 @@
                         </div>
                     </div>
                     <div class="card-block">
-                        <div class="row">
-                            <div class="col-sm-12 email-headers">
-                                <dl>
-                                    <dt>To:</dt>
-                                    <dd>{{mail.toString}}</dd>
-                                    <div ng-if="mail.cc" ng-repeat="(address,name) in mail.cc">
-                                        <dt>CC:</dt>
-                                        <dd>{{address}}</dd>
-                                    </div>
-                                </dl>
+                        <h6 class="card-subtitle text-muted">To: {{mail.toString}}</h6>
+                        <h6 ng-if="mail.cc" ng-repeat="(address,name) in mail.cc" class="card-subtitle text-muted">CC:
+                            {{address}}</h6>
 
-                            </div>
-                        </div>
-                        <div class="row mail-content">
+                        <div class="row mail-content mt-2">
                             <div ng-if="!htmlTabActive" class="mail-content"
                                  ng-bind-html="mail.textPlain | nl2br | autolink "></div>
                             <div ng-if="htmlTabActive" class="mail-content" ng-bind-html="mail.textHtml"></div>

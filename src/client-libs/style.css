@@ -35,9 +35,9 @@ header {
 }
 
 .header-shadown {
-    -moz-box-shadow: 0 5px 5px rgba(182, 182, 182, 0.75);
-    -webkit-box-shadow: 0 5px 5px rgba(182, 182, 182, 0.75);
-    box-shadow: 0 5px 5px rgba(182, 182, 182, 0.75);
+    -moz-box-shadow: 0 2px 2px rgba(182, 182, 182, 0.75);
+    -webkit-box-shadow: 0 2px 2px rgba(182, 182, 182, 0.75);
+    box-shadow: 0 2px 2px rgba(182, 182, 182, 0.75);
 }
 
 .email {
