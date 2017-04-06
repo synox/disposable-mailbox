@@ -10,6 +10,7 @@
     <meta name="description" content="Mailbox">
     <link rel="shortcut icon" href="favicon.gif" type="image/x-icon">
     <link rel="stylesheet" href="client-libs/style.css">
+    <link rel="stylesheet" href="client-libs/spinner.css">
     <link rel="stylesheet" href="client-libs/angular-stickyfill-0.1.0/angular-stickyfill.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
           integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
@@ -56,16 +57,20 @@
             </div>
 
             <div ng-if="$ctrl.username && $ctrl.mails.length == 0">
-                <div class="waiting-screen">
-                    <p class="lead">Your mailbox <strong>{{$ctrl.address}}</strong> is ready. </p>
-                    <p>Emails will appear here automatically. They will be deleted after 30 days.</p>
-                    <p><br/>
-                        <img src="client-libs/spinner.gif">
-                        <br/>
-                    </p>
+                <div class="card waiting-screen">
+                    <div class="card-block">
+                        <p class="lead">Your mailbox <strong>{{$ctrl.address}}</strong> is ready. </p>
+                        <p>Emails will appear here automatically. They will be deleted after 30 days.</p>
+                        <div class="spinner">
+                            <div class="rect1"></div>
+                            <div class="rect2"></div>
+                            <div class="rect3"></div>
+                            <div class="rect4"></div>
+                            <div class="rect5"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
             <div ng-if="$ctrl.username" ng-repeat="mail in $ctrl.mails | orderBy:'-date' track by $index"
                  class="email-table">
 
