@@ -8,38 +8,40 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="description" content="Mailbox">
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="shortcut icon" href="favicon.gif" type="image/x-icon">
     <link rel="stylesheet" href="client-libs/style.css">
     <link rel="stylesheet" href="client-libs/angular-stickyfill-0.1.0/angular-stickyfill.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
           integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
 </head>
 <body>
-
-
 <div ng-controller="MailboxController as $ctrl" ng-cloak>
-
-    <div class="nav-container">
+    <header>
         <div class="container">
-            <nav class="navbar navbar-light">
-                <a class="navbar-brand"><span class="octicon-inbox"></span>
-                    &nbsp;
-                    {{$ctrl.address}}
-                    &nbsp;
-                    <span ng-if="$ctrl.mailcount" class="tag tag-pill tag-default">{{$ctrl.mailcount}}</span>
-                </a>
 
-                <form class="form-inline float-xs-right" ng-submit="$ctrl.updateUsername($ctrl.inputFieldUsername)">
-                    <input ng-model="$ctrl.inputFieldUsername"
-                           placeholder="username"
-                           type="text" class="form-control"/>
-                    <button type="submit" class="btn btn-outline-success">login</button>
-                    <button ng-click="$ctrl.randomize()" type="button" class="btn btn-outline-primary">randomize
-                    </button>
-                </form>
-            </nav>
+            <form ng-submit="$ctrl.updateUsername($ctrl.inputFieldUsername)">
+
+                <small id="emailHelp" class="form-text text-muted">
+                    You have <span class="tag tag-pill tag-default">{{$ctrl.mails.length}}</span> mails in your
+                    mailbox:
+                </small>
+
+                <div class="form-group row">
+                    <div class="col-sm-8">
+
+                        <input id="inputFieldUsername" ng-model="$ctrl.inputFieldUsername"
+                               placeholder="new username"
+                               type="text" class="form-control form-control-lg" onclick="this.select()"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="openRandomButton" ng-click="$ctrl.randomize()" type="button"
+                                class="btn btn-outline-primary">open random
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
+    </header>
 
     <main>
         <div class="container min-height">
@@ -53,28 +55,38 @@
                     browser and your php error logs. </p>
             </div>
 
-            <p ng-if="!$ctrl.username">
-                Use the buttons above to create a new inbox, or open a specific mailbox.
-            </p>
-
             <div ng-if="$ctrl.username && $ctrl.mails.length == 0">
                 <div class="waiting-screen">
-                    <p class="lead">Inbox is empty.</p>
+                    <p class="lead">Your mailbox <strong>{{$ctrl.address}}</strong> is ready. </p>
+                    <p>Emails will appear here automatically. They will be deleted after 30 days.</p>
                     <p><br/>
                         <img src="client-libs/spinner.gif">
-                        <br/></p>
-                    <p class="lead">Emails to {{address}} will be automatically displayed on this page. </p>
+                        <br/>
+                    </p>
                 </div>
             </div>
 
             <div ng-if="$ctrl.username" ng-repeat="mail in $ctrl.mails | orderBy:'-date' track by $index"
                  class="email-table">
 
-                <section class="email">
+                <section class="email" ng-init="htmlTabActive=false">
                     <div class="row sticky-header" ec-stickyfill>
                         <div class="col-sm-12 email-summary">{{mail.subject}}
                             <form class="form-inline float-xs-right">
-                                <button ng-click="$ctrl.deleteMail(mail.id)" type="button"
+
+                                <button ng-show="htmlTabActive" class="btn btn-outline-info btn-sm"
+                                        ng-click="htmlTabActive=false">show text
+                                </button>
+                                <button ng-show="mail.textHtml && !htmlTabActive" class="btn btn-outline-info btn-sm"
+                                        ng-click="htmlTabActive=true">show html
+                                </button>
+
+                                <a role="button" class="btn btn-sm btn-outline-primary"
+                                   href="{{$ctrl.backend_url}}?download_email_id={{mail.id}}&username={{$ctrl.username}}"
+                                   download="true">Download
+                                </a>
+
+                                <button ng-click="$ctrl.deleteMail(mail, $index)" type="button"
                                         class="btn btn-sm btn-outline-danger">Delete
                                 </button>
                             </form>
@@ -98,14 +110,7 @@
 
                         </div>
                     </div>
-                    <div class="row mail-content" ng-init="htmlTabActive=false">
-                        <button ng-show="htmlTabActive" class="btn btn-outline-info btn-sm"
-                                ng-click="htmlTabActive=false">show text
-                        </button>
-                        <button ng-show="mail.textHtml && !htmlTabActive" class="btn btn-outline-info btn-sm"
-                                ng-click="htmlTabActive=true">show html
-                        </button>
-
+                    <div class="row mail-content">
                         <div ng-if="!htmlTabActive" class="mail-content"
                              ng-bind-html="mail.textPlain | nl2br | autolink "></div>
                         <div ng-if="htmlTabActive" class="mail-content" ng-bind-html="mail.textHtml"></div>

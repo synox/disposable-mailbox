@@ -17,15 +17,15 @@ div.min-height {
     min-height: 400px;
 }
 
-.nav-container {
+header {
     background-color: #D9E2E9;
+    /* leave some space on top  */
+    padding-top: 5px;
 }
 
-.octicon-inbox {
-    display: inline-block;
-    width: 26px;
-    height: 23px;
-    background: url('octicon-inbox.gif') no-repeat;
+#openRandomButton {
+    /* center vertically */
+    margin-top: 6px;
 }
 
 .sticky-header {
@@ -81,3 +81,4 @@ div.min-height {
 div.min-height {
     min-height: 400px;
 }
+

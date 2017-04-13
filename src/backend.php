@@ -21,13 +21,20 @@ function error($status, $text) {
 }
 
 /**
- * print all mails for the given $user as a json string.
+ * print all mails for the given $user.
  * @param $username string username
  * @param $address string email address
  */
 function print_emails($username, $address) {
-    $mail_ids = _search_mails($address);
+    global $mailbox;
+
+    // Search for mails with the recipient $address in TO or CC.
+    $mailsIdsTo = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'TO "' . $address . '"');
+    $mailsIdsCc = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'CC "' . $address . '"');
+    $mail_ids = array_merge($mailsIdsTo, $mailsIdsCc);
+
     $emails = _load_emails($mail_ids, $address);
+    header('Content-type: application/json');
     print(json_encode(array("mails" => $emails, 'username' => $username, 'address' => $address)));
 }
 
@@ -35,23 +42,57 @@ function print_emails($username, $address) {
 /**
  * deletes emails by id and username. The $address must match the recipient in the email.
  *
- * @param $mailid integer imap email id (integer)
+ * @param $mailid integer imap email id
  * @param $address string email address
  * @internal param the $username matching username
  */
 function delete_email($mailid, $address) {
     global $mailbox;
 
-    // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
-    // the recipient in the email has to match the $address.
-    $emails = _load_emails(array($mailid), $address);
-    if (count($emails) === 1) {
+    if (_load_one_email($mailid, $address) !== null) {
         $mailbox->deleteMail($mailid);
         $mailbox->expungeDeletedMails();
+        header('Content-type: application/json');
         print(json_encode(array("success" => true)));
     } else {
         error(404, 'delete error: invalid username/mailid combination');
     }
+}
+
+/**
+ * download email by id and username. The $address must match the recipient in the email.
+ *
+ * @param $mailid integer imap email id
+ * @param $address string email address
+ * @internal param the $username matching username
+ */
+
+function download_email($mailid, $address) {
+    global $mailbox;
+
+    if (_load_one_email($mailid, $address) !== null) {
+        header("Content-Type: message/rfc822; charset=utf-8");
+        header("Content-Disposition: attachment; filename=\"$address-$mailid.eml\"");
+
+        $headers = imap_fetchheader($mailbox->getImapStream(), $mailid, FT_UID);
+        $body = imap_body($mailbox->getImapStream(), $mailid, FT_UID);
+        print ($headers . "\n" . $body);
+    } else {
+        error(404, 'download error: invalid username/mailid combination');
+    }
+}
+
+/**
+ * Load exactly one email, the $address in TO or CC has to match.
+ * @param $mailid integer
+ * @param $address String address
+ * @return email or null
+ */
+function _load_one_email($mailid, $address) {
+    // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
+    // the recipient in the email has to match the $address.
+    $emails = _load_emails(array($mailid), $address);
+    return count($emails) === 1 ? $emails[0] : null;
 }
 
 /**
@@ -67,27 +108,11 @@ function _load_emails($mail_ids, $address) {
     foreach ($mail_ids as $id) {
         $mail = $mailbox->getMail($id);
         // imap_search also returns partials matches. The mails have to be filtered again:
-        if (!array_key_exists($address, $mail->to) && !array_key_exists($address, $mail->cc)) {
-            continue;
+        if (array_key_exists($address, $mail->to) || array_key_exists($address, $mail->cc)) {
+            $emails[] = $mail;
         }
-        $emails[] = $mail;
     }
     return $emails;
-}
-
-
-/**
- * Search for mails with the recipient $address.
- * @param $address string address that has to match TO or CC.
- * @return array email ids
- */
-function _search_mails($address) {
-    global $mailbox;
-    $filterTO = 'TO "' . $address . '"';
-    $filterCC = 'CC "' . $address . '"';
-    $mailsIdsTo = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, $filterTO);
-    $mailsIdsCc = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, $filterCC);
-    return array_merge($mailsIdsTo, $mailsIdsCc);
 }
 
 /**
@@ -98,33 +123,26 @@ function _search_mails($address) {
 function _clean_username($username) {
     $username = strtolower($username);
     $username = preg_replace('/@.*$/', "", $username);   // remove part after @
-    $username = preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
-    return $username;
+    return preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
 }
-
 
 /**
  * deletes messages older than X days.
  */
 function delete_old_messages() {
-    global $mailbox;
+    global $mailbox, $config;
 
-    $date = date('d-M-Y', strtotime('30 days ago'));
-    $ids = $mailbox->searchMailbox('BEFORE ' . $date);
+    $ids = $mailbox->searchMailbox('BEFORE ' . date('d-M-Y', strtotime($config['delete_messages_older_than'])));
     foreach ($ids as $id) {
         $mailbox->deleteMail($id);
     }
     $mailbox->expungeDeletedMails();
 }
 
-
-header('Content-type: application/json');
-
 // Never cache requests:
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-
 
 if (isset($_GET['username'])) {
     // perform common validation:
@@ -135,7 +153,9 @@ if (isset($_GET['username'])) {
     $address = $username . "@" . $config['mailHostname'];
 
     // simple router:
-    if (isset($_GET['delete_email_id'])) {
+    if (isset($_GET['download_email_id'])) {
+        download_email($_GET['download_email_id'], $address);
+    } else if (isset($_GET['delete_email_id'])) {
         delete_email($_GET['delete_email_id'], $address);
     } else {
         print_emails($username, $address);

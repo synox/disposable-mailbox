@@ -39,6 +39,8 @@ app.filter("autolink", function () {
 app.controller('MailboxController', ["$interval", "$http", "$log", function ($interval, $http, $log) {
     var self = this;
 
+    self.backend_url = backend_url;
+
     self.updateUsername = function (username) {
         username = username.replace(/[@].*$/, ''); // remove part after "@"
         if (self.username !== username) {
@@ -50,8 +52,7 @@ app.controller('MailboxController', ["$interval", "$http", "$log", function ($in
                 self.address = self.username; // use username until real address has been loaded
                 self.updateMails();
             } else {
-                self.address = null;
-                self.mails = [];
+                self.randomize();
             }
         }
         self.inputFieldUsername = self.username;
@@ -82,15 +83,16 @@ app.controller('MailboxController', ["$interval", "$http", "$log", function ($in
     };
 
     self.loadEmailsAsync = function (username) {
-        $log.debug("updating mails for ", username);
         $http.get(backend_url, {params: {username: username}})
             .then(function successCallback(response) {
-                $log.debug("received mails for ", username);
                 if (response.data.mails) {
                     self.error = null;
                     self.mails = response.data.mails;
                     self.address = response.data.address;
                     self.username = response.data.username;
+                    if (self.inputFieldUsername === self.username) {
+                        self.inputFieldUsername = self.address;
+                    }
                 } else {
                     self.error = {
                         title: "JSON_ERROR",
@@ -109,11 +111,13 @@ app.controller('MailboxController', ["$interval", "$http", "$log", function ($in
             });
     };
 
-    self.deleteMail = function (mailid, index) {
+    self.deleteMail = function (mail, index) {
         // instantly remove from frontend.
         self.mails.splice(index, 1);
+
         // remove on backend.
-        $http.get(backend_url, {params: {username: self.username, delete_email_id: mailid}})
+        var firstTo = Object.keys(mail.to)[0];
+        $http.get(backend_url, {params: {username: firstTo, delete_email_id: mail.id}})
             .then(
                 function successCallback(response) {
                     self.updateMails();
