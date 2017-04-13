@@ -10,6 +10,7 @@
     <meta name="description" content="Mailbox">
     <link rel="shortcut icon" href="favicon.gif" type="image/x-icon">
     <link rel="stylesheet" href="client-libs/style.css">
+    <link rel="stylesheet" href="client-libs/spinner.css">
     <link rel="stylesheet" href="client-libs/angular-stickyfill-0.1.0/angular-stickyfill.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
           integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
@@ -48,74 +49,82 @@
             <div ng-if="$ctrl.error" class="alert alert-danger" role="alert">
                 <p><strong>Sorry, there was a problem. </strong></p>
                 <p> {{$ctrl.error.desc}} </p>
-                <p>
-                <pre>{{$ctrl.error.detail|json}}</pre>
-                </p>
+                <div>
+                    <pre>{{$ctrl.error.detail|json}}</pre>
+                </div>
                 <p> If you are the developer you might want to check the developer tools console of your web
                     browser and your php error logs. </p>
             </div>
 
             <div ng-if="$ctrl.username && $ctrl.mails.length == 0">
-                <div class="waiting-screen">
-                    <p class="lead">Your mailbox <strong>{{$ctrl.address}}</strong> is ready. </p>
-                    <p>Emails will appear here automatically. They will be deleted after 30 days.</p>
-                    <p><br/>
-                        <img src="client-libs/spinner.gif">
-                        <br/>
-                    </p>
+                <div class="card waiting-screen">
+                    <div class="card-block">
+                        <p class="lead">Your mailbox <strong>{{$ctrl.address}}</strong> is ready. </p>
+                        <p>Emails will appear here automatically. They will be deleted after 30 days.</p>
+                        <div class="spinner">
+                            <div class="rect1"></div>
+                            <div class="rect2"></div>
+                            <div class="rect3"></div>
+                            <div class="rect4"></div>
+                            <div class="rect5"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
             <div ng-if="$ctrl.username" ng-repeat="mail in $ctrl.mails | orderBy:'-date' track by $index"
                  class="email-table">
 
-                <section class="email" ng-init="htmlTabActive=false">
-                    <div class="row sticky-header" ec-stickyfill>
-                        <div class="col-sm-12 email-summary">{{mail.subject}}
-                            <form class="form-inline float-xs-right">
+                <div class="card email">
+                    <div class="card-block header-shadow sticky-header" ec-stickyfill ng-init="htmlTabActive=false">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h3 class="card-title">{{mail.subject}}</h3>
+                            </div>
+                            <div class="col-sm-4 text-right">
+                                <form class="form-inline float-xs-right">
 
-                                <button ng-show="htmlTabActive" class="btn btn-outline-info btn-sm"
-                                        ng-click="htmlTabActive=false">show text
-                                </button>
-                                <button ng-show="mail.textHtml && !htmlTabActive" class="btn btn-outline-info btn-sm"
-                                        ng-click="htmlTabActive=true">show html
-                                </button>
+                                    <button ng-show="htmlTabActive" class="btn btn-outline-info btn-sm "
+                                            ng-click="htmlTabActive=false">show text
+                                    </button>
+                                    <button ng-show="mail.textHtml && !htmlTabActive"
+                                            class="btn btn-outline-info btn-sm"
+                                            ng-click="htmlTabActive=true">show html
+                                    </button>
 
-                                <a role="button" class="btn btn-sm btn-outline-primary"
-                                   href="{{$ctrl.backend_url}}?download_email_id={{mail.id}}&username={{$ctrl.username}}"
-                                   download="true">Download
-                                </a>
+                                    <a role="button" class="btn btn-sm btn-outline-primary "
+                                       href="{{$ctrl.backend_url}}?download_email_id={{mail.id}}&username={{$ctrl.username}}"
+                                       download="true">Download
+                                    </a>
 
-                                <button ng-click="$ctrl.deleteMail(mail, $index)" type="button"
-                                        class="btn btn-sm btn-outline-danger">Delete
-                                </button>
-                            </form>
+                                    <button ng-click="$ctrl.deleteMail(mail, $index)" type="button"
+                                            class="btn btn-sm btn-outline-danger">Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h6 class="card-subtitle mt-1 text-muted">{{mail.fromName}}
+                                    &lt;{{mail.fromAddress}}&gt;</h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <h6 class="card-subtitle mt-1 text-muted" style="text-align: right">{{mail.date}}</h6>
+                            </div>
+
+
                         </div>
                     </div>
+                    <div class="card-block">
+                        <h6 class="card-subtitle text-muted">To: {{mail.toString}}</h6>
+                        <h6 ng-if="mail.cc" ng-repeat="(address,name) in mail.cc" class="card-subtitle text-muted">CC:
+                            {{address}}</h6>
 
-                    <div class="row">
-                        <div class="col-sm-12 email-headers">
-                            <dl>
-                                <dt>To:</dt>
-                                <dd>{{mail.toString}}</dd>
-                                <div ng-if="mail.cc" ng-repeat="(address,name) in mail.cc">
-                                    <dt>CC:</dt>
-                                    <dd>{{address}}</dd>
-                                </div>
-                                <dt>From:</dt>
-                                <dd>{{mail.fromName}} &lt;{{mail.fromAddress}}&gt;</dd>
-                                <dt>Date:</dt>
-                                <dd>{{mail.date}}</dd>
-                            </dl>
-
+                        <div class="mt-2 card-text">
+                            <div ng-if="!htmlTabActive" ng-bind-html="mail.textPlain | nl2br | autolink "></div>
+                            <div ng-if="htmlTabActive" ng-bind-html="mail.textHtml"></div>
                         </div>
                     </div>
-                    <div class="row mail-content">
-                        <div ng-if="!htmlTabActive" class="mail-content"
-                             ng-bind-html="mail.textPlain | nl2br | autolink "></div>
-                        <div ng-if="htmlTabActive" class="mail-content" ng-bind-html="mail.textHtml"></div>
-                    </div>
-                </section>
+                </div>
             </div>
         </div>
     </main>
