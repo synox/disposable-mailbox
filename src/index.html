@@ -74,7 +74,7 @@
             <div ng-if="$ctrl.username" ng-repeat="mail in $ctrl.mails | orderBy:'-date' track by $index"
                  class="email-table">
 
-                <div class="card">
+                <div class="card email">
                     <div class="card-block header-shadow sticky-header" ec-stickyfill ng-init="htmlTabActive=false">
                         <div class="row">
                             <div class="col-sm-8">
@@ -119,10 +119,9 @@
                         <h6 ng-if="mail.cc" ng-repeat="(address,name) in mail.cc" class="card-subtitle text-muted">CC:
                             {{address}}</h6>
 
-                        <div class="row mail-content mt-2">
-                            <div ng-if="!htmlTabActive" class="mail-content"
-                                 ng-bind-html="mail.textPlain | nl2br | autolink "></div>
-                            <div ng-if="htmlTabActive" class="mail-content" ng-bind-html="mail.textHtml"></div>
+                        <div class="mt-2 card-text">
+                            <div ng-if="!htmlTabActive" ng-bind-html="mail.textPlain | nl2br | autolink "></div>
+                            <div ng-if="htmlTabActive" ng-bind-html="mail.textHtml"></div>
                         </div>
                     </div>
                 </div>
