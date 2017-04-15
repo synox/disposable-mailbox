@@ -10,7 +10,7 @@ and this project does not adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Improved styling using card layout
-- Changed licence to GPL-3.0 in order to allow commercial use and advertisement.
+- Changed license to GPL-3.0 in order to allow commercial use and advertisement.
 
 ## [0.1.3] - 2017-03-24
 ### Changed
