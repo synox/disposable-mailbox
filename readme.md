@@ -1,12 +1,13 @@
 # self-hosted disposable email service
-
 [![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-## Goals:
- * easy to use: random or custom name, auto refresh
- * easy to host: just php5 with imap extension, catch-all mailbox
- * easy to install: copy-paste and imap config
- * minimal code base: minimal features and complexity
+Create your own temporary email web-service by combining 
+  * a [catch-all imap mailbox](https://www.google.ch/search?q=how+to+setup+catch-all+imap+mailbox) and 
+  * this easy to install web-application. 
+
+A random email address is created for every user and everything is updated automatically.  
+Emails can also be deleted. 
+
 
 | ![Screenshot](screenshot.png)        | 
 | ------------- | 
@@ -14,16 +15,17 @@
 
 ## You have to know
 
-* Use [![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) and you will be be notified about issues and bugfixes.  
-* This is **WORK IN PROGRESS (WIP)** software, do not use it in production yet! [There are still unsolved problems](https://github.com/synox/disposable-mailbox/issues). Contributions are welcome!
-* Licence: <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">disposable-mailbox</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/synox/disposable-mailbox" property="cc:attributionName" rel="cc:attributionURL">github:synox</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+* Use [![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) and you will be notified about issues and bugfixes.  
+* This is **Beta** software, [there are still unsolved problems](https://github.com/synox/disposable-mailbox/issues). Contributions are welcome!
+* License: **GPL-3.0**. You can modify this application and run it anywhere, charge money and show advertisement. Any forks or repacked distribution must follow the GPL-3.0 licence.  
+* A link to https://github.com/synox/disposable-mailbox in the footer is appreciated.  
 
 
 ## Requirements
 
-* apache 2 webserver with php >=5.3.0 (let me know how it works on nginx!)
+* webserver with php >=5.3.0
 * php [imap extension](http://php.net/manual/book.imap.php)
-* IMAP account and a domain with catch-all configuration. (all mails go to one mailbox). 
+* IMAP account and a domain with catch-all configuration (all emails go to one mailbox). 
 
 ## Installation
 
