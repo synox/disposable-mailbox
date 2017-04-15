@@ -6,6 +6,8 @@ and this project does not adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.4] - 2017-04-15
+
 ### Changed
 - Improved styling using card layout
 - Changed licence to GPL-3.0 in order to allow commercial use and advertisement.
