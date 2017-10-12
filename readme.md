@@ -56,3 +56,7 @@ This could not be possible without...
  * https://github.com/barbushin/php-imap
  * https://github.com/gregjacobs/Autolinker.js/
  * http://chancejs.com/
+
+[![BrowserStack](browserstack.png)](https://www.browserstack.com/)
+
+Supported by BrowserStack, which allows us to test projects online with any browser as a service. :-) 
