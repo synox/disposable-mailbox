@@ -59,4 +59,4 @@ This could not be possible without...
 
 [![BrowserStack](browserstack.png)](https://www.browserstack.com/)
 
-Supported by BrowserStack, which allows us to test projects online with any browser as a service. :-) 
+Supported by [BrowserStack](https://www.browserstack.com/), which allows us to test projects online with any browser as a service. :-) 
