@@ -22,10 +22,10 @@ function error($status, $text) {
 
 /**
  * print all mails for the given $user.
- * @param $username string username
  * @param $address string email address
+ * @return array
  */
-function print_emails($username, $address) {
+function get_emails($address) {
     global $mailbox;
 
     // Search for mails with the recipient $address in TO or CC.
@@ -34,8 +34,7 @@ function print_emails($username, $address) {
     $mail_ids = array_merge($mailsIdsTo, $mailsIdsCc);
 
     $emails = _load_emails($mail_ids, $address);
-    header('Content-type: application/json');
-    print(json_encode(array("mails" => $emails, 'username' => $username, 'address' => $address)));
+    return $emails;
 }
 
 
@@ -126,6 +125,25 @@ function _clean_username($username) {
     return preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
 }
 
+function _clean_domain($username) {
+    $username = strtolower($username);
+    $username = preg_replace('/^.*@/', "", $username);   // remove part before @
+    return preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
+}
+
+function redirect_to_random($domains) {
+    $wordLength = rand(3, 8);
+    $container = new PronounceableWord_DependencyInjectionContainer();
+    $generator = $container->getGenerator();
+    $word = $generator->generateWordOfGivenLength($wordLength);
+    $nr = rand(51, 91);
+    $name = $word . $nr;
+
+    $domain = $domains[array_rand($domains)];
+
+    header("location: ?address=$name@$domain");
+}
+
 /**
  * deletes messages older than X days.
  */
@@ -139,30 +157,11 @@ function delete_old_messages() {
     $mailbox->expungeDeletedMails();
 }
 
-// Never cache requests:
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
-if (isset($_GET['username'])) {
-    // perform common validation:
-    $username = _clean_username($_GET['username']);
-    if (strlen($username) === 0) {
-        error(400, 'invalid username');
-    }
-    $address = $username . "@" . $config['mailHostname'];
-
-    // simple router:
-    if (isset($_GET['download_email_id'])) {
-        download_email($_GET['download_email_id'], $address);
-    } else if (isset($_GET['delete_email_id'])) {
-        delete_email($_GET['delete_email_id'], $address);
-    } else {
-        print_emails($username, $address);
-    }
-} else {
-    error(400, 'invalid action');
-}
+//
+//// Never cache requests:
+//header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+//header("Cache-Control: post-check=0, pre-check=0", false);
+//header("Pragma: no-cache");
 
 // run on every request
 delete_old_messages();

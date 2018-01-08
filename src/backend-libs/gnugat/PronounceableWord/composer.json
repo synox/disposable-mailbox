@@ -1,0 +1,21 @@
+{
+    "name": "gnugat/PronounceableWord",
+    "type": "library",
+    "description": "A light, customizable and simple library generating random and pronounceable words without using dictionaries or Markov chains.",
+    "keywords": ["generator", "pronounceable", "word"],
+    "homepage": "https://github.com/gnugat/PronounceableWord",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Loic Chardonnet"
+        }
+    ],
+    "require": {
+        "php": ">=5.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "PronounceableWord_": "src/"
+        }
+    }
+}

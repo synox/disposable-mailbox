@@ -9,6 +9,10 @@ class ComposerStaticInit125dddd280a32cf75b181166154246ec
     public static $prefixesPsr0 = array (
         'P' => 
         array (
+            'PronounceableWord_' => 
+            array (
+                0 => __DIR__ . '/..' . '/gnugat/PronounceableWord/src',
+            ),
             'PhpImap' => 
             array (
                 0 => __DIR__ . '/..' . '/php-imap/php-imap/src',

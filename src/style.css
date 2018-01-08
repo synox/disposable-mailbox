@@ -19,22 +19,18 @@ div.min-height {
 
 header {
     background-color: #D9E2E9;
-    /* leave some space on top  */
+
     padding-top: 5px;
 }
 
 #openRandomButton {
-    /* center vertically */
+
     margin-top: 6px;
 }
 
 .email-table > .email {
     border-top: 5px solid #7C96AB;
 
-    /* idea: card shadow arround:
-     see https://blog.alexdevero.com/mastering-card-design-with-bootstrap-4/
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-    */
 }
 
 .header-shadow {
@@ -47,7 +43,6 @@ header {
     background-color: white;
 }
 
-
 .waiting-screen {
     padding: 40px 15px;
     text-align: center;
@@ -57,3 +52,7 @@ div.min-height {
     min-height: 400px;
 }
 
+.random-column {
+    border-left: 1px dashed #333;
+
+}
