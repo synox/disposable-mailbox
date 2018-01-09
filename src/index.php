@@ -277,6 +277,13 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
             ?>
         </div>
     </main>
+    <footer>
+        <p>Powered by <a
+                    href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
+            | <a href="https://github.com/synox/disposable-mailbox"><span class="octicon octicon-mark-github"></span>
+                Fork
+                me on github</a></p>
+    </footer>
     </body>
     </html>
     <?php
