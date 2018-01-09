@@ -6,6 +6,10 @@ and this project does not adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Rewrote to use mostly pure php. Only use javascript where required. 
+- Added multiple domain support (https://github.com/synox/disposable-mailbox/issues/21)
+- Blacklist some usernames (https://github.com/synox/disposable-mailbox/issues/27)
+
 ## [0.1.4] - 2017-04-15
 
 ### Changed
