@@ -120,7 +120,14 @@ function _load_emails($mail_ids, $address) {
 function _clean_username($username) {
     $username = strtolower($username);
     $username = preg_replace('/@.*$/', "", $username);   // remove part after @
-    return preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
+    $username = preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
+
+    if (in_array($username, array('root', 'admin', 'administrator', 'hostmaster', 'postmaster', 'webmaster'))) {
+        // Forbidden name!
+        return '';
+    }
+
+    return $username;
 }
 
 function _clean_domain($username) {
