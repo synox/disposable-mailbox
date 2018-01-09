@@ -120,14 +120,22 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
                                value="<?php echo $username ?>">
                     </div>
                     <div class="col-sm-3">
-                        <select id="domain" class="form-control form-control-lg" name="domain" title="domain">
-                            <?php
-                            foreach ($config['domains'] as $domain) {
-                                $selected = $domain === $userDomain ? ' selected ' : '';
-                                print "<option value='$domain' $selected>@$domain</option>";
-                            }
+                        <?php
+                        if (count($config['domains']) == 1) {
+                            print "<h3>@" . $config['domains'][0] . "</h3>";
+                        } else {
                             ?>
-                        </select>
+                            <select id="domain" class="form-control form-control-lg" name="domain" title="domain">
+                                <?php
+                                foreach ($config['domains'] as $domain) {
+                                    $selected = $domain === $userDomain ? ' selected ' : '';
+                                    print "<option value='$domain' $selected>@$domain</option>";
+                                }
+                                ?>
+                            </select>
+                            <?php
+                        }
+                        ?>
                     </div>
                     <div class="col-sm-3 random-column">
                         <span>or &nbsp;</span>
