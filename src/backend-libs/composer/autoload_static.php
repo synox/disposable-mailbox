@@ -6,6 +6,10 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit125dddd280a32cf75b181166154246ec
 {
+    public static $files = array (
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+    );
+
     public static $prefixesPsr0 = array (
         'P' => 
         array (
@@ -16,6 +20,13 @@ class ComposerStaticInit125dddd280a32cf75b181166154246ec
             'PhpImap' => 
             array (
                 0 => __DIR__ . '/..' . '/php-imap/php-imap/src',
+            ),
+        ),
+        'H' => 
+        array (
+            'HTMLPurifier' => 
+            array (
+                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
             ),
         ),
     );

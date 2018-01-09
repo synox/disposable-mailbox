@@ -1,6 +1,11 @@
 <?php
 require_once('backend.php');
 
+$purifier_config = HTMLPurifier_Config::createDefault();
+$purifier_config->set('HTML.Nofollow', true);
+$purifier_config->set('HTML.ForbiddenElements', array("img"));
+$purifier = new HTMLPurifier($purifier_config);
+
 // simple router:
 if (isset($_GET['username']) && isset($_GET['domain'])) {
     $username = filter_input(INPUT_GET, 'username', FILTER_SANITIZE_EMAIL);
@@ -30,7 +35,6 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
         exit();
     }
     $emails = get_emails($address);
-
     ?>
 
     <html lang="en">
@@ -38,7 +42,7 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
         <meta charset="utf-8">
         <title><?php echo $address ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <link rel="icon" type="image/x-icon" href="favicon.gif">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -77,7 +81,24 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
 
             setInterval(function () {
                 reloadWithTurbolinks();
-            }, 15000)
+            }, 15000);
+
+
+            function showHtml(id) {
+                document.getElementById('email-' + id + '-html').style.display = 'block';
+                document.getElementById('email-' + id + '-plain').style.display = 'none';
+                document.getElementById('show-html-button-' + id).style.display = 'none';
+                document.getElementById('show-plain-button-' + id).style.display = 'block';
+                return false;
+            }
+
+            function showPlain(id) {
+                document.getElementById('email-' + id + '-html').style.display = 'none';
+                document.getElementById('email-' + id + '-plain').style.display = 'block';
+                document.getElementById('show-html-button-' + id).style.display = 'block';
+                document.getElementById('show-plain-button-' + id).style.display = 'none';
+                return false;
+            }
 
         </script>
     </head>
@@ -95,11 +116,11 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
                 <div class="form-group row">
 
                     <div class="col-sm-4">
-                        <input id="username" class="form-control form-control-lg" name="username"
+                        <input id="username" class="form-control form-control-lg" name="username" title="username"
                                value="<?php echo $username ?>">
                     </div>
                     <div class="col-sm-3">
-                        <select id="domain" class="form-control form-control-lg" name="domain">
+                        <select id="domain" class="form-control form-control-lg" name="domain" title="domain">
                             <?php
                             foreach ($config['domains'] as $domain) {
                                 $selected = $domain === $userDomain ? ' selected ' : '';
@@ -166,9 +187,18 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
                                     <div class="col-sm-4 text-right">
                                         <form class="form-inline float-xs-right">
 
-                                            <!-- TODO: switch between html and plaintext -->
-                                            <!--                                        <button class="btn btn-outline-info btn-sm">show html-->
-                                            <!--                                        </button>-->
+                                            <button type="button" class="btn btn-outline-info btn-sm"
+                                                    style="display: block"
+                                                    id="show-html-button-<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>"
+                                                    onclick="showHtml(<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>)">
+                                                show html
+                                            </button>
+                                            <button type="button" class="btn btn-outline-info btn-sm"
+                                                    style="display: none"
+                                                    id="show-plain-button-<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>"
+                                                    onclick="showPlain(<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>)">
+                                                show text
+                                            </button>
 
                                             <a class="btn btn-sm btn-outline-primary " download="true"
                                                role="button"
@@ -216,17 +246,21 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
 
 
                                 <div class="mt-2 card-text">
-                                    <!-- TODO: switch between html and plaintext -->
-                                    <div>
-                                        <!-- TODO: applyAutolink
-                                            TODO: applyNewlines -->
+                                    <!-- show plaintext or html -->
+                                    <div id="email-<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>-plain"
+                                         style="display: block;">
                                         <?php $text = filter_var($email->textPlain, FILTER_SANITIZE_SPECIAL_CHARS);
-                                        echo str_replace('&#10;', '<br />', $text);
+                                        // Keep newlines
+                                        $text = str_replace('&#10;', '<br />', $text);
+                                        echo \AutoLinkExtension::auto_link_text($text)
                                         ?>
-
                                     </div>
-                                    <div *ngIf="htmlTabActive">
-                                        <!-- TODO: stripHtml(mail.textHtml) -->
+                                    <div id="email-<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>-html"
+                                         style="display: none;">
+                                        <?php
+                                        $clean_html = $purifier->purify($email->textHtml);
+                                        echo $clean_html;
+                                        ?>
                                     </div>
                                 </div>
 

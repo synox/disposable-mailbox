@@ -1,7 +1,8 @@
 {
   "require": {
     "php-imap/php-imap": "~2.0",
-    "gnugat/PronounceableWord": "*"
+    "gnugat/PronounceableWord": "*",
+    "ezyang/htmlpurifier": "^4.9"
   },
   "config": {
     "vendor-dir": "src/backend-libs"
