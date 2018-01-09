@@ -88,14 +88,14 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
                 document.getElementById('email-' + id + '-html').style.display = 'block';
                 document.getElementById('email-' + id + '-plain').style.display = 'none';
                 document.getElementById('show-html-button-' + id).style.display = 'none';
-                document.getElementById('show-plain-button-' + id).style.display = 'block';
+                document.getElementById('show-plain-button-' + id).style.display = 'inline-block';
                 return false;
             }
 
             function showPlain(id) {
                 document.getElementById('email-' + id + '-html').style.display = 'none';
                 document.getElementById('email-' + id + '-plain').style.display = 'block';
-                document.getElementById('show-html-button-' + id).style.display = 'block';
+                document.getElementById('show-html-button-' + id).style.display = 'inline-block';
                 document.getElementById('show-plain-button-' + id).style.display = 'none';
                 return false;
             }
@@ -128,11 +128,6 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
                             }
                             ?>
                         </select>
-                    </div>
-                    <div class="col-sm-1">
-                        <button type="submit" class="btn" style="background-color:transparent">
-                            <img src="if_sync-01_186384.png" width="32" height="32" alt="submit"/>
-                        </button>
                     </div>
                     <div class="col-sm-3 random-column">
                         <span>or &nbsp;</span>
@@ -188,7 +183,7 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
                                         <form class="form-inline float-xs-right">
 
                                             <button type="button" class="btn btn-outline-info btn-sm"
-                                                    style="display: block"
+                                                    style="display: inline-block"
                                                     id="show-html-button-<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>"
                                                     onclick="showHtml(<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>)">
                                                 show html
