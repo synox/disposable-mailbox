@@ -11,7 +11,7 @@ if (isset($_GET['random'])) {
     header("location: ?address=$username@$domain");
     die();
 } elseif (!isset($_GET['address'])) {
-    error(400, 'invalid action');
+    redirect_to_random($config['domains']);
 } else {
     // perform common validation:
     $address = filter_input(INPUT_GET, 'address', FILTER_SANITIZE_EMAIL);
