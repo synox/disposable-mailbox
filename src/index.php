@@ -135,8 +135,7 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
                         <div class="card-block">
                             <p class="lead">Your mailbox <strong
                                 ><?php echo $address ?></strong> is ready. </p>
-                            <p>Emails will appear here automatically. They will be deleted after 30
-                                days.</p>
+                            <p>Emails will appear here automatically. They will be deleted after 30 days.</p>
                             <div class="spinner">
                                 <div class="rect1"></div>
                                 <div class="rect2"></div>
@@ -167,6 +166,7 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
                                     <div class="col-sm-4 text-right">
                                         <form class="form-inline float-xs-right">
 
+                                            <!-- TODO: switch between html and plaintext -->
                                             <!--                                        <button class="btn btn-outline-info btn-sm">show html-->
                                             <!--                                        </button>-->
 
