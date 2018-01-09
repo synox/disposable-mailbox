@@ -51,8 +51,6 @@ function delete_email($mailid, $address) {
     if (_load_one_email($mailid, $address) !== null) {
         $mailbox->deleteMail($mailid);
         $mailbox->expungeDeletedMails();
-        header('Content-type: application/json');
-        print(json_encode(array("success" => true)));
     } else {
         error(404, 'delete error: invalid username/mailid combination');
     }
@@ -140,8 +138,7 @@ function redirect_to_random($domains) {
     $name = $word . $nr;
 
     $domain = $domains[array_rand($domains)];
-
-    header("location: ?address=$name@$domain");
+    header("location: ?$name@$domain");
 }
 
 /**
@@ -157,11 +154,6 @@ function delete_old_messages() {
     $mailbox->expungeDeletedMails();
 }
 
-//
-//// Never cache requests:
-//header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-//header("Cache-Control: post-check=0, pre-check=0", false);
-//header("Pragma: no-cache");
 
 // run on every request
 delete_old_messages();
