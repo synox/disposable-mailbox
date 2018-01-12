@@ -13,9 +13,13 @@ error_reporting(0);
 
 
 // Change IMAP settings (check SSL flags on http://php.net/manual/en/function.imap-open.php)
-$config['imap']['url'] = '{imap.example.com/imap/ssl}INBOX';
+$config['imap']['url'] = '{imap.example.com:993/imap/ssl}INBOX';
 $config['imap']['username'] = "myuser";
 $config['imap']['password'] = "mypassword";
+
+// For gmail you can use '{imap.gmail.com:993/imap/ssl}INBOX'
+// and follow the troubleshooting at:
+// https://stackoverflow.com/a/25238515/79461
 
 // email domains, usually different from imap hostname:
 $config['domains'] = array('mydomain.com', 'example.com');
