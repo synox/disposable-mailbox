@@ -9,6 +9,10 @@ footer p {
     text-align: center;
 }
 
+.card-block {
+    padding: 1.25rem;
+}
+
 .email-table {
     margin-top: 20px;
 }
@@ -37,19 +41,9 @@ header {
     box-shadow: 0 2px 2px rgba(182, 182, 182, 0.75);
 }
 
-.sticky-header {
-    top: 0;
-    z-index: 1000;
-    background-color: white;
-}
-
 .waiting-screen {
     padding: 40px 15px;
     text-align: center;
-}
-
-div.min-height {
-    min-height: 400px;
 }
 
 .random-column {

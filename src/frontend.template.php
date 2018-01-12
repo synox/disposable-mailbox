@@ -28,10 +28,8 @@ $purifier = new HTMLPurifier($purifier_config);
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
-          integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi"
-          crossorigin="anonymous">
     <meta charset="utf-8">
+    <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="spinner.css">
     <script src="turbolinks.js"></script>
@@ -49,20 +47,18 @@ $purifier = new HTMLPurifier($purifier_config);
             document.addEventListener('turbolinks:before-render', function () {
                 scrollPosition = [window.scrollX, window.scrollY];
             });
-
             document.addEventListener('turbolinks:load', function () {
                 if (scrollPosition) {
                     window.scrollTo.apply(window, scrollPosition);
                     scrollPosition = null
                 }
             });
-
             return reload;
         })();
 
 
         setInterval(function () {
-            reloadWithTurbolinks();
+            // reloadWithTurbolinks();
         }, 15000);
 
 
@@ -163,7 +159,7 @@ $purifier = new HTMLPurifier($purifier_config);
                 <div class="email-table">
 
                     <div class="card email">
-                        <div class="card-block header-shadow sticky-header">
+                        <div class="card-block header-shadow">
                             <div class="row">
                                 <div class="col-sm-8">
                                     <h3 class="card-title">
@@ -171,7 +167,7 @@ $purifier = new HTMLPurifier($purifier_config);
                                     </h3>
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <form class="form-inline float-xs-right">
+                                    <form>
 
                                         <button type="button" class="btn btn-outline-info btn-sm"
                                                 style="display: inline-block"
