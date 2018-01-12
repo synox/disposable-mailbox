@@ -174,8 +174,6 @@ $purifier = new HTMLPurifier($purifier_config);
                                     </h3>
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <form>
-
                                         <button type="button" class="btn btn-outline-info btn-sm"
                                                 style="display: inline-block"
                                                 id="show-html-button-<?php echo $safe_email_id; ?>"
@@ -198,8 +196,6 @@ $purifier = new HTMLPurifier($purifier_config);
                                            role="button"
                                            href="?delete_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $address ?>">Delete
                                         </a>
-
-                                    </form>
                                 </div>
                             </div>
                             <div class="row">
@@ -233,7 +229,6 @@ $purifier = new HTMLPurifier($purifier_config);
                             }
                             ?>
 
-
                             <div class="mt-2 card-text">
                                 <!-- show plaintext or html -->
                                 <div id="email-<?php echo $safe_email_id; ?>-plain"
@@ -261,11 +256,9 @@ $purifier = new HTMLPurifier($purifier_config);
     </div>
 </main>
 <footer>
-    <p>Powered by <a
-                href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
+    <p>Powered by <a href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
         | <a href="https://github.com/synox/disposable-mailbox"><span class="octicon octicon-mark-github"></span>
-            Fork
-            me on github</a></p>
+            Fork me on github</a></p>
 </footer>
 </body>
 </html>
