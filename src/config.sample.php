@@ -7,6 +7,8 @@ date_default_timezone_set('Europe/Paris');
 error_reporting(0);
 
 // enable while testing:
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
 
