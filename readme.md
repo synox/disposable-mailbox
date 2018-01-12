@@ -52,10 +52,7 @@ Install php dependecies:
 
 This could not be possible without...
 
- * http://angularjs.org/
  * https://github.com/barbushin/php-imap
- * https://github.com/gregjacobs/Autolinker.js/
- * http://chancejs.com/
 
 [![BrowserStack](browserstack.png)](https://www.browserstack.com/)
 
