@@ -4,7 +4,7 @@ input:
 
 $address - username and domain
 $username - username
-$userDomain  - domain
+$domain  - domain
 
 $config - config array
 
@@ -84,13 +84,14 @@ $purifier = new HTMLPurifier($purifier_config);
 
 <body data-turbolinks="false">
 
-<header data-turbolinks-permanent id="header">
+<header id="header">
     <div class="container">
         <small class="form-text text-muted">
-            change username:
+            You have <span class="badge badge-pill badge-info"><?php echo count($emails); ?> </span> messages in your
+            mailbox:
         </small>
 
-        <form action="?" method="post">
+        <form data-turbolinks-permanent action="?" method="post">
             <div class="form-group row">
 
                 <div class="col-sm-4">
