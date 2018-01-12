@@ -1,0 +1,52 @@
+
+html > body {
+    /* override bootstrap background */
+    background: #f9f9f9;
+}
+
+footer p {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.card-block {
+    padding: 1.25rem;
+}
+
+.email-table {
+    margin-top: 20px;
+}
+
+div.min-height {
+    min-height: 400px;
+}
+
+header {
+    background-color: #D9E2E9;
+
+    padding-top: 5px;
+}
+
+#openRandomButton {
+
+    margin-top: 6px;
+}
+
+.email-table > .email {
+    border-top: 5px solid #7C96AB;
+
+}
+
+.header-shadow {
+    box-shadow: 0 2px 2px rgba(182, 182, 182, 0.75);
+}
+
+.waiting-screen {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+.random-column {
+    border-left: 1px dashed #333;
+
+}

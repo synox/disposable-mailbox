@@ -43,5 +43,98 @@
             "mail",
             "php"
         ]
+    },
+    {
+        "name": "gnugat/PronounceableWord",
+        "version": "2.0.0",
+        "version_normalized": "2.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "git@github.com:gnugat/PronounceableWord.git",
+            "reference": "60a19dc7148e92de35ea536b9f873b86365d48f0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/gnugat/PronounceableWord/zipball/60a19dc7148e92de35ea536b9f873b86365d48f0",
+            "reference": "60a19dc7148e92de35ea536b9f873b86365d48f0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "time": "2012-01-08 19:36:58",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PronounceableWord_": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Loïc Chardonnet"
+            }
+        ],
+        "description": "A light, customizable and simple library generating random and pronounceable words without using dictionaries or Markov chains.",
+        "homepage": "https://github.com/gnugat/PronounceableWord",
+        "keywords": [
+            "generator",
+            "pronounceable",
+            "word"
+        ],
+        "abandoned": true
+    },
+    {
+        "name": "ezyang/htmlpurifier",
+        "version": "v4.9.3",
+        "version_normalized": "4.9.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ezyang/htmlpurifier.git",
+            "reference": "95e1bae3182efc0f3422896a3236e991049dac69"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/95e1bae3182efc0f3422896a3236e991049dac69",
+            "reference": "95e1bae3182efc0f3422896a3236e991049dac69",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "require-dev": {
+            "simpletest/simpletest": "^1.1"
+        },
+        "time": "2017-06-03 02:28:16",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "HTMLPurifier": "library/"
+            },
+            "files": [
+                "library/HTMLPurifier.composer.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Edward Z. Yang",
+                "email": "admin@htmlpurifier.org",
+                "homepage": "http://ezyang.com"
+            }
+        ],
+        "description": "Standards compliant HTML filter written in PHP",
+        "homepage": "http://htmlpurifier.org/",
+        "keywords": [
+            "html"
+        ]
     }
 ]

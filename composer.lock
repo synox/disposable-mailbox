@@ -4,9 +4,98 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "18ba77805fd530e1972050e6de7cd151",
-    "content-hash": "357059f60b3f57be6e5f15b1df393a72",
+    "hash": "c071b40be7f9bdf56a06a9e52d220684",
+    "content-hash": "31df20b392f8545dda12635a78572bf7",
     "packages": [
+        {
+            "name": "ezyang/htmlpurifier",
+            "version": "v4.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ezyang/htmlpurifier.git",
+                "reference": "95e1bae3182efc0f3422896a3236e991049dac69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/95e1bae3182efc0f3422896a3236e991049dac69",
+                "reference": "95e1bae3182efc0f3422896a3236e991049dac69",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "simpletest/simpletest": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
+                "files": [
+                    "library/HTMLPurifier.composer.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ],
+            "time": "2017-06-03 02:28:16"
+        },
+        {
+            "name": "gnugat/PronounceableWord",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:gnugat/PronounceableWord.git",
+                "reference": "60a19dc7148e92de35ea536b9f873b86365d48f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gnugat/PronounceableWord/zipball/60a19dc7148e92de35ea536b9f873b86365d48f0",
+                "reference": "60a19dc7148e92de35ea536b9f873b86365d48f0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PronounceableWord_": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Loïc Chardonnet"
+                }
+            ],
+            "description": "A light, customizable and simple library generating random and pronounceable words without using dictionaries or Markov chains.",
+            "homepage": "https://github.com/gnugat/PronounceableWord",
+            "keywords": [
+                "generator",
+                "pronounceable",
+                "word"
+            ],
+            "abandoned": true,
+            "time": "2012-01-08 19:36:58"
+        },
         {
             "name": "php-imap/php-imap",
             "version": "2.0.3",
