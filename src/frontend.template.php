@@ -36,9 +36,10 @@ $purifier = new HTMLPurifier($purifier_config);
     <meta name="turbolinks-cache-control" content="no-preview">
 
     <script>
-        // https://stackoverflow.com/a/44353026
+        // https://stackoverflow.com/a/48234990/79461
         var reloadWithTurbolinks = (function () {
             var scrollPosition;
+            var focusId;
 
             function reload() {
                 Turbolinks.visit(window.location.toString(), {action: 'replace'})
@@ -46,11 +47,16 @@ $purifier = new HTMLPurifier($purifier_config);
 
             document.addEventListener('turbolinks:before-render', function () {
                 scrollPosition = [window.scrollX, window.scrollY];
+                focusId = document.activeElement.id;
             });
             document.addEventListener('turbolinks:load', function () {
                 if (scrollPosition) {
                     window.scrollTo.apply(window, scrollPosition);
                     scrollPosition = null
+                }
+                if (focusId) {
+                    document.getElementById(focusId).focus();
+                    focusId = null;
                 }
             });
             return reload;
