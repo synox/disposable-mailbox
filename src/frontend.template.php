@@ -90,7 +90,7 @@ $purifier = new HTMLPurifier($purifier_config);
             change username:
         </small>
 
-        <form action="?" method="get">
+        <form action="?" method="post">
             <div class="form-group row">
 
                 <div class="col-sm-4">
@@ -106,9 +106,9 @@ $purifier = new HTMLPurifier($purifier_config);
                         <select id="domain" class="form-control form-control-lg" name="domain" title="domain"
                                 onchange="this.form.submit()">
                             <?php
-                            foreach ($config['domains'] as $domain) {
-                                $selected = $domain === $userDomain ? ' selected ' : '';
-                                print "<option value='$domain' $selected>@$domain</option>";
+                            foreach ($config['domains'] as $aDomain) {
+                                $selected = $aDomain === $domain ? ' selected ' : '';
+                                print "<option value='$aDomain' $selected>@$aDomain</option>";
                             }
                             ?>
                         </select>

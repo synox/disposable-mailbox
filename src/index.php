@@ -11,16 +11,17 @@ $mailbox = new PhpImap\Mailbox($config['imap']['url'],
 
 
 // simple router:
-if (isset($_GET['username']) && isset($_GET['domain'])) {
-    $username = filter_input(INPUT_GET, 'username', FILTER_SANITIZE_EMAIL);
-    $domain = filter_input(INPUT_GET, 'domain', FILTER_SANITIZE_EMAIL);
+if (isset($_POST['username']) && isset($_POST['domain'])) {
+    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_EMAIL);
+    $domain = filter_input(INPUT_POST, 'domain', FILTER_SANITIZE_EMAIL);
     header("location: ?$username@$domain");
     exit();
-} elseif (isset($_GET['download_email_id'])) {
+} elseif (isset($_GET['download_email_id']) && isset($_GET['address'])) {
     $address = filter_input(INPUT_GET, 'address', FILTER_SANITIZE_EMAIL);
-    download_email($_GET['download_email_id'], $address);
+    $download_email_id = filter_input(INPUT_GET, 'download_email_id', FILTER_SANITIZE_NUMBER_INT);
+    download_email($download_email_id, $address);
     exit();
-} elseif (isset($_GET['delete_email_id'])) {
+} elseif (isset($_GET['delete_email_id']) && isset($_GET['address'])) {
     $address = filter_input(INPUT_GET, 'address', FILTER_SANITIZE_EMAIL);
     $delete_email_id = filter_input(INPUT_GET, 'delete_email_id', FILTER_SANITIZE_NUMBER_INT);
     delete_email($delete_email_id, $address);
@@ -30,11 +31,15 @@ if (isset($_GET['username']) && isset($_GET['domain'])) {
     redirect_to_random($config['domains']);
     exit();
 } else {
-    // validate & print emails:
+    // print emails with html template
     $address = filter_var($_SERVER['QUERY_STRING'], FILTER_SANITIZE_EMAIL);
     $username = _clean_username($address);
-    $userDomain = _clean_domain($address);
-    if (empty($username) || empty($userDomain)) {
+    $domain = _clean_domain($address);
+    if (empty($username) || empty($domain)) {
+        redirect_to_random($config['domains']);
+        exit();
+    }
+    if (!in_array($domain, $config['domains'])) {
         redirect_to_random($config['domains']);
         exit();
     }
@@ -110,7 +115,7 @@ function download_email($mailid, $address) {
 
         $headers = imap_fetchheader($mailbox->getImapStream(), $mailid, FT_UID);
         $body = imap_body($mailbox->getImapStream(), $mailid, FT_UID);
-        print ($headers . "\n" . $body);
+        print $headers . "\n" . $body;
     } else {
         error(404, 'download error: invalid username/mailid combination');
     }
@@ -151,11 +156,11 @@ function _load_emails($mail_ids, $address) {
 
 /**
  * Remove illegal characters from username and remove everything after the @-sign. You may extend it if your server supports them.
- * @param $username
+ * @param $address
  * @return string clean username
  */
-function _clean_username($username) {
-    $username = strtolower($username);
+function _clean_username($address) {
+    $username = strtolower($address);
     $username = preg_replace('/@.*$/', "", $username);   // remove part after @
     $username = preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
 
@@ -167,8 +172,8 @@ function _clean_username($username) {
     return $username;
 }
 
-function _clean_domain($username) {
-    $username = strtolower($username);
+function _clean_domain($address) {
+    $username = strtolower($address);
     $username = preg_replace('/^.*@/', "", $username);   // remove part before @
     return preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
 }
@@ -231,39 +236,19 @@ class AutoLinkExtension {
             )?
             )
             (?![\"']))
-            /ix", function ($match) {
-            $url = $match[0];
-            $href = $url;
+            /ix",
+            function ($match) {
+                $url = $match[0];
+                $href = $url;
 
-            if (false === strpos($href, 'http')) {
-                $href = 'http://' . $href;
-            }
-            return '<a href="' . $href . '" rel="noreferrer">' . $url . '</a>';
-        }
-            , $string);
-
-
-        $string = AutoLinkExtension::unescape($string);
+                if (false === strpos($href, 'http')) {
+                    $href = 'http://' . $href;
+                }
+                return '<a href="' . $href . '" rel="noreferrer">' . $url . '</a>';
+            }, $string);
 
         return $string;
-    } # filter()
-
-    /**
-     * unescape()
-     *
-     * @param string $text
-     * @return string $text
-     **/
-    static function unescape($text) {
-        global $escape_autolink_uri;
-
-        if (!$escape_autolink_uri)
-            return $text;
-
-        $unescape = array_reverse($escape_autolink_uri);
-
-        return str_replace(array_keys($unescape), array_values($unescape), $text);
-    } # unescape()
+    }
 
 }
 
