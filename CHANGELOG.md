@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## [Unreleased]
 
 ### Changed
-- Rewrote to use mostly pure php. Only use javascript where required.
+- Rewrote to use mostly pure php. Uses Javascript only where it’s necessary. 
 
 ### Added 
 - Added multiple domain support (https://github.com/synox/disposable-mailbox/issues/21)
