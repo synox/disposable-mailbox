@@ -84,14 +84,14 @@ $purifier = new HTMLPurifier($purifier_config);
 
 <body data-turbolinks="false">
 
-<header id="header">
+<header>
     <div class="container">
         <small class="form-text text-muted">
             You have <span class="badge badge-pill badge-info"><?php echo count($emails); ?> </span> messages in your
             mailbox:
         </small>
 
-        <form data-turbolinks-permanent action="?" method="post">
+        <form id="header-form" data-turbolinks-permanent action="?" method="post">
             <div class="form-group row">
 
                 <div class="col-sm-4">
@@ -154,7 +154,7 @@ $purifier = new HTMLPurifier($purifier_config);
         } else {
 
             foreach ($emails as $email) {
-
+                $safe_email_id = filter_var($email->id, FILTER_VALIDATE_INT);
                 ?>
 
                 <div class="email-table">
@@ -172,25 +172,25 @@ $purifier = new HTMLPurifier($purifier_config);
 
                                         <button type="button" class="btn btn-outline-info btn-sm"
                                                 style="display: inline-block"
-                                                id="show-html-button-<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>"
-                                                onclick="showHtml(<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>)">
+                                                id="show-html-button-<?php echo $safe_email_id; ?>"
+                                                onclick="showHtml(<?php echo $safe_email_id; ?>)">
                                             show html
                                         </button>
                                         <button type="button" class="btn btn-outline-info btn-sm"
                                                 style="display: none"
-                                                id="show-plain-button-<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>"
-                                                onclick="showPlain(<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>)">
+                                                id="show-plain-button-<?php echo $safe_email_id; ?>"
+                                                onclick="showPlain(<?php echo $safe_email_id; ?>)">
                                             show text
                                         </button>
 
                                         <a class="btn btn-sm btn-outline-primary " download="true"
                                            role="button"
-                                           href="?download_email_id=<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>&amp;address=<?php echo $address ?>">Download
+                                           href="?download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $address ?>">Download
                                         </a>
 
                                         <a class="btn btn-sm btn-outline-danger"
                                            role="button"
-                                           href="?delete_email_id=<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>&amp;address=<?php echo $address ?>">Delete
+                                           href="?delete_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $address ?>">Delete
                                         </a>
 
                                     </form>
@@ -230,7 +230,7 @@ $purifier = new HTMLPurifier($purifier_config);
 
                             <div class="mt-2 card-text">
                                 <!-- show plaintext or html -->
-                                <div id="email-<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>-plain"
+                                <div id="email-<?php echo $safe_email_id; ?>-plain"
                                      style="display: block;">
                                     <?php $text = filter_var($email->textPlain, FILTER_SANITIZE_SPECIAL_CHARS);
                                     // Keep newlines
@@ -238,12 +238,9 @@ $purifier = new HTMLPurifier($purifier_config);
                                     echo \AutoLinkExtension::auto_link_text($text)
                                     ?>
                                 </div>
-                                <div id="email-<?php echo filter_var($email->id, FILTER_VALIDATE_INT); ?>-html"
+                                <div id="email-<?php echo $safe_email_id; ?>-html"
                                      style="display: none;">
-                                    <?php
-                                    $clean_html = $purifier->purify($email->textHtml);
-                                    echo $clean_html;
-                                    ?>
+                                    <?php echo $purifier->purify($email->textHtml); ?>
                                 </div>
                             </div>
 
@@ -252,8 +249,8 @@ $purifier = new HTMLPurifier($purifier_config);
                 </div>
 
                 <?php
-            }
-        }
+            } // end foreach $email
+        } // end: has emails
         ?>
     </div>
 </main>
