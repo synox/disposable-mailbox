@@ -46,13 +46,17 @@ The src directory contains all required files. If you want to update the php dep
 
 Install php dependecies:
 
-    composer install
+    composer update
 
 ## Credit
 
 This could not be possible without...
 
  * https://github.com/barbushin/php-imap
+ * https://github.com/gnugat-legacy/PronounceableWord
+ * http://htmlpurifier.org/
+ * https://github.com/turbolinks/turbolinks
+ * http://tobiasahlin.com/spinkit/
 
 [![BrowserStack](browserstack.png)](https://www.browserstack.com/)
 

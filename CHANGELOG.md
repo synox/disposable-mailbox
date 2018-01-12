@@ -1,12 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project does not adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
 
-- Rewrote to use mostly pure php. Only use javascript where required. 
+### Changed
+- Rewrote to use mostly pure php. Only use javascript where required.
+
+### Added 
 - Added multiple domain support (https://github.com/synox/disposable-mailbox/issues/21)
 - Blacklist some usernames (https://github.com/synox/disposable-mailbox/issues/27)
 
