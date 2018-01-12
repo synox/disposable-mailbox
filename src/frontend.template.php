@@ -58,7 +58,7 @@ $purifier = new HTMLPurifier($purifier_config);
 
 
         setInterval(function () {
-            // reloadWithTurbolinks();
+            reloadWithTurbolinks();
         }, 15000);
 
 

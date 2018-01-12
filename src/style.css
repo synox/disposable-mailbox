@@ -23,8 +23,9 @@ div.min-height {
 
 header {
     background-color: #D9E2E9;
-
     padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 #openRandomButton {
