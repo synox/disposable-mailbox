@@ -12,41 +12,42 @@ $mailbox = new PhpImap\Mailbox($config['imap']['url'],
 
 // simple router:
 if (isset($_POST['username']) && isset($_POST['domain'])) {
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_EMAIL);
-    $domain = filter_input(INPUT_POST, 'domain', FILTER_SANITIZE_EMAIL);
-    header("location: ?$username@$domain");
+    $user = User::parseUsernameAndDomain($_POST['username'], $_POST['domain']);
+    header("location: ?" . $user->username . "@" . $user->domain);
     exit();
 } elseif (isset($_GET['download_email_id']) && isset($_GET['address'])) {
-    $address = strtolower(filter_input(INPUT_GET, 'address', FILTER_SANITIZE_EMAIL));
+    $user = User::parseDomain($_GET['address']);
     $download_email_id = filter_input(INPUT_GET, 'download_email_id', FILTER_SANITIZE_NUMBER_INT);
-    download_email($download_email_id, $address);
+    if ($user->isInvalid()) {
+        redirect_to_random($config['domains']);
+        exit();
+    }
+    download_email($download_email_id, $user);
     exit();
 } elseif (isset($_GET['delete_email_id']) && isset($_GET['address'])) {
-    $address = strtolower(filter_input(INPUT_GET, 'address', FILTER_SANITIZE_EMAIL));
+    $user = User::parseDomain($_GET['address']);
     $delete_email_id = filter_input(INPUT_GET, 'delete_email_id', FILTER_SANITIZE_NUMBER_INT);
-    delete_email($delete_email_id, $address);
-    header("location: ?$address");
+    if ($user->isInvalid()) {
+        redirect_to_random($config['domains']);
+        exit();
+    }
+    delete_email($delete_email_id, $user);
+    header("location: ?" . $user->address);
     exit();
 } elseif (isset($_GET['random'])) {
     redirect_to_random($config['domains']);
     exit();
 } else {
     // print emails with html template
-    $address = strtolower(filter_var($_SERVER['QUERY_STRING'], FILTER_SANITIZE_EMAIL));
-    $username = _clean_username($address);
-    $domain = _clean_domain($address);
-    if (empty($username) || empty($domain)) {
+    $user = User::parseDomain($_SERVER['QUERY_STRING']);
+    if ($user->isInvalid()) {
         redirect_to_random($config['domains']);
         exit();
     }
-    if (!in_array($domain, $config['domains'])) {
-        redirect_to_random($config['domains']);
-        exit();
-    }
-    $emails = get_emails($address);
+    $emails = get_emails($user);
     require "frontend.template.php";
 
-    // run on every request
+    // delete after each request
     delete_old_messages();
 }
 
@@ -64,33 +65,33 @@ function error($status, $text) {
 
 /**
  * print all mails for the given $user.
- * @param $address string email address
+ * @param $user User
  * @return array
  */
-function get_emails($address) {
+function get_emails($user) {
     global $mailbox;
 
     // Search for mails with the recipient $address in TO or CC.
-    $mailsIdsTo = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'TO "' . $address . '"');
-    $mailsIdsCc = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'CC "' . $address . '"');
+    $mailsIdsTo = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'TO "' . $user->address . '"');
+    $mailsIdsCc = imap_sort($mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'CC "' . $user->address . '"');
     $mail_ids = array_merge($mailsIdsTo, $mailsIdsCc);
 
-    $emails = _load_emails($mail_ids, $address);
+    $emails = _load_emails($mail_ids, $user);
     return $emails;
 }
 
 
 /**
- * deletes emails by id and username. The $address must match the recipient in the email.
+ * deletes emails by id and username. The address must match the recipient in the email.
  *
  * @param $mailid integer imap email id
- * @param $address string email address
+ * @param $user User
  * @internal param the $username matching username
  */
-function delete_email($mailid, $address) {
+function delete_email($mailid, $user) {
     global $mailbox;
 
-    if (_load_one_email($mailid, $address) !== null) {
+    if (_load_one_email($mailid, $user) !== null) {
         $mailbox->deleteMail($mailid);
         $mailbox->expungeDeletedMails();
     } else {
@@ -102,16 +103,16 @@ function delete_email($mailid, $address) {
  * download email by id and username. The $address must match the recipient in the email.
  *
  * @param $mailid integer imap email id
- * @param $address string email address
+ * @param $user User
  * @internal param the $username matching username
  */
 
-function download_email($mailid, $address) {
+function download_email($mailid, $user) {
     global $mailbox;
 
-    if (_load_one_email($mailid, $address) !== null) {
+    if (_load_one_email($mailid, $user) !== null) {
         header("Content-Type: message/rfc822; charset=utf-8");
-        header("Content-Disposition: attachment; filename=\"$address-$mailid.eml\"");
+        header("Content-Disposition: attachment; filename=\"" . $user->address . "-" . $mailid . ".eml\"");
 
         $headers = imap_fetchheader($mailbox->getImapStream(), $mailid, FT_UID);
         $body = imap_body($mailbox->getImapStream(), $mailid, FT_UID);
@@ -124,30 +125,30 @@ function download_email($mailid, $address) {
 /**
  * Load exactly one email, the $address in TO or CC has to match.
  * @param $mailid integer
- * @param $address String address
+ * @param $user User
  * @return email or null
  */
-function _load_one_email($mailid, $address) {
+function _load_one_email($mailid, $user) {
     // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
     // the recipient in the email has to match the $address.
-    $emails = _load_emails(array($mailid), $address);
+    $emails = _load_emails(array($mailid), $user);
     return count($emails) === 1 ? $emails[0] : null;
 }
 
 /**
  * Load emails using the $mail_ids, the mails have to match the $address in TO or CC.
  * @param $mail_ids array of integer ids
- * @param $address String address
+ * @param $user User
  * @return array of emails
  */
-function _load_emails($mail_ids, $address) {
+function _load_emails($mail_ids, $user) {
     global $mailbox;
 
     $emails = array();
     foreach ($mail_ids as $id) {
         $mail = $mailbox->getMail($id);
         // imap_search also returns partials matches. The mails have to be filtered again:
-        if (array_key_exists($address, $mail->to) || array_key_exists($address, $mail->cc)) {
+        if (array_key_exists($user->address, $mail->to) || array_key_exists($user->address, $mail->cc)) {
             $emails[] = $mail;
         }
     }
@@ -155,22 +156,68 @@ function _load_emails($mail_ids, $address) {
 }
 
 /**
+ * Remove illegal characters from address.
+ * @param $address
+ * @return string clean address
+ */
+function _clean_address($address) {
+    return strtolower(filter_var($address, FILTER_SANITIZE_EMAIL));
+}
+
+
+/**
  * Remove illegal characters from username and remove everything after the @-sign. You may extend it if your server supports them.
  * @param $address
  * @return string clean username
  */
 function _clean_username($address) {
+    global $config;
     $username = strtolower($address);
     $username = preg_replace('/@.*$/', "", $username);   // remove part after @
     $username = preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
 
-    if (in_array($username, array('root', 'admin', 'administrator', 'hostmaster', 'postmaster', 'webmaster'))) {
+    if (in_array($username, $config['blocked_usernames'])) {
         // Forbidden name!
         return '';
     }
 
     return $username;
 }
+
+class User {
+    public $address;
+    public $username;
+    public $domain;
+
+    public function isInvalid() {
+        global $config;
+        if (empty($this->username) || empty($this->domain)) {
+            return true;
+        } else if (!in_array($this->domain, $config['domains'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function parseDomain($address) {
+        $clean_address = _clean_address($address);
+        $user = new User();
+        $user->username = _clean_username($clean_address);
+        $user->domain = _clean_domain($clean_address);
+        $user->address = $user->username . '@' . $user->domain;
+        return $user;
+    }
+
+    public static function parseUsernameAndDomain($username, $domain) {
+        $user = new User();
+        $user->username = _clean_username($username);
+        $user->domain = _clean_domain($domain);
+        $user->address = $user->username . '@' . $user->domain;
+        return $user;
+    }
+}
+
 
 function _clean_domain($address) {
     $username = strtolower($address);

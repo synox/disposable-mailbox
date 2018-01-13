@@ -2,14 +2,9 @@
 /*
 input:
 
-$address - username and domain
-$username - username
-$domain  - domain
-
+$user - User object
 $config - config array
-
 $emails - array of emails
-
 */
 
 // Load HTML Purifier
@@ -22,7 +17,7 @@ $purifier = new HTMLPurifier($purifier_config);
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title><?php echo $address ?></title>
+    <title><?php echo $user->address ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/x-icon" href="favicon.gif">
     <meta name="mobile-web-app-capable" content="yes">
@@ -112,19 +107,21 @@ $purifier = new HTMLPurifier($purifier_config);
 
                 <div class="col-lg-5 col-md-4 col-sm-6 col-xs-12">
                     <input id="username" class="form-control form-control-lg" name="username" title="username"
-                           value="<?php echo $username ?>">
+                           value="<?php echo $user->username ?>">
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <?php
                     if (count($config['domains']) == 1) {
-                        print "<h3>@" . $config['domains'][0] . "</h3>";
+                        $domain = $config['domains'][0];
+                        print "<h3>@$domain</h3>";
+                        print "<input type='hidden' name='domain' value='$domain'/>";
                     } else {
                         ?>
                         <select id="domain" class="form-control form-control-lg" name="domain" title="domain"
                                 onchange="this.form.submit()">
                             <?php
                             foreach ($config['domains'] as $aDomain) {
-                                $selected = $aDomain === $domain ? ' selected ' : '';
+                                $selected = $aDomain === $user->domain ? ' selected ' : '';
                                 print "<option value='$aDomain' $selected>@$aDomain</option>";
                             }
                             ?>
@@ -153,10 +150,10 @@ $purifier = new HTMLPurifier($purifier_config);
                 <div class="card waiting-screen">
                     <div class="card-block">
                         <p class="lead">Your mailbox <strong
-                            ><?php echo $address ?></strong> is ready. </p>
+                            ><?php echo $user->address ?></strong> is ready. </p>
                         <p>
                             <button class="btn btn-outline-primary"
-                                    onClick="copyToClipboard('<?php echo $address ?>');">
+                                    onClick="copyToClipboard('<?php echo $user->address ?>');">
                                 Copy email address
                             </button>
                         </p>
@@ -206,12 +203,12 @@ $purifier = new HTMLPurifier($purifier_config);
 
                                     <a class="btn btn-sm btn-outline-primary " download="true"
                                        role="button"
-                                       href="?download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $address ?>">Download
+                                       href="?download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Download
                                     </a>
 
                                     <a class="btn btn-sm btn-outline-danger"
                                        role="button"
-                                       href="?delete_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $address ?>">Delete
+                                       href="?delete_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Delete
                                     </a>
                                 </div>
                             </div>
