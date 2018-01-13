@@ -7,10 +7,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 - Rewrote to use mostly pure php. Uses Javascript only where it’s necessary. 
+- make blocked_usernames configurable
+- improved validation of user input
+- fixed problem where only one domain is defined
+- horizontal spacing for header (from @Spegeli) and style
+- fix: restore focus on reload
 
 ### Added 
 - Added multiple domain support (https://github.com/synox/disposable-mailbox/issues/21)
 - Blacklist some usernames (https://github.com/synox/disposable-mailbox/issues/27)
+- #30 copyToClipboard button 
+- #30 make all addresses lowercase  
 
 ## [0.1.4] - 2017-04-15
 
