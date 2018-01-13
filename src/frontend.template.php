@@ -84,6 +84,16 @@ $purifier = new HTMLPurifier($purifier_config);
             return false;
         }
 
+        function copyToClipboard(text) {
+            var inp = document.createElement('input');
+            document.body.appendChild(inp);
+            inp.value = text;
+            inp.select();
+            document.execCommand('copy', false);
+            inp.remove();
+        }
+
+
     </script>
 </head>
 
@@ -145,6 +155,14 @@ $purifier = new HTMLPurifier($purifier_config);
                     <div class="card-block">
                         <p class="lead">Your mailbox <strong
                             ><?php echo $address ?></strong> is ready. </p>
+                        <p>
+                            <button class="btn btn-outline-primary"
+                                    onClick="copyToClipboard('<?php echo $address ?>');">
+                                Copy email address
+                            </button>
+                        </p>
+
+
                         <p>Emails will appear here automatically. They will be deleted after 30 days.</p>
                         <div class="spinner">
                             <div class="rect1"></div>
@@ -174,28 +192,28 @@ $purifier = new HTMLPurifier($purifier_config);
                                     </h3>
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                        <button type="button" class="btn btn-outline-info btn-sm"
-                                                style="display: inline-block"
-                                                id="show-html-button-<?php echo $safe_email_id; ?>"
-                                                onclick="showHtml(<?php echo $safe_email_id; ?>)">
-                                            show html
-                                        </button>
-                                        <button type="button" class="btn btn-outline-info btn-sm"
-                                                style="display: none"
-                                                id="show-plain-button-<?php echo $safe_email_id; ?>"
-                                                onclick="showPlain(<?php echo $safe_email_id; ?>)">
-                                            show text
-                                        </button>
+                                    <button type="button" class="btn btn-outline-info btn-sm"
+                                            style="display: inline-block"
+                                            id="show-html-button-<?php echo $safe_email_id; ?>"
+                                            onclick="showHtml(<?php echo $safe_email_id; ?>)">
+                                        show html
+                                    </button>
+                                    <button type="button" class="btn btn-outline-info btn-sm"
+                                            style="display: none"
+                                            id="show-plain-button-<?php echo $safe_email_id; ?>"
+                                            onclick="showPlain(<?php echo $safe_email_id; ?>)">
+                                        show text
+                                    </button>
 
-                                        <a class="btn btn-sm btn-outline-primary " download="true"
-                                           role="button"
-                                           href="?download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $address ?>">Download
-                                        </a>
+                                    <a class="btn btn-sm btn-outline-primary " download="true"
+                                       role="button"
+                                       href="?download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $address ?>">Download
+                                    </a>
 
-                                        <a class="btn btn-sm btn-outline-danger"
-                                           role="button"
-                                           href="?delete_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $address ?>">Delete
-                                        </a>
+                                    <a class="btn btn-sm btn-outline-danger"
+                                       role="button"
+                                       href="?delete_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $address ?>">Delete
+                                    </a>
                                 </div>
                             </div>
                             <div class="row">
