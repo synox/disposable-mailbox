@@ -134,9 +134,7 @@ $purifier = new HTMLPurifier($purifier_config);
                     ?>
                 </div>
                 <div class="col-sm-3 random-column">
-                    <span>or &nbsp;</span>
-                    <a role="button" href="?random=true" class="btn btn-outline-primary">generate random
-                    </a>
+                    <a role="button" href="?random=true" class="btn btn-outline-primary">Generate Random</a>
                 </div>
             </div>
         </form>
