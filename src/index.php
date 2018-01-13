@@ -32,7 +32,7 @@ if (isset($_POST['username']) && isset($_POST['domain'])) {
     exit();
 } else {
     // print emails with html template
-    $address = filter_var($_SERVER['QUERY_STRING'], FILTER_SANITIZE_EMAIL);
+    $address = strtolower(filter_var($_SERVER['QUERY_STRING'], FILTER_SANITIZE_EMAIL));
     $username = _clean_username($address);
     $domain = _clean_domain($address);
     if (empty($username) || empty($domain)) {
