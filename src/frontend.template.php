@@ -110,11 +110,11 @@ $purifier = new HTMLPurifier($purifier_config);
         <form id="header-form" data-turbolinks-permanent action="?" method="post">
             <div class="form-group row">
 
-                <div class="col-sm-4">
+                <div class="col-lg-5 col-md-4 col-sm-6 col-xs-12">
                     <input id="username" class="form-control form-control-lg" name="username" title="username"
                            value="<?php echo $username ?>">
                 </div>
-                <div class="col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <?php
                     if (count($config['domains']) == 1) {
                         print "<h3>@" . $config['domains'][0] . "</h3>";
@@ -133,8 +133,9 @@ $purifier = new HTMLPurifier($purifier_config);
                     }
                     ?>
                 </div>
-                <div class="col-sm-3 random-column">
-                    <a role="button" href="?random=true" class="btn btn-outline-primary">Generate Random</a>
+                <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 random-column">
+                    <a role="button" href="?random=true" class="btn btn-outline-primary col-sm-12 col-xs-12">Generate
+                        Random</a>
                 </div>
             </div>
         </form>
@@ -194,13 +195,13 @@ $purifier = new HTMLPurifier($purifier_config);
                                             style="display: inline-block"
                                             id="show-html-button-<?php echo $safe_email_id; ?>"
                                             onclick="showHtml(<?php echo $safe_email_id; ?>)">
-                                        show html
+                                        Show Html
                                     </button>
                                     <button type="button" class="btn btn-outline-info btn-sm"
                                             style="display: none"
                                             id="show-plain-button-<?php echo $safe_email_id; ?>"
                                             onclick="showPlain(<?php echo $safe_email_id; ?>)">
-                                        show text
+                                        Show Text
                                     </button>
 
                                     <a class="btn btn-sm btn-outline-primary " download="true"
