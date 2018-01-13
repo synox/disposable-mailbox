@@ -16,8 +16,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added 
 - Added multiple domain support (https://github.com/synox/disposable-mailbox/issues/21)
 - Blacklist some usernames (https://github.com/synox/disposable-mailbox/issues/27)
-- #30 copyToClipboard button 
-- #30 make all addresses lowercase  
+- copyToClipboard button (https://github.com/synox/disposable-mailbox/issues/30)
+- make all addresses lowercase  (https://github.com/synox/disposable-mailbox/issues/30)
 
 ## [0.1.4] - 2017-04-15
 
