@@ -17,12 +17,12 @@ if (isset($_POST['username']) && isset($_POST['domain'])) {
     header("location: ?$username@$domain");
     exit();
 } elseif (isset($_GET['download_email_id']) && isset($_GET['address'])) {
-    $address = filter_input(INPUT_GET, 'address', FILTER_SANITIZE_EMAIL);
+    $address = strtolower(filter_input(INPUT_GET, 'address', FILTER_SANITIZE_EMAIL));
     $download_email_id = filter_input(INPUT_GET, 'download_email_id', FILTER_SANITIZE_NUMBER_INT);
     download_email($download_email_id, $address);
     exit();
 } elseif (isset($_GET['delete_email_id']) && isset($_GET['address'])) {
-    $address = filter_input(INPUT_GET, 'address', FILTER_SANITIZE_EMAIL);
+    $address = strtolower(filter_input(INPUT_GET, 'address', FILTER_SANITIZE_EMAIL));
     $delete_email_id = filter_input(INPUT_GET, 'delete_email_id', FILTER_SANITIZE_NUMBER_INT);
     delete_email($delete_email_id, $address);
     header("location: ?$address");
