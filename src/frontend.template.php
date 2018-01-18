@@ -63,22 +63,6 @@ $purifier = new HTMLPurifier($purifier_config);
         }, 15000);
 
 
-        function showHtml(id) {
-            document.getElementById('email-' + id + '-html').style.display = 'block';
-            document.getElementById('email-' + id + '-plain').style.display = 'none';
-            document.getElementById('show-html-button-' + id).style.display = 'none';
-            document.getElementById('show-plain-button-' + id).style.display = 'inline-block';
-            return false;
-        }
-
-        function showPlain(id) {
-            document.getElementById('email-' + id + '-html').style.display = 'none';
-            document.getElementById('email-' + id + '-plain').style.display = 'block';
-            document.getElementById('show-html-button-' + id).style.display = 'inline-block';
-            document.getElementById('show-plain-button-' + id).style.display = 'none';
-            return false;
-        }
-
         function copyToClipboard(text) {
             var inp = document.createElement('input');
             document.body.appendChild(inp);
@@ -188,19 +172,6 @@ $purifier = new HTMLPurifier($purifier_config);
                                     </h3>
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <button type="button" class="btn btn-outline-info btn-sm"
-                                            style="display: inline-block"
-                                            id="show-html-button-<?php echo $safe_email_id; ?>"
-                                            onclick="showHtml(<?php echo $safe_email_id; ?>)">
-                                        Show Html
-                                    </button>
-                                    <button type="button" class="btn btn-outline-info btn-sm"
-                                            style="display: none"
-                                            id="show-plain-button-<?php echo $safe_email_id; ?>"
-                                            onclick="showPlain(<?php echo $safe_email_id; ?>)">
-                                        Show Text
-                                    </button>
-
                                     <a class="btn btn-sm btn-outline-primary " download="true"
                                        role="button"
                                        href="?download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Download
@@ -244,18 +215,34 @@ $purifier = new HTMLPurifier($purifier_config);
                             ?>
 
                             <div class="mt-2 card-text">
-                                <!-- show plaintext or html -->
-                                <div id="email-<?php echo $safe_email_id; ?>-plain"
-                                     style="display: block;">
-                                    <?php $text = filter_var($email->textPlain, FILTER_SANITIZE_SPECIAL_CHARS);
-                                    // Keep newlines
-                                    $text = str_replace('&#10;', '<br />', $text);
-                                    echo \AutoLinkExtension::auto_link_text($text)
+                                <div>
+                                    <?php
+                                    $safeHtml = $purifier->purify($email->textHtml);
+
+                                    $safeText = $purifier->purify($email->textPlain);
+                                    $safeText = nl2br($safeText);
+                                    $safeText = \AutoLinkExtension::auto_link_text($safeText);
+
+                                    $hasHtml = strlen(trim($safeHtml)) > 0;
+                                    $hasText = strlen(trim($safeText)) > 0;
+
+                                    if ($config['prefer_plaintext']) {
+                                        if ($hasText) {
+                                            echo $safeText;
+                                        } else {
+                                            echo $safeHtml;
+                                        }
+                                    } else {
+                                        if ($hasHtml) {
+                                            echo $safeHtml;
+                                        } else {
+                                            echo $safeText;
+                                        }
+                                    }
                                     ?>
                                 </div>
-                                <div id="email-<?php echo $safe_email_id; ?>-html"
-                                     style="display: none;">
-                                    <?php echo $purifier->purify($email->textHtml); ?>
+                                <div>
+                                    <?php ?>
                                 </div>
                             </div>
 
