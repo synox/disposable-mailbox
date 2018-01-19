@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - fixed problem where only one domain is defined
 - horizontal spacing for header (from @Spegeli) and style
 - fix: restore focus on reload
+- Added $config['prefer_plaintext'] = true; Prefer HTML or Text and removed toggle buttons. 
+
 
 ### Added 
 - Added multiple domain support (https://github.com/synox/disposable-mailbox/issues/21)
