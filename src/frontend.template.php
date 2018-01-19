@@ -221,7 +221,7 @@ $purifier = new HTMLPurifier($purifier_config);
                                 <?php
                                 $safeHtml = $purifier->purify($email->textHtml);
 
-                                $safeText = $purifier->purify($email->textPlain);
+                                $safeText = htmlspecialchars($email->textPlain);
                                 $safeText = nl2br($safeText);
                                 $safeText = \AutoLinkExtension::auto_link_text($safeText);
 

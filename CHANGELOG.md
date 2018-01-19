@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - fix: restore focus on reload
 - Added $config['prefer_plaintext'] = true; Prefer HTML or Text and removed toggle buttons. 
 - #33 improve button style
+- fixed bug where html in plaintext emails are interpreted as html. 
 
 ### Added 
 - Added multiple domain support (https://github.com/synox/disposable-mailbox/issues/21)
