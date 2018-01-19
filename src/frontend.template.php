@@ -115,7 +115,8 @@ $purifier = new HTMLPurifier($purifier_config);
                     ?>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 random-column">
-                    <a role="button" href="?random=true" class="btn btn-outline-primary col-sm-12 col-xs-12">Generate
+                    <a role="button" href="?random=true"
+                       class="btn btn-outline-primary col-sm-12 col-xs-12 random-button">Generate
                         Random</a>
                 </div>
             </div>
