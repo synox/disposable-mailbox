@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Blacklist some usernames (https://github.com/synox/disposable-mailbox/issues/27)
 - copyToClipboard button (https://github.com/synox/disposable-mailbox/issues/30)
 - make all addresses lowercase  (https://github.com/synox/disposable-mailbox/issues/30)
+- mail counter in title
 
 ## [0.1.4] - 2017-04-15
 

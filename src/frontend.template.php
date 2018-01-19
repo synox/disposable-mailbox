@@ -17,7 +17,9 @@ $purifier = new HTMLPurifier($purifier_config);
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title><?php echo $user->address ?></title>
+    <title><?php
+        echo $emails ? "(" . count($emails) . ") " : "";
+        echo $user->address ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/x-icon" href="favicon.gif">
     <meta name="mobile-web-app-capable" content="yes">
