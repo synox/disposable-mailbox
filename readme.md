@@ -1,5 +1,5 @@
 # self-hosted disposable email service
-[![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [Demo](https://bhadoomail.com)
 
 Create your own temporary email web-service by combining 
   * a [catch-all imap mailbox](https://www.google.ch/search?q=how+to+setup+catch-all+imap+mailbox) and 
