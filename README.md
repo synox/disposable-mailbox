@@ -18,13 +18,13 @@ A **self-hosted** disposable mailbox  service (aka trash mail) service  :cloud: 
 
 ## Usage
 
-## Requirements
+### Requirements
 
 * webserver with php >=5.3.0
 * php [imap extension](http://php.net/manual/book.imap.php)
 * IMAP account and a domain with [catch-all configuration](https://www.google.ch/search?q=how+to+setup+catch-all+imap+mailbox). (all emails go to one mailbox). 
 
-## Before you start :heavy_exclamation_mark:
+### Before you start :heavy_exclamation_mark:
 
 * Subscribe to [![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) to be notified about issues and bugfixes.  
 * This is **Beta** software, [there are still unsolved problems](https://github.com/synox/disposable-mailbox/issues). Contributions are welcome! :heart:
@@ -33,7 +33,7 @@ A **self-hosted** disposable mailbox  service (aka trash mail) service  :cloud: 
 
 
 
-## Installation
+### Installation
 
 Disposable-mailbox can be installed by copying the src directory to a webserver. 
 
@@ -48,7 +48,7 @@ Disposable-mailbox can be installed by copying the src directory to a webserver.
 6. open it in your browser, check your php error log for messages. 
 
 
-## Build it yourself
+### Build it yourself
 The src directory contains all required files. If you want to update the php dependencies, you can update them yourself.  You must have [composer](https://getcomposer.org/download/) installed. 
 
 
