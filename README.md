@@ -1,33 +1,41 @@
-# self-hosted disposable email service
-[![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [Demo](https://bhadoomail.com)
+# disposable-mailbox
+[![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Create your own temporary email web-service by combining 
-  * a [catch-all imap mailbox](https://www.google.ch/search?q=how+to+setup+catch-all+imap+mailbox) and 
-  * this easy to install web-application. 
+A **self-hosted** :cloud: disposable mailbox :envelope: service (aka trash mail) service 
 
-A random email address is created for every user and everything is updated automatically.  
-Emails can also be deleted. 
+**Demo**: [BhadooMail](https://bhadoomail.com/) 
 
-
-| ![Screenshot](screenshot.png)        | 
-| ------------- | 
+![Screenshot](screenshot.png)
 
 
-## You have to know
+## Features
 
-* Use [![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) and you will be notified about issues and bugfixes.  
-* This is **Beta** software, [there are still unsolved problems](https://github.com/synox/disposable-mailbox/issues). Contributions are welcome!
-* License: **GPL-3.0**. You can modify this application and run it anywhere, charge money and show advertisement. Any forks or repacked distribution must follow the [GPL-3.0 license](https://opensource.org/licenses/GPL-3.0).  
-* A link to https://github.com/synox/disposable-mailbox in the footer is appreciated.  
+* Anonymous usage, generate random email addresses. 
+* Automatic refresh. Download and delete your emails.
+* Display emails as text or html with sanitization  filter. 
+* Display emails based on one [catch-all imap mailbox](https://www.google.ch/search?q=how+to+setup+catch-all+imap+mailbox).
+* Only requires PHP  >=5.3.0 and [imap extension](http://php.net/manual/book.imap.php)
 
+## Usage
 
 ## Requirements
 
 * webserver with php >=5.3.0
 * php [imap extension](http://php.net/manual/book.imap.php)
-* IMAP account and a domain with catch-all configuration (all emails go to one mailbox). 
+* IMAP account and a domain with [catch-all configuration](https://www.google.ch/search?q=how+to+setup+catch-all+imap+mailbox). (all emails go to one mailbox). 
+
+## Before you start :heavy_exclamation_mark:
+
+* Subscribe to [![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) to be notified about issues and bugfixes.  
+* This is **Beta** software, [there are still unsolved problems](https://github.com/synox/disposable-mailbox/issues). Contributions are welcome! :heart:
+* License: **GPL-3.0**. You can modify this application and run it anywhere, charge money and show advertisement. Any forks or repacked distribution must follow the [GPL-3.0 license](https://opensource.org/licenses/GPL-3.0).  
+* A link to https://github.com/synox/disposable-mailbox in the footer is appreciated.  
+
+
 
 ## Installation
+
+Disposable-mailbox can be installed by copying the src directory to a webserver. 
 
 1. assure the [imap extension](http://php.net/manual/book.imap.php) is installed. The following command should not print any errors:
 
@@ -48,15 +56,13 @@ Install php dependecies:
 
     composer update
 
-## Credit
+
+## Credit :thumbsup:
 
 This could not be possible without...
 
- * https://github.com/barbushin/php-imap
- * https://github.com/gnugat-legacy/PronounceableWord
- * http://htmlpurifier.org/
- * https://github.com/turbolinks/turbolinks
- * http://tobiasahlin.com/spinkit/
+ * https://github.com/barbushin/php-imap, https://github.com/gnugat-legacy/PronounceableWord, http://htmlpurifier.org/, 
+ * https://github.com/turbolinks/turbolinks, http://tobiasahlin.com/spinkit/
 
 [![BrowserStack](browserstack.png)](https://www.browserstack.com/)
 
