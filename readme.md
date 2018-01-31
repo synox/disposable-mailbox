@@ -1,9 +1,10 @@
 # self-hosted disposable email service
-[![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [Demo](https://bhadoomail.com)
+[![Join the chat at https://gitter.im/synox/disposable-mailbox](https://badges.gitter.im/synox/disposable-mailbox.svg)](https://gitter.im/synox/disposable-mailbox?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Create your own temporary email web-service by combining 
   * a [catch-all imap mailbox](https://www.google.ch/search?q=how+to+setup+catch-all+imap+mailbox) and 
   * this easy to install web-application. 
+  * Check [Demo](https://bhadoomail.com) here.
 
 A random email address is created for every user and everything is updated automatically.  
 Emails can also be deleted. 
