@@ -29,10 +29,10 @@ class Router {
 
     function route(): Page {
         // TODO: use $this->action
-        if (isset($this->post_vars['username']) && isset($this->post_vars['domain'])) {
+        if ($this->action === "redirect" && isset($this->post_vars['username']) && isset($this->post_vars['domain'])) {
             return new RedirectToAddressPage($this->post_vars['username'], $this->post_vars['domain']);
 
-        } elseif (isset($this->get_vars['download_email_id']) && isset($this->get_vars['address'])) {
+        } elseif ($this->action === "download_email" && isset($this->get_vars['download_email_id']) && isset($this->get_vars['address'])) {
             return new DownloadEmailPage($this->get_vars['download_email_id'], $this->get_vars['address'], $this->config['domains']);
 
         } elseif (isset($this->get_vars['delete_email_id']) && isset($this->get_vars['address'])) {

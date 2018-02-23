@@ -88,7 +88,7 @@ $purifier = new HTMLPurifier($purifier_config);
             mailbox:
         </small>
 
-        <form id="header-form" data-turbolinks-permanent action="?" method="post">
+        <form id="header-form" data-turbolinks-permanent action="?action=redirect" method="post">
             <div class="form-group row">
 
                 <div class="col-lg-5 col-md-4 col-sm-6 col-xs-12">
@@ -177,7 +177,7 @@ $purifier = new HTMLPurifier($purifier_config);
                                 <div class="col-sm-4 text-right">
                                     <a class="btn btn-sm btn-outline-primary " download="true"
                                        role="button"
-                                       href="?download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Download
+                                       href="?action=download_email&download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Download
                                     </a>
 
                                     <a class="btn btn-sm btn-outline-danger"
