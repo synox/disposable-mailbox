@@ -40,15 +40,11 @@ class Router {
         } elseif ($this->action === 'random') {
             return new RedirectToRandomAddressPage($this->config['domains']);
 
-        } elseif (empty($this->query_string)) {
-            return new RedirectToRandomAddressPage($this->config['domains']);
-
         } elseif (!empty($this->query_string)) {
             return new DisplayEmailsPage($this->query_string, $this->config);
 
         } else {
-            return new InvalidRequestPage();
-
+            return new RedirectToRandomAddressPage($this->config['domains']);
         }
     }
 }

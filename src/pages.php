@@ -1,5 +1,7 @@
 <?php
 
+require_once './imap_client.php';
+
 abstract class Page {
 
     function invoke(ImapClient $imapClient) {

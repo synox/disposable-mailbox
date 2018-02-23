@@ -2,10 +2,12 @@
 /*
 input:
 
-$user - User object
-$config - config array
-$emails - array of emails
+User $user - User object
+array $config - config array
+array $emails - array of emails
 */
+
+require_once './autolink.php';
 
 // Load HTML Purifier
 $purifier_config = HTMLPurifier_Config::createDefault();

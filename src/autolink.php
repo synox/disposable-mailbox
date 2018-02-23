@@ -1,7 +1,7 @@
 <?php
 
 class AutoLinkExtension {
-    static public function auto_link_text($string) {
+    static public function auto_link_text(string $string) {
 
         $string = preg_replace_callback("/
             ((?<![\"'])                                     # don't look inside quotes

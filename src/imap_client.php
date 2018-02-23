@@ -16,7 +16,7 @@ class ImapClient {
      * @param $user User
      * @return array
      */
-    function get_emails(User $user): array {
+    public function get_emails(User $user): array {
         // Search for mails with the recipient $address in TO or CC.
         $mailsIdsTo = imap_sort($this->mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'TO "' . $user->address . '"');
         $mailsIdsCc = imap_sort($this->mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'CC "' . $user->address . '"');
@@ -34,7 +34,7 @@ class ImapClient {
      * @param $user User
      * @internal param the $username matching username
      */
-    function delete_email(string $mailid, User $user) {
+    public function delete_email(string $mailid, User $user) {
         if ($this->_load_one_email($mailid, $user) !== null) {
             $this->mailbox->deleteMail($mailid);
             $this->mailbox->expungeDeletedMails();
@@ -54,7 +54,7 @@ class ImapClient {
      * @internal param the $username matching username
      */
 
-    function download_email(int $mailid, User $user) {
+    public function download_email(int $mailid, User $user) {
         if ($this->_load_one_email($mailid, $user) !== null) {
             header("Content-Type: message/rfc822; charset=utf-8");
             header("Content-Disposition: attachment; filename=\"" . $user->address . "-" . $mailid . ".eml\"");
@@ -71,7 +71,7 @@ class ImapClient {
     /**
      * Load exactly one email, the $address in TO or CC has to match.
      */
-    function _load_one_email(int $mailid, User $user): \PhpImap\IncomingMail {
+    private function _load_one_email(int $mailid, User $user): \PhpImap\IncomingMail {
         // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
         // the recipient in the email has to match the $address.
         $emails = $this->_load_emails(array($mailid), $user);
@@ -85,7 +85,7 @@ class ImapClient {
      * @param $user User
      * @return array of emails
      */
-    function _load_emails(array $mail_ids, User $user) {
+    private function _load_emails(array $mail_ids, User $user) {
         $emails = array();
         foreach ($mail_ids as $id) {
             $mail = $this->mailbox->getMail($id);
@@ -100,7 +100,7 @@ class ImapClient {
     /**
      * deletes messages older than X days.
      */
-    function delete_old_messages(string $delete_messages_older_than) {
+    public function delete_old_messages(string $delete_messages_older_than) {
         $ids = $this->mailbox->searchMailbox('BEFORE ' . date('d-M-Y', strtotime($delete_messages_older_than)));
         foreach ($ids as $id) {
             $this->mailbox->deleteMail($id);
