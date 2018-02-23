@@ -137,9 +137,9 @@ class DisplayEmailsPage extends Page {
         $user = User::parseDomain($this->address, $this->config['blocked_usernames']);
         $this->if_invalid_redirect_to_random($user, $this->config['domains']);
 
-        global $emails;
-        global $config;
+        // Set variables for frontend template:
         $emails = $imapClient->get_emails($user);
+        $config = $this->config;
         require "frontend.template.php";
     }
 }
