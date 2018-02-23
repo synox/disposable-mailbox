@@ -38,7 +38,7 @@ class Router {
         } elseif ($this->action === "delete_email" && isset($this->get_vars['delete_email_id']) && isset($this->get_vars['address'])) {
             return new DeleteEmailPage($this->get_vars['delete_email_id'], $this->get_vars['address'], $this->config['domains']);
 
-        } elseif (isset($this->get_vars['random'])) {
+        } elseif ($this->action === 'random') {
             return new RedirectToRandomAddressPage($this->config['domains']);
 
         } elseif (empty($this->query_string)) {
