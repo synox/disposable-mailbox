@@ -14,7 +14,7 @@ require_once './autolink.php';
 require_once './pages.php';
 require_once './router.php';
 
-$router = Router::init();
+$router = new Router($_SERVER['REQUEST_METHOD'], $_GET['action'] ?? NULL, $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
 $page = $router->route();
 $page->invoke();
 

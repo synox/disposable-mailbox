@@ -20,22 +20,21 @@ class Router {
         $this->config = $config;
     }
 
-    static function init(): Router {
-        global $config;
-        return new Router($_SERVER['REQUEST_METHOD'], $_GET['action'] ?? NULL, $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
-
-    }
-
 
     function route(): Page {
-        // TODO: use $this->action
-        if ($this->action === "redirect" && isset($this->post_vars['username']) && isset($this->post_vars['domain'])) {
+        if ($this->action === "redirect"
+            && isset($this->post_vars['username'])
+            && isset($this->post_vars['domain'])) {
             return new RedirectToAddressPage($this->post_vars['username'], $this->post_vars['domain']);
 
-        } elseif ($this->action === "download_email" && isset($this->get_vars['download_email_id']) && isset($this->get_vars['address'])) {
+        } elseif ($this->action === "download_email"
+            && isset($this->get_vars['download_email_id'])
+            && isset($this->get_vars['address'])) {
             return new DownloadEmailPage($this->get_vars['download_email_id'], $this->get_vars['address'], $this->config['domains']);
 
-        } elseif ($this->action === "delete_email" && isset($this->get_vars['delete_email_id']) && isset($this->get_vars['address'])) {
+        } elseif ($this->action === "delete_email"
+            && isset($this->get_vars['delete_email_id'])
+            && isset($this->get_vars['address'])) {
             return new DeleteEmailPage($this->get_vars['delete_email_id'], $this->get_vars['address'], $this->config['domains']);
 
         } elseif ($this->action === 'random') {
