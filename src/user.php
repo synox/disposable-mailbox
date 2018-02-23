@@ -5,7 +5,7 @@ class User {
     public $username;
     public $domain;
 
-    public function isInvalid() {
+    public function isInvalid(): bool {
         global $config;
         if (empty($this->username) || empty($this->domain)) {
             return true;
@@ -16,7 +16,7 @@ class User {
         }
     }
 
-    public static function parseDomain(string $address) {
+    public static function parseDomain(string $address): User {
         $clean_address = _clean_address($address);
         $user = new User();
         $user->username = _clean_username($clean_address);
@@ -25,7 +25,7 @@ class User {
         return $user;
     }
 
-    public static function parseUsernameAndDomain(string $username, string $domain) {
+    public static function parseUsernameAndDomain(string $username, string $domain): User {
         $user = new User();
         $user->username = _clean_username($username);
         $user->domain = _clean_domain($domain);

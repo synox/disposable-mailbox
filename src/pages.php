@@ -54,17 +54,17 @@ class DownloadEmailPage extends Page {
 class DeleteEmailPage extends Page {
     private $email_id;
     private $address;
-    private $all_domains;
+    private $config_domains;
 
-    public function __construct($email_id, $address, $all_domains) {
+    public function __construct($email_id, $address, $config_domains) {
         $this->email_id = $email_id;
         $this->address = $address;
-        $this->all_domains = $all_domains;
+        $this->config_domains = $config_domains;
     }
 
     function invoke() {
         $user = User::parseDomain($this->address);
-        $this->if_invalid_redirect_to_random($user, $this->all_domains);
+        $this->if_invalid_redirect_to_random($user, $this->config_domains);
 
         $delete_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
         delete_email($delete_email_id, $user);
@@ -73,14 +73,14 @@ class DeleteEmailPage extends Page {
 }
 
 class RedirectToRandomAddressPage extends Page {
-    private $all_domains;
+    private $config_domains;
 
-    public function __construct($all_domains) {
-        $this->all_domains = $all_domains;
+    public function __construct($config_domains) {
+        $this->config_domains = $config_domains;
     }
 
     function invoke() {
-        redirect_to_random($this->all_domains);
+        redirect_to_random($this->config_domains);
     }
 
 }
