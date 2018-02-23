@@ -5,52 +5,118 @@ require_once '../../config.php';
 # load php dependencies:
 require_once './backend-libs/autoload.php';
 
+
 $mailbox = new PhpImap\Mailbox($config['imap']['url'],
     $config['imap']['username'],
     $config['imap']['password']);
 
+require_once './pages.php';
 
-// simple router:
-if (isset($_POST['username']) && isset($_POST['domain'])) {
-    $user = User::parseUsernameAndDomain($_POST['username'], $_POST['domain']);
-    header("location: ?" . $user->username . "@" . $user->domain);
-    exit();
-} elseif (isset($_GET['download_email_id']) && isset($_GET['address'])) {
-    $user = User::parseDomain($_GET['address']);
-    $download_email_id = filter_input(INPUT_GET, 'download_email_id', FILTER_SANITIZE_NUMBER_INT);
-    if ($user->isInvalid()) {
-        redirect_to_random($config['domains']);
-        exit();
-    }
-    download_email($download_email_id, $user);
-    exit();
-} elseif (isset($_GET['delete_email_id']) && isset($_GET['address'])) {
-    $user = User::parseDomain($_GET['address']);
-    $delete_email_id = filter_input(INPUT_GET, 'delete_email_id', FILTER_SANITIZE_NUMBER_INT);
-    if ($user->isInvalid()) {
-        redirect_to_random($config['domains']);
-        exit();
-    }
-    delete_email($delete_email_id, $user);
-    header("location: ?" . $user->address);
-    exit();
-} elseif (isset($_GET['random'])) {
-    redirect_to_random($config['domains']);
-    exit();
-} else {
-    // print emails with html template
-    $user = User::parseDomain($_SERVER['QUERY_STRING']);
-    if ($user->isInvalid()) {
-        redirect_to_random($config['domains']);
-        exit();
-    }
-    $emails = get_emails($user);
-    require "frontend.template.php";
+class Router {
 
-    // delete after each request
-    delete_old_messages();
+    private $method;
+    private $action;
+    private $get_vars;
+    private $post_vars;
+    private $query_string;
+    private $config;
+
+    public function __construct($method, $action, $get_vars, $post_vars, $query_string, $config) {
+        $this->method = $method;
+        $this->action = $action;
+        $this->get_vars = $get_vars;
+        $this->post_vars = $post_vars;
+        $this->query_string = $query_string;
+        $this->config = $config;
+    }
+
+    static function init() {
+        global $config;
+        return new Router($_SERVER['REQUEST_METHOD'], isset($_GET['action']) ? $_GET['action'] : null, $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
+    }
+
+
+    function route() {
+        // TODO: use $this->action
+        if (isset($this->post_vars['username']) && isset($this->post_vars['domain'])) {
+            return new RedirectToAddressPage($this->post_vars['username'], $this->post_vars['domain']);
+        } elseif (isset($_GET['download_email_id']) && isset($_GET['address'])) {
+            return new DownloadEmailPage($_GET['download_email_id'], $_GET['address'], $this->config['domains']);
+        } else {
+            return null;
+        }
+    }
 }
 
+abstract class Page {
+
+    function invoke() {
+    }
+}
+
+class DownloadEmailPage extends Page {
+
+    private $email_id;
+    private $address;
+    private $config_domains;
+
+    public function __construct($email_id, $address, $config_domains) {
+        $this->email_id = $email_id;
+        $this->address = $address;
+        $this->config_domains = $config_domains;
+    }
+
+
+    function invoke() {
+        $user = User::parseDomain($this->address);
+        $download_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
+        if ($user->isInvalid()) {
+            redirect_to_random($this->config_domains);
+            exit();
+        }
+        download_email($download_email_id, $user);
+        exit();
+    }
+}
+
+$router = Router::init();
+
+$page = $router->route();
+if ($page != null) {
+    $page->invoke();
+} else {
+// simple router:
+    if (isset($_GET['delete_email_id']) && isset($_GET['address'])) {
+        $user = User::parseDomain($_GET['address']);
+        $delete_email_id = filter_input(INPUT_GET, 'delete_email_id', FILTER_SANITIZE_NUMBER_INT);
+        if ($user->isInvalid()) {
+            redirect_to_random($config['domains']);
+            exit();
+        }
+        delete_email($delete_email_id, $user);
+        header("location: ?" . $user->address);
+        exit();
+    } elseif (isset($_GET['random'])) {
+        redirect_to_random($config['domains']);
+        exit();
+    } else {
+
+
+        // print emails with html template
+        $user = User::parseDomain($_SERVER['QUERY_STRING']);
+        if ($user->isInvalid()) {
+            redirect_to_random($config['domains']);
+            exit();
+        }
+        $emails = get_emails($user);
+        require "frontend.template.php";
+
+        // delete after each request
+        delete_old_messages();
+
+
+    }
+}
 
 /**
  * print error and stop program.
