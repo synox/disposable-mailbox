@@ -39,18 +39,6 @@ function error($status, $text) {
 
 
 
-function redirect_to_random(array $domains) {
-    $wordLength = rand(3, 8);
-    $container = new PronounceableWord_DependencyInjectionContainer();
-    $generator = $container->getGenerator();
-    $word = $generator->generateWordOfGivenLength($wordLength);
-    $nr = rand(51, 91);
-    $name = $word . $nr;
-
-    $domain = $domains[array_rand($domains)];
-    header("location: ?$name@$domain");
-}
-
 /**
  * deletes messages older than X days.
  */

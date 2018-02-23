@@ -7,10 +7,24 @@ abstract class Page {
 
     function if_invalid_redirect_to_random(User $user, array $config_domains) {
         if ($user->isInvalid()) {
-            redirect_to_random($config_domains);
+            $this->redirect_to_random($config_domains);
             exit();
         }
     }
+
+
+    function redirect_to_random(array $domains) {
+        $wordLength = rand(3, 8);
+        $container = new PronounceableWord_DependencyInjectionContainer();
+        $generator = $container->getGenerator();
+        $word = $generator->generateWordOfGivenLength($wordLength);
+        $nr = rand(51, 91);
+        $name = $word . $nr;
+
+        $domain = $domains[array_rand($domains)];
+        header("location: ?$name@$domain");
+    }
+
 }
 
 class RedirectToAddressPage extends Page {
@@ -80,7 +94,7 @@ class RedirectToRandomAddressPage extends Page {
     }
 
     function invoke(ImapClient $imapClient) {
-        redirect_to_random($this->config_domains);
+        $this->redirect_to_random($this->config_domains);
     }
 
 }
