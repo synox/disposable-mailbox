@@ -40,23 +40,6 @@ function error($status, $text) {
 
 
 
-/**
- * deletes emails by id and username. The address must match the recipient in the email.
- *
- * @param $mailid integer imap email id
- * @param $user User
- * @internal param the $username matching username
- */
-function delete_email($mailid, $user) {
-    global $mailbox;
-
-    if (_load_one_email($mailid, $user) !== null) {
-        $mailbox->deleteMail($mailid);
-        $mailbox->expungeDeletedMails();
-    } else {
-        error(404, 'delete error: invalid username/mailid combination');
-    }
-}
 
 /**
  * download email by id and username. The $address must match the recipient in the email.

@@ -24,4 +24,21 @@ class ImapClient {
         $emails = _load_emails($mail_ids, $user);
         return $emails;
     }
+
+
+    /**
+     * deletes emails by id and username. The address must match the recipient in the email.
+     *
+     * @param $mailid integer imap email id
+     * @param $user User
+     * @internal param the $username matching username
+     */
+    function delete_email(string $mailid, User $user) {
+        if (_load_one_email($mailid, $user) !== null) {
+            $this->mailbox->deleteMail($mailid);
+            $this->mailbox->expungeDeletedMails();
+        } else {
+            error(404, 'delete error: invalid username/mailid combination');
+        }
+    }
 }

@@ -67,7 +67,7 @@ class DeleteEmailPage extends Page {
         $this->if_invalid_redirect_to_random($user, $this->config_domains);
 
         $delete_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
-        delete_email($delete_email_id, $user);
+        $imapClient->delete_email($delete_email_id, $user);
         header("location: ?" . $user->address);
     }
 }
