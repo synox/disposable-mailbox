@@ -22,7 +22,7 @@ class Router {
 
     static function init() {
         global $config;
-        return new Router($_SERVER['REQUEST_METHOD'], isset($_GET['action']) ? $_GET['action'] : null, $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
+        return new Router($_SERVER['REQUEST_METHOD'], $_GET['action'] ?? array(), $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
     }
 
 
