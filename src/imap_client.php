@@ -1,6 +1,6 @@
 <?php
 
-
+// TODO: return Either<Success,Failure>
 class ImapClient {
 
     /*PhpImap\Mailbox */
@@ -39,6 +39,28 @@ class ImapClient {
             $this->mailbox->expungeDeletedMails();
         } else {
             error(404, 'delete error: invalid username/mailid combination');
+        }
+    }
+
+
+    /**
+     * download email by id and username. The $address must match the recipient in the email.
+     *
+     * @param $mailid integer imap email id
+     * @param $user User
+     * @internal param the $username matching username
+     */
+
+    function download_email(string $mailid, User $user) {
+        if (_load_one_email($mailid, $user) !== null) {
+            header("Content-Type: message/rfc822; charset=utf-8");
+            header("Content-Disposition: attachment; filename=\"" . $user->address . "-" . $mailid . ".eml\"");
+
+            $headers = imap_fetchheader($this->mailbox->getImapStream(), $mailid, FT_UID);
+            $body = imap_body($this->mailbox->getImapStream(), $mailid, FT_UID);
+            print $headers . "\n" . $body;
+        } else {
+            error(404, 'download error: invalid username/mailid combination');
         }
     }
 }

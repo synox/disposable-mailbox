@@ -46,7 +46,7 @@ class DownloadEmailPage extends Page {
         $this->if_invalid_redirect_to_random($user, $this->config_domains);
 
         $download_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
-        download_email($download_email_id, $user);
+        $imapClient->download_email($download_email_id, $user);
     }
 }
 
