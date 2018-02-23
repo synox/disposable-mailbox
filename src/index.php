@@ -39,47 +39,6 @@ function error($status, $text) {
 
 
 
-
-
-
-
-
-/**
- * Remove illegal characters from address.
- * @param $address
- * @return string clean address
- */
-function _clean_address($address) {
-    return strtolower(filter_var($address, FILTER_SANITIZE_EMAIL));
-}
-
-
-/**
- * Remove illegal characters from username and remove everything after the @-sign. You may extend it if your server supports them.
- * @param $address
- * @return string clean username
- */
-function _clean_username($address) {
-    global $config;
-    $username = strtolower($address);
-    $username = preg_replace('/@.*$/', "", $username);   // remove part after @
-    $username = preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
-
-    if (in_array($username, $config['blocked_usernames'])) {
-        // Forbidden name!
-        return '';
-    }
-
-    return $username;
-}
-
-
-function _clean_domain($address) {
-    $username = strtolower($address);
-    $username = preg_replace('/^.*@/', "", $username);   // remove part before @
-    return preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
-}
-
 function redirect_to_random(array $domains) {
     $wordLength = rand(3, 8);
     $container = new PronounceableWord_DependencyInjectionContainer();
