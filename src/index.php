@@ -160,7 +160,7 @@ function _clean_domain($address) {
     return preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
 }
 
-function redirect_to_random($domains) {
+function redirect_to_random(array $domains) {
     $wordLength = rand(3, 8);
     $container = new PronounceableWord_DependencyInjectionContainer();
     $generator = $container->getGenerator();

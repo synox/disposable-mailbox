@@ -16,7 +16,7 @@ class User {
         }
     }
 
-    public static function parseDomain($address) {
+    public static function parseDomain(string $address) {
         $clean_address = _clean_address($address);
         $user = new User();
         $user->username = _clean_username($clean_address);
@@ -25,7 +25,7 @@ class User {
         return $user;
     }
 
-    public static function parseUsernameAndDomain($username, $domain) {
+    public static function parseUsernameAndDomain(string $username, string $domain) {
         $user = new User();
         $user->username = _clean_username($username);
         $user->domain = _clean_domain($domain);

@@ -11,7 +11,7 @@ class Router {
     private $query_string;
     private $config;
 
-    public function __construct($method, $action, $get_vars, $post_vars, $query_string, $config) {
+    public function __construct(string $method, string $action = NULL, array $get_vars, array $post_vars, string $query_string, array $config) {
         $this->method = $method;
         $this->action = $action;
         $this->get_vars = $get_vars;
@@ -20,28 +20,36 @@ class Router {
         $this->config = $config;
     }
 
-    static function init() {
+    static function init(): Router {
         global $config;
-        return new Router($_SERVER['REQUEST_METHOD'], $_GET['action'] ?? array(), $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
+        return new Router($_SERVER['REQUEST_METHOD'], $_GET['action'] ?? NULL, $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
+
     }
 
 
-    function route() {
+    function route(): Page {
         // TODO: use $this->action
         if (isset($this->post_vars['username']) && isset($this->post_vars['domain'])) {
             return new RedirectToAddressPage($this->post_vars['username'], $this->post_vars['domain']);
+
         } elseif (isset($this->get_vars['download_email_id']) && isset($this->get_vars['address'])) {
             return new DownloadEmailPage($this->get_vars['download_email_id'], $this->get_vars['address'], $this->config['domains']);
+
         } elseif (isset($this->get_vars['delete_email_id']) && isset($this->get_vars['address'])) {
             return new DeleteEmailPage($this->get_vars['delete_email_id'], $this->get_vars['address'], $this->config['domains']);
+
         } elseif (isset($this->get_vars['random'])) {
             return new RedirectToRandomAddressPage($this->config['domains']);
+
         } elseif (empty($this->query_string)) {
             return new RedirectToRandomAddressPage($this->config['domains']);
+
         } elseif (!empty($this->query_string)) {
             return new DisplayEmailsPage($this->query_string, $this->config);
+
         } else {
             return new InvalidRequestPage();
+
         }
     }
 }

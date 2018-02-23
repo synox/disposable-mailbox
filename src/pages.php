@@ -4,13 +4,20 @@ abstract class Page {
 
     function invoke() {
     }
+
+    function if_invalid_redirect_to_random(User $user, array $config_domains) {
+        if ($user->isInvalid()) {
+            redirect_to_random($config_domains);
+            exit();
+        }
+    }
 }
 
 class RedirectToAddressPage extends Page {
     private $username;
     private $domain;
 
-    public function __construct($username, $domain) {
+    public function __construct(string $username, string $domain) {
         $this->username = $username;
         $this->domain = $domain;
     }
@@ -27,7 +34,7 @@ class DownloadEmailPage extends Page {
     private $address;
     private $config_domains;
 
-    public function __construct($email_id, $address, $config_domains) {
+    public function __construct(string $email_id, string $address, array $config_domains) {
         $this->email_id = $email_id;
         $this->address = $address;
         $this->config_domains = $config_domains;
@@ -36,12 +43,10 @@ class DownloadEmailPage extends Page {
 
     function invoke() {
         $user = User::parseDomain($this->address);
+        $this->if_invalid_redirect_to_random($user, $this->config_domains);
+
         $download_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
-        if ($user->isInvalid()) {
-            redirect_to_random($this->config_domains);
-        } else {
-            download_email($download_email_id, $user);
-        }
+        download_email($download_email_id, $user);
     }
 }
 
@@ -59,13 +64,11 @@ class DeleteEmailPage extends Page {
 
     function invoke() {
         $user = User::parseDomain($this->address);
+        $this->if_invalid_redirect_to_random($user, $this->all_domains);
+
         $delete_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
-        if ($user->isInvalid()) {
-            redirect_to_random($this->all_domains);
-        } else {
-            delete_email($delete_email_id, $user);
-            header("location: ?" . $user->address);
-        }
+        delete_email($delete_email_id, $user);
+        header("location: ?" . $user->address);
     }
 }
 
@@ -95,14 +98,12 @@ class DisplayEmailsPage extends Page {
     function invoke() {
         // print emails with html template
         $user = User::parseDomain($this->address);
-        if ($user->isInvalid()) {
-            redirect_to_random($this->config['domains']);
-        } else {
-            global $emails;
-            global $config;
-            $emails = get_emails($user);
-            require "frontend.template.php";
-        }
+        $this->if_invalid_redirect_to_random($user, $this->config['domains']);
+
+        global $emails;
+        global $config;
+        $emails = get_emails($user);
+        require "frontend.template.php";
     }
 }
 
