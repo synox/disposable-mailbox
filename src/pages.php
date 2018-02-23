@@ -1,5 +1,11 @@
 <?php
 
+abstract class Page {
+
+    function invoke() {
+    }
+}
+
 class RedirectToAddressPage extends Page {
     private $username;
     private $domain;
@@ -102,7 +108,11 @@ class DisplayEmailsPage extends Page {
         $emails = get_emails($user);
         require "frontend.template.php";
 
-        // delete after each request
-        delete_old_messages();
+    }
+}
+
+class InvalidRequestPage extends Page {
+    function invoke() {
+        error(400, "Bad Request");
     }
 }

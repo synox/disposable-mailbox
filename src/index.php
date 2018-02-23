@@ -5,70 +5,21 @@ require_once '../../config.php';
 # load php dependencies:
 require_once './backend-libs/autoload.php';
 
-
 $mailbox = new PhpImap\Mailbox($config['imap']['url'],
     $config['imap']['username'],
     $config['imap']['password']);
 
+require_once './user.php';
+require_once './autolink.php';
 require_once './pages.php';
-
-class Router {
-
-    private $method;
-    private $action;
-    private $get_vars;
-    private $post_vars;
-    private $query_string;
-    private $config;
-
-    public function __construct($method, $action, $get_vars, $post_vars, $query_string, $config) {
-        $this->method = $method;
-        $this->action = $action;
-        $this->get_vars = $get_vars;
-        $this->post_vars = $post_vars;
-        $this->query_string = $query_string;
-        $this->config = $config;
-    }
-
-    static function init() {
-        global $config;
-        return new Router($_SERVER['REQUEST_METHOD'], isset($_GET['action']) ? $_GET['action'] : null, $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
-    }
-
-
-    function route() {
-        // TODO: use $this->action
-        if (isset($this->post_vars['username']) && isset($this->post_vars['domain'])) {
-            return new RedirectToAddressPage($this->post_vars['username'], $this->post_vars['domain']);
-        } elseif (isset($this->get_vars['download_email_id']) && isset($this->get_vars['address'])) {
-            return new DownloadEmailPage($this->get_vars['download_email_id'], $this->get_vars['address'], $this->config['domains']);
-        } elseif (isset($this->get_vars['delete_email_id']) && isset($this->get_vars['address'])) {
-            return new DeleteEmailPage($this->get_vars['delete_email_id'], $this->get_vars['address'], $this->config['domains']);
-        } elseif (isset($this->get_vars['random'])) {
-            return new RedirectToRandomAddressPage($this->config['domains']);
-        } elseif (empty($this->query_string)) {
-            return new RedirectToRandomAddressPage($this->config['domains']);
-        } elseif (!empty($this->query_string)) {
-            return new DisplayEmailsPage($this->query_string, $this->config);
-        } else {
-            return null;
-        }
-    }
-}
-
-abstract class Page {
-
-    function invoke() {
-    }
-}
-
+require_once './router.php';
 
 $router = Router::init();
-
 $page = $router->route();
-if ($page != null) {
-    $page->invoke();
-}
+$page->invoke();
+
+// delete after each request
+delete_old_messages();
 
 /**
  * print error and stop program.
@@ -202,40 +153,6 @@ function _clean_username($address) {
     return $username;
 }
 
-class User {
-    public $address;
-    public $username;
-    public $domain;
-
-    public function isInvalid() {
-        global $config;
-        if (empty($this->username) || empty($this->domain)) {
-            return true;
-        } else if (!in_array($this->domain, $config['domains'])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static function parseDomain($address) {
-        $clean_address = _clean_address($address);
-        $user = new User();
-        $user->username = _clean_username($clean_address);
-        $user->domain = _clean_domain($clean_address);
-        $user->address = $user->username . '@' . $user->domain;
-        return $user;
-    }
-
-    public static function parseUsernameAndDomain($username, $domain) {
-        $user = new User();
-        $user->username = _clean_username($username);
-        $user->domain = _clean_domain($domain);
-        $user->address = $user->username . '@' . $user->domain;
-        return $user;
-    }
-}
-
 
 function _clean_domain($address) {
     $username = strtolower($address);
@@ -268,53 +185,5 @@ function delete_old_messages() {
     $mailbox->expungeDeletedMails();
 }
 
-
-class AutoLinkExtension {
-    static public function auto_link_text($string) {
-
-        $string = preg_replace_callback("/
-            ((?<![\"'])                                     # don't look inside quotes
-            (\b
-            (                           # protocol or www.
-                [a-z]{3,}:\/\/
-            |
-                www\.
-            )
-            (?:                         # domain
-                [a-zA-Z0-9_\-]+
-                (?:\.[a-zA-Z0-9_\-]+)*
-            |
-                localhost
-            )
-            (?:                         # port
-                 \:[0-9]+
-            )?
-            (?:                         # path
-                \/[a-z0-9:%_|~.-]*
-                (?:\/[a-z0-9:%_|~.-]*)*
-            )?
-            (?:                         # attributes
-                \?[a-z0-9:%_|~.=&#;-]*
-            )?
-            (?:                         # anchor
-                \#[a-z0-9:%_|~.=&#;-]*
-            )?
-            )
-            (?![\"']))
-            /ix",
-            function ($match) {
-                $url = $match[0];
-                $href = $url;
-
-                if (false === strpos($href, 'http')) {
-                    $href = 'http://' . $href;
-                }
-                return '<a href="' . $href . '" rel="noreferrer">' . $url . '</a>';
-            }, $string);
-
-        return $string;
-    }
-
-}
 
 ?>
