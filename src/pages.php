@@ -2,7 +2,7 @@
 
 abstract class Page {
 
-    function invoke() {
+    function invoke(ImapClient $imapClient) {
     }
 
     function if_invalid_redirect_to_random(User $user, array $config_domains) {
@@ -22,7 +22,7 @@ class RedirectToAddressPage extends Page {
         $this->domain = $domain;
     }
 
-    function invoke() {
+    function invoke(ImapClient $imapClient) {
         $user = User::parseUsernameAndDomain($this->username, $this->domain);
         header("location: ?" . $user->username . "@" . $user->domain);
     }
@@ -41,7 +41,7 @@ class DownloadEmailPage extends Page {
     }
 
 
-    function invoke() {
+    function invoke(ImapClient $imapClient) {
         $user = User::parseDomain($this->address);
         $this->if_invalid_redirect_to_random($user, $this->config_domains);
 
@@ -62,7 +62,7 @@ class DeleteEmailPage extends Page {
         $this->config_domains = $config_domains;
     }
 
-    function invoke() {
+    function invoke(ImapClient $imapClient) {
         $user = User::parseDomain($this->address);
         $this->if_invalid_redirect_to_random($user, $this->config_domains);
 
@@ -79,7 +79,7 @@ class RedirectToRandomAddressPage extends Page {
         $this->config_domains = $config_domains;
     }
 
-    function invoke() {
+    function invoke(ImapClient $imapClient) {
         redirect_to_random($this->config_domains);
     }
 
@@ -95,20 +95,20 @@ class DisplayEmailsPage extends Page {
     }
 
 
-    function invoke() {
+    function invoke(ImapClient $imapClient) {
         // print emails with html template
         $user = User::parseDomain($this->address);
         $this->if_invalid_redirect_to_random($user, $this->config['domains']);
 
         global $emails;
         global $config;
-        $emails = get_emails($user);
+        $emails = $imapClient->get_emails($user);
         require "frontend.template.php";
     }
 }
 
 class InvalidRequestPage extends Page {
-    function invoke() {
+    function invoke(ImapClient $imapClient) {
         error(400, "Bad Request");
     }
 }
