@@ -25,6 +25,16 @@ abstract class Page {
         header("location: ?$name@$domain");
     }
 
+    /**
+     * print error and stop program.
+     * @param $status integer http status
+     * @param $text string error text
+     */
+    function error($status, $text) {
+        @http_response_code($status);
+        die("{\"error\": \"$text\"}");
+    }
+
 }
 
 class RedirectToAddressPage extends Page {
@@ -123,6 +133,6 @@ class DisplayEmailsPage extends Page {
 
 class InvalidRequestPage extends Page {
     function invoke(ImapClient $imapClient) {
-        error(400, "Bad Request");
+        $this->error(400, "Bad Request");
     }
 }

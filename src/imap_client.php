@@ -39,7 +39,9 @@ class ImapClient {
             $this->mailbox->deleteMail($mailid);
             $this->mailbox->expungeDeletedMails();
         } else {
-            error(404, 'delete error: invalid username/mailid combination');
+            // TODO: use return/throw instead
+            @http_response_code(404);
+            die('delete error: invalid username/mailid combination');
         }
     }
 

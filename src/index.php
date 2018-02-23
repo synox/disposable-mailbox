@@ -26,20 +26,5 @@ $page->invoke($imapClient);
 // delete after each request
 $imapClient->delete_old_messages($config['delete_messages_older_than']);
 
-/**
- * print error and stop program.
- * @param $status integer http status
- * @param $text string error text
- */
-function error($status, $text) {
-    @http_response_code($status);
-    @print("{\"error\": \"$text\"}");
-    die();
-}
-
-
-
-
-
 
 ?>
