@@ -76,7 +76,14 @@ class DownloadEmailPage extends Page {
         $this->if_invalid_redirect_to_random($user, $this->config_domains);
 
         $download_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
-        if (!$imapClient->download_email($download_email_id, $user)) {
+        if ($imapClient->load_one_email($download_email_id, $user) !== null) {
+            header("Content-Type: message/rfc822; charset=utf-8");
+            header("Content-Disposition: attachment; filename=\"" . $user->address . "-" . $download_email_id . ".eml\"");
+
+            $headers = imap_fetchheader($this->mailbox->getImapStream(), $download_email_id, FT_UID);
+            $body = imap_body($this->mailbox->getImapStream(), $download_email_id, FT_UID);
+            print $headers . "\n" . $body;
+        } else {
             $this->error(404, 'download error: invalid username/mailid combination');
         }
     }

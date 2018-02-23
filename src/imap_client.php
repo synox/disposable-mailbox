@@ -10,7 +10,7 @@ class ImapClient {
     }
 
     /**
-     * print all mails for the given $user.
+     * returns all mails for the given $user.
      * @param $user User
      * @return array
      */
@@ -34,7 +34,7 @@ class ImapClient {
      * @return true if success
      */
     public function delete_email(string $mailid, User $user): bool {
-        if ($this->_load_one_email($mailid, $user) !== null) {
+        if ($this->load_one_email($mailid, $user) !== null) {
             $this->mailbox->deleteMail($mailid);
             $this->mailbox->expungeDeletedMails();
             return true;
@@ -43,34 +43,10 @@ class ImapClient {
         }
     }
 
-
-    /**
-     * download email by id and username. The $address must match the recipient in the email.
-     *
-     * @param $mailid integer imap email id
-     * @param $user User
-     * @internal param the $username matching username
-     */
-
-    public function download_email(int $mailid, User $user): bool {
-        if ($this->_load_one_email($mailid, $user) !== null) {
-            header("Content-Type: message/rfc822; charset=utf-8");
-            header("Content-Disposition: attachment; filename=\"" . $user->address . "-" . $mailid . ".eml\"");
-
-            $headers = imap_fetchheader($this->mailbox->getImapStream(), $mailid, FT_UID);
-            $body = imap_body($this->mailbox->getImapStream(), $mailid, FT_UID);
-            print $headers . "\n" . $body;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
     /**
      * Load exactly one email, the $address in TO or CC has to match.
      */
-    private function _load_one_email(int $mailid, User $user): \PhpImap\IncomingMail {
+    public function load_one_email(int $mailid, User $user): \PhpImap\IncomingMail {
         // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
         // the recipient in the email has to match the $address.
         $emails = $this->_load_emails(array($mailid), $user);
