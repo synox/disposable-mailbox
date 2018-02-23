@@ -9,48 +9,17 @@ $mailbox = new PhpImap\Mailbox($config['imap']['url'],
     $config['imap']['username'],
     $config['imap']['password']);
 
+require_once './user.php';
+require_once './autolink.php';
+require_once './pages.php';
+require_once './router.php';
 
-// simple router:
-if (isset($_POST['username']) && isset($_POST['domain'])) {
-    $user = User::parseUsernameAndDomain($_POST['username'], $_POST['domain']);
-    header("location: ?" . $user->username . "@" . $user->domain);
-    exit();
-} elseif (isset($_GET['download_email_id']) && isset($_GET['address'])) {
-    $user = User::parseDomain($_GET['address']);
-    $download_email_id = filter_input(INPUT_GET, 'download_email_id', FILTER_SANITIZE_NUMBER_INT);
-    if ($user->isInvalid()) {
-        redirect_to_random($config['domains']);
-        exit();
-    }
-    download_email($download_email_id, $user);
-    exit();
-} elseif (isset($_GET['delete_email_id']) && isset($_GET['address'])) {
-    $user = User::parseDomain($_GET['address']);
-    $delete_email_id = filter_input(INPUT_GET, 'delete_email_id', FILTER_SANITIZE_NUMBER_INT);
-    if ($user->isInvalid()) {
-        redirect_to_random($config['domains']);
-        exit();
-    }
-    delete_email($delete_email_id, $user);
-    header("location: ?" . $user->address);
-    exit();
-} elseif (isset($_GET['random'])) {
-    redirect_to_random($config['domains']);
-    exit();
-} else {
-    // print emails with html template
-    $user = User::parseDomain($_SERVER['QUERY_STRING']);
-    if ($user->isInvalid()) {
-        redirect_to_random($config['domains']);
-        exit();
-    }
-    $emails = get_emails($user);
-    require "frontend.template.php";
+$router = new Router($_SERVER['REQUEST_METHOD'], $_GET['action'] ?? NULL, $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
+$page = $router->route();
+$page->invoke();
 
-    // delete after each request
-    delete_old_messages();
-}
-
+// delete after each request
+delete_old_messages();
 
 /**
  * print error and stop program.
@@ -184,40 +153,6 @@ function _clean_username($address) {
     return $username;
 }
 
-class User {
-    public $address;
-    public $username;
-    public $domain;
-
-    public function isInvalid() {
-        global $config;
-        if (empty($this->username) || empty($this->domain)) {
-            return true;
-        } else if (!in_array($this->domain, $config['domains'])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static function parseDomain($address) {
-        $clean_address = _clean_address($address);
-        $user = new User();
-        $user->username = _clean_username($clean_address);
-        $user->domain = _clean_domain($clean_address);
-        $user->address = $user->username . '@' . $user->domain;
-        return $user;
-    }
-
-    public static function parseUsernameAndDomain($username, $domain) {
-        $user = new User();
-        $user->username = _clean_username($username);
-        $user->domain = _clean_domain($domain);
-        $user->address = $user->username . '@' . $user->domain;
-        return $user;
-    }
-}
-
 
 function _clean_domain($address) {
     $username = strtolower($address);
@@ -225,7 +160,7 @@ function _clean_domain($address) {
     return preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
 }
 
-function redirect_to_random($domains) {
+function redirect_to_random(array $domains) {
     $wordLength = rand(3, 8);
     $container = new PronounceableWord_DependencyInjectionContainer();
     $generator = $container->getGenerator();
@@ -250,53 +185,5 @@ function delete_old_messages() {
     $mailbox->expungeDeletedMails();
 }
 
-
-class AutoLinkExtension {
-    static public function auto_link_text($string) {
-
-        $string = preg_replace_callback("/
-            ((?<![\"'])                                     # don't look inside quotes
-            (\b
-            (                           # protocol or www.
-                [a-z]{3,}:\/\/
-            |
-                www\.
-            )
-            (?:                         # domain
-                [a-zA-Z0-9_\-]+
-                (?:\.[a-zA-Z0-9_\-]+)*
-            |
-                localhost
-            )
-            (?:                         # port
-                 \:[0-9]+
-            )?
-            (?:                         # path
-                \/[a-z0-9:%_|~.-]*
-                (?:\/[a-z0-9:%_|~.-]*)*
-            )?
-            (?:                         # attributes
-                \?[a-z0-9:%_|~.=&#;-]*
-            )?
-            (?:                         # anchor
-                \#[a-z0-9:%_|~.=&#;-]*
-            )?
-            )
-            (?![\"']))
-            /ix",
-            function ($match) {
-                $url = $match[0];
-                $href = $url;
-
-                if (false === strpos($href, 'http')) {
-                    $href = 'http://' . $href;
-                }
-                return '<a href="' . $href . '" rel="noreferrer">' . $url . '</a>';
-            }, $string);
-
-        return $string;
-    }
-
-}
 
 ?>
