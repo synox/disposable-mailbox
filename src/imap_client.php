@@ -1,6 +1,7 @@
 <?php
 
 // TODO: return Either<Success,Failure>
+// TODO: define return types
 class ImapClient {
 
     /*PhpImap\Mailbox */
@@ -34,7 +35,7 @@ class ImapClient {
      * @internal param the $username matching username
      */
     function delete_email(string $mailid, User $user) {
-        if (_load_one_email($mailid, $user) !== null) {
+        if ($this->_load_one_email($mailid, $user) !== null) {
             $this->mailbox->deleteMail($mailid);
             $this->mailbox->expungeDeletedMails();
         } else {
@@ -52,7 +53,7 @@ class ImapClient {
      */
 
     function download_email(string $mailid, User $user) {
-        if (_load_one_email($mailid, $user) !== null) {
+        if ($this->_load_one_email($mailid, $user) !== null) {
             header("Content-Type: message/rfc822; charset=utf-8");
             header("Content-Disposition: attachment; filename=\"" . $user->address . "-" . $mailid . ".eml\"");
 
@@ -62,5 +63,19 @@ class ImapClient {
         } else {
             error(404, 'download error: invalid username/mailid combination');
         }
+    }
+
+
+    /**
+     * Load exactly one email, the $address in TO or CC has to match.
+     * @param $mailid integer
+     * @param $user User
+     * @return email or null
+     */
+    function _load_one_email(string $mailid, User $user) {
+        // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
+        // the recipient in the email has to match the $address.
+        $emails = _load_emails(array($mailid), $user);
+        return count($emails) === 1 ? $emails[0] : null;
     }
 }
