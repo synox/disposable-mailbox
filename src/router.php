@@ -25,17 +25,17 @@ class Router {
         if ($this->action === "redirect"
             && isset($this->post_vars['username'])
             && isset($this->post_vars['domain'])) {
-            return new RedirectToAddressPage($this->post_vars['username'], $this->post_vars['domain']);
+            return new RedirectToAddressPage($this->post_vars['username'], $this->post_vars['domain'], $this->config['blocked_usernames']);
 
         } elseif ($this->action === "download_email"
             && isset($this->get_vars['download_email_id'])
             && isset($this->get_vars['address'])) {
-            return new DownloadEmailPage($this->get_vars['download_email_id'], $this->get_vars['address'], $this->config['domains']);
+            return new DownloadEmailPage($this->get_vars['download_email_id'], $this->get_vars['address'], $this->config['domains'], $this->config['blocked_usernames']);
 
         } elseif ($this->action === "delete_email"
             && isset($this->get_vars['delete_email_id'])
             && isset($this->get_vars['address'])) {
-            return new DeleteEmailPage($this->get_vars['delete_email_id'], $this->get_vars['address'], $this->config['domains']);
+            return new DeleteEmailPage($this->get_vars['delete_email_id'], $this->get_vars['address'], $this->config['domains'], $this->config['blocked_usernames']);
 
         } elseif ($this->action === 'random') {
             return new RedirectToRandomAddressPage($this->config['domains']);

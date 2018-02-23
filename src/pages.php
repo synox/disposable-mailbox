@@ -6,7 +6,7 @@ abstract class Page {
     }
 
     function if_invalid_redirect_to_random(User $user, array $config_domains) {
-        if ($user->isInvalid()) {
+        if ($user->isInvalid($config_domains)) {
             $this->redirect_to_random($config_domains);
             exit();
         }
@@ -40,14 +40,16 @@ abstract class Page {
 class RedirectToAddressPage extends Page {
     private $username;
     private $domain;
+    private $config_blocked_usernames;
 
-    public function __construct(string $username, string $domain) {
+    public function __construct(string $username, string $domain, array $config_blocked_usernames) {
         $this->username = $username;
         $this->domain = $domain;
+        $this->config_blocked_usernames = $config_blocked_usernames;
     }
 
     function invoke(ImapClient $imapClient) {
-        $user = User::parseUsernameAndDomain($this->username, $this->domain);
+        $user = User::parseUsernameAndDomain($this->username, $this->domain, $this->config_blocked_usernames);
         header("location: ?" . $user->username . "@" . $user->domain);
     }
 }
@@ -57,16 +59,18 @@ class DownloadEmailPage extends Page {
     private $email_id;
     private $address;
     private $config_domains;
+    private $config_blocked_usernames;
 
-    public function __construct(string $email_id, string $address, array $config_domains) {
+    public function __construct(string $email_id, string $address, array $config_domains, array $config_blocked_usernames) {
         $this->email_id = $email_id;
         $this->address = $address;
         $this->config_domains = $config_domains;
+        $this->config_blocked_usernames = $config_blocked_usernames;
     }
 
 
     function invoke(ImapClient $imapClient) {
-        $user = User::parseDomain($this->address);
+        $user = User::parseDomain($this->address, $this->config_blocked_usernames);
         $this->if_invalid_redirect_to_random($user, $this->config_domains);
 
         $download_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
@@ -79,15 +83,17 @@ class DeleteEmailPage extends Page {
     private $email_id;
     private $address;
     private $config_domains;
+    private $config_blocked_usernames;
 
-    public function __construct($email_id, $address, $config_domains) {
+    public function __construct($email_id, $address, $config_domains, array $config_blocked_usernames) {
         $this->email_id = $email_id;
         $this->address = $address;
         $this->config_domains = $config_domains;
+        $this->config_blocked_usernames = $config_blocked_usernames;
     }
 
     function invoke(ImapClient $imapClient) {
-        $user = User::parseDomain($this->address);
+        $user = User::parseDomain($this->address, $this->config_blocked_usernames);
         $this->if_invalid_redirect_to_random($user, $this->config_domains);
 
         $delete_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
@@ -121,7 +127,7 @@ class DisplayEmailsPage extends Page {
 
     function invoke(ImapClient $imapClient) {
         // print emails with html template
-        $user = User::parseDomain($this->address);
+        $user = User::parseDomain($this->address, $this->config['blocked_usernames']);
         $this->if_invalid_redirect_to_random($user, $this->config['domains']);
 
         global $emails;
