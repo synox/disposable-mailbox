@@ -18,7 +18,6 @@ class RedirectToAddressPage extends Page {
     function invoke() {
         $user = User::parseUsernameAndDomain($this->username, $this->domain);
         header("location: ?" . $user->username . "@" . $user->domain);
-        exit();
     }
 }
 
@@ -40,10 +39,9 @@ class DownloadEmailPage extends Page {
         $download_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
         if ($user->isInvalid()) {
             redirect_to_random($this->config_domains);
-            exit();
+        } else {
+            download_email($download_email_id, $user);
         }
-        download_email($download_email_id, $user);
-        exit();
     }
 }
 
@@ -64,11 +62,10 @@ class DeleteEmailPage extends Page {
         $delete_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
         if ($user->isInvalid()) {
             redirect_to_random($this->all_domains);
-            exit();
+        } else {
+            delete_email($delete_email_id, $user);
+            header("location: ?" . $user->address);
         }
-        delete_email($delete_email_id, $user);
-        header("location: ?" . $user->address);
-        exit();
     }
 }
 
@@ -81,7 +78,6 @@ class RedirectToRandomAddressPage extends Page {
 
     function invoke() {
         redirect_to_random($this->all_domains);
-        exit();
     }
 
 }
@@ -101,13 +97,12 @@ class DisplayEmailsPage extends Page {
         $user = User::parseDomain($this->address);
         if ($user->isInvalid()) {
             redirect_to_random($this->config['domains']);
-            exit();
+        } else {
+            global $emails;
+            global $config;
+            $emails = get_emails($user);
+            require "frontend.template.php";
         }
-        global $emails;
-        global $config;
-        $emails = get_emails($user);
-        require "frontend.template.php";
-
     }
 }
 
