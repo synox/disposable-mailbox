@@ -40,8 +40,16 @@ class Router {
         // TODO: use $this->action
         if (isset($this->post_vars['username']) && isset($this->post_vars['domain'])) {
             return new RedirectToAddressPage($this->post_vars['username'], $this->post_vars['domain']);
-        } elseif (isset($_GET['download_email_id']) && isset($_GET['address'])) {
-            return new DownloadEmailPage($_GET['download_email_id'], $_GET['address'], $this->config['domains']);
+        } elseif (isset($this->get_vars['download_email_id']) && isset($this->get_vars['address'])) {
+            return new DownloadEmailPage($this->get_vars['download_email_id'], $this->get_vars['address'], $this->config['domains']);
+        } elseif (isset($this->get_vars['delete_email_id']) && isset($this->get_vars['address'])) {
+            return new DeleteEmailPage($this->get_vars['delete_email_id'], $this->get_vars['address'], $this->config['domains']);
+        } elseif (isset($this->get_vars['random'])) {
+            return new RedirectToRandomAddressPage($this->config['domains']);
+        } elseif (empty($this->query_string)) {
+            return new RedirectToRandomAddressPage($this->config['domains']);
+        } elseif (!empty($this->query_string)) {
+            return new DisplayEmailsPage($this->query_string, $this->config);
         } else {
             return null;
         }
@@ -54,68 +62,12 @@ abstract class Page {
     }
 }
 
-class DownloadEmailPage extends Page {
-
-    private $email_id;
-    private $address;
-    private $config_domains;
-
-    public function __construct($email_id, $address, $config_domains) {
-        $this->email_id = $email_id;
-        $this->address = $address;
-        $this->config_domains = $config_domains;
-    }
-
-
-    function invoke() {
-        $user = User::parseDomain($this->address);
-        $download_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
-        if ($user->isInvalid()) {
-            redirect_to_random($this->config_domains);
-            exit();
-        }
-        download_email($download_email_id, $user);
-        exit();
-    }
-}
 
 $router = Router::init();
 
 $page = $router->route();
 if ($page != null) {
     $page->invoke();
-} else {
-// simple router:
-    if (isset($_GET['delete_email_id']) && isset($_GET['address'])) {
-        $user = User::parseDomain($_GET['address']);
-        $delete_email_id = filter_input(INPUT_GET, 'delete_email_id', FILTER_SANITIZE_NUMBER_INT);
-        if ($user->isInvalid()) {
-            redirect_to_random($config['domains']);
-            exit();
-        }
-        delete_email($delete_email_id, $user);
-        header("location: ?" . $user->address);
-        exit();
-    } elseif (isset($_GET['random'])) {
-        redirect_to_random($config['domains']);
-        exit();
-    } else {
-
-
-        // print emails with html template
-        $user = User::parseDomain($_SERVER['QUERY_STRING']);
-        if ($user->isInvalid()) {
-            redirect_to_random($config['domains']);
-            exit();
-        }
-        $emails = get_emails($user);
-        require "frontend.template.php";
-
-        // delete after each request
-        delete_old_messages();
-
-
-    }
 }
 
 /**
