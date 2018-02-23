@@ -76,7 +76,9 @@ class DownloadEmailPage extends Page {
         $this->if_invalid_redirect_to_random($user, $this->config_domains);
 
         $download_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
-        $imapClient->download_email($download_email_id, $user);
+        if (!$imapClient->download_email($download_email_id, $user)) {
+            $this->error(404, 'download error: invalid username/mailid combination');
+        }
     }
 }
 
@@ -99,8 +101,11 @@ class DeleteEmailPage extends Page {
         $this->if_invalid_redirect_to_random($user, $this->config_domains);
 
         $delete_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
-        $imapClient->delete_email($delete_email_id, $user);
-        header("location: ?" . $user->address);
+        if ($imapClient->delete_email($delete_email_id, $user)) {
+            header("location: ?" . $user->address);
+        } else {
+            $this->error(404, 'delete error: invalid username/mailid combination');
+        }
     }
 }
 

@@ -1,7 +1,5 @@
 <?php
 
-// TODO: return Either<Success,Failure>
-// TODO: define return types
 class ImapClient {
 
     /*PhpImap\Mailbox */
@@ -33,15 +31,15 @@ class ImapClient {
      * @param $mailid integer imap email id
      * @param $user User
      * @internal param the $username matching username
+     * @return true if success
      */
-    public function delete_email(string $mailid, User $user) {
+    public function delete_email(string $mailid, User $user): bool {
         if ($this->_load_one_email($mailid, $user) !== null) {
             $this->mailbox->deleteMail($mailid);
             $this->mailbox->expungeDeletedMails();
+            return true;
         } else {
-            // TODO: use return/throw instead
-            @http_response_code(404);
-            die('delete error: invalid username/mailid combination');
+            return false;
         }
     }
 
@@ -54,7 +52,7 @@ class ImapClient {
      * @internal param the $username matching username
      */
 
-    public function download_email(int $mailid, User $user) {
+    public function download_email(int $mailid, User $user): bool {
         if ($this->_load_one_email($mailid, $user) !== null) {
             header("Content-Type: message/rfc822; charset=utf-8");
             header("Content-Disposition: attachment; filename=\"" . $user->address . "-" . $mailid . ".eml\"");
@@ -62,8 +60,9 @@ class ImapClient {
             $headers = imap_fetchheader($this->mailbox->getImapStream(), $mailid, FT_UID);
             $body = imap_body($this->mailbox->getImapStream(), $mailid, FT_UID);
             print $headers . "\n" . $body;
+            return true;
         } else {
-            error(404, 'download error: invalid username/mailid combination');
+            return false;
         }
     }
 
