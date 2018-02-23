@@ -43,25 +43,6 @@ function error($status, $text) {
 
 
 
-/**
- * Load emails using the $mail_ids, the mails have to match the $address in TO or CC.
- * @param $mail_ids array of integer ids
- * @param $user User
- * @return array of emails
- */
-function _load_emails($mail_ids, $user) {
-    global $mailbox;
-
-    $emails = array();
-    foreach ($mail_ids as $id) {
-        $mail = $mailbox->getMail($id);
-        // imap_search also returns partials matches. The mails have to be filtered again:
-        if (array_key_exists($user->address, $mail->to) || array_key_exists($user->address, $mail->cc)) {
-            $emails[] = $mail;
-        }
-    }
-    return $emails;
-}
 
 /**
  * Remove illegal characters from address.

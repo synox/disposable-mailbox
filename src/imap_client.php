@@ -22,7 +22,7 @@ class ImapClient {
         $mailsIdsCc = imap_sort($this->mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'CC "' . $user->address . '"');
         $mail_ids = array_merge($mailsIdsTo, $mailsIdsCc);
 
-        $emails = _load_emails($mail_ids, $user);
+        $emails = $this->_load_emails($mail_ids, $user);
         return $emails;
     }
 
@@ -75,7 +75,26 @@ class ImapClient {
     function _load_one_email(string $mailid, User $user) {
         // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
         // the recipient in the email has to match the $address.
-        $emails = _load_emails(array($mailid), $user);
+        $emails = $this->_load_emails(array($mailid), $user);
         return count($emails) === 1 ? $emails[0] : null;
+    }
+
+
+    /**
+     * Load emails using the $mail_ids, the mails have to match the $address in TO or CC.
+     * @param $mail_ids array of integer ids
+     * @param $user User
+     * @return array of emails
+     */
+    function _load_emails(array $mail_ids, User $user) {
+        $emails = array();
+        foreach ($mail_ids as $id) {
+            $mail = $this->mailbox->getMail($id);
+            // imap_search also returns partials matches. The mails have to be filtered again:
+            if (array_key_exists($user->address, $mail->to) || array_key_exists($user->address, $mail->cc)) {
+                $emails[] = $mail;
+            }
+        }
+        return $emails;
     }
 }
