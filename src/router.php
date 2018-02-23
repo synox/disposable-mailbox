@@ -35,7 +35,7 @@ class Router {
         } elseif ($this->action === "download_email" && isset($this->get_vars['download_email_id']) && isset($this->get_vars['address'])) {
             return new DownloadEmailPage($this->get_vars['download_email_id'], $this->get_vars['address'], $this->config['domains']);
 
-        } elseif (isset($this->get_vars['delete_email_id']) && isset($this->get_vars['address'])) {
+        } elseif ($this->action === "delete_email" && isset($this->get_vars['delete_email_id']) && isset($this->get_vars['address'])) {
             return new DeleteEmailPage($this->get_vars['delete_email_id'], $this->get_vars['address'], $this->config['domains']);
 
         } elseif (isset($this->get_vars['random'])) {
