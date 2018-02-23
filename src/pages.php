@@ -14,7 +14,6 @@ abstract class Page {
         }
     }
 
-
     function redirect_to_random(array $domains) {
         $wordLength = rand(3, 8);
         $container = new PronounceableWord_DependencyInjectionContainer();
