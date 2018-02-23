@@ -52,7 +52,7 @@ class ImapClient {
      * @internal param the $username matching username
      */
 
-    function download_email(string $mailid, User $user) {
+    function download_email(int $mailid, User $user) {
         if ($this->_load_one_email($mailid, $user) !== null) {
             header("Content-Type: message/rfc822; charset=utf-8");
             header("Content-Disposition: attachment; filename=\"" . $user->address . "-" . $mailid . ".eml\"");
@@ -68,11 +68,8 @@ class ImapClient {
 
     /**
      * Load exactly one email, the $address in TO or CC has to match.
-     * @param $mailid integer
-     * @param $user User
-     * @return email or null
      */
-    function _load_one_email(string $mailid, User $user) {
+    function _load_one_email(int $mailid, User $user): \PhpImap\IncomingMail {
         // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
         // the recipient in the email has to match the $address.
         $emails = $this->_load_emails(array($mailid), $user);
@@ -96,5 +93,16 @@ class ImapClient {
             }
         }
         return $emails;
+    }
+
+    /**
+     * deletes messages older than X days.
+     */
+    function delete_old_messages(string $delete_messages_older_than) {
+        $ids = $this->mailbox->searchMailbox('BEFORE ' . date('d-M-Y', strtotime($delete_messages_older_than)));
+        foreach ($ids as $id) {
+            $this->mailbox->deleteMail($id);
+        }
+        $this->mailbox->expungeDeletedMails();
     }
 }

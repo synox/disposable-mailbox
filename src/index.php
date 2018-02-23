@@ -24,7 +24,7 @@ $imapClient = new ImapClient($config['imap']['url'], $config['imap']['username']
 $page->invoke($imapClient);
 
 // delete after each request
-delete_old_messages();
+$imapClient->delete_old_messages($config['delete_messages_older_than']);
 
 /**
  * print error and stop program.
@@ -39,18 +39,7 @@ function error($status, $text) {
 
 
 
-/**
- * deletes messages older than X days.
- */
-function delete_old_messages() {
-    global $mailbox, $config;
 
-    $ids = $mailbox->searchMailbox('BEFORE ' . date('d-M-Y', strtotime($config['delete_messages_older_than'])));
-    foreach ($ids as $id) {
-        $mailbox->deleteMail($id);
-    }
-    $mailbox->expungeDeletedMails();
-}
 
 
 ?>
