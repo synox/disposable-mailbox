@@ -1,12 +1,21 @@
-
 html > body {
     /* override bootstrap background */
     background: #f9f9f9;
+
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
-footer p {
-    margin-top: 50px;
+main {
+    flex: 1;
+    padding-bottom: 30px;
+}
+
+footer {
+    font-size: 12px;
     text-align: center;
+    padding-top: 1em;
 }
 
 .card-block {
@@ -26,11 +35,6 @@ header {
     padding-top: 5px;
     padding-bottom: 5px;
     margin-bottom: 15px;
-}
-
-#openRandomButton {
-
-    margin-top: 6px;
 }
 
 .email-table > .email {

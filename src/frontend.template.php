@@ -258,8 +258,7 @@ $purifier = new HTMLPurifier($purifier_config);
 </main>
 <footer>
     <p>Powered by <a href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
-        | <a href="https://github.com/synox/disposable-mailbox"><span class="octicon octicon-mark-github"></span>
-            Fork me on github</a></p>
+        | <a href="https://github.com/synox/disposable-mailbox">Contribute to the development on Github.</a></p>
 </footer>
 </body>
 </html>
