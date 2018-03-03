@@ -2,10 +2,12 @@
 /*
 input:
 
-$user - User object
-$config - config array
-$emails - array of emails
+User $user - User object
+array $config - config array
+array $emails - array of emails
 */
+
+require_once './autolink.php';
 
 // Load HTML Purifier
 $purifier_config = HTMLPurifier_Config::createDefault();
@@ -88,7 +90,7 @@ $purifier = new HTMLPurifier($purifier_config);
             mailbox:
         </small>
 
-        <form id="header-form" data-turbolinks-permanent action="?" method="post">
+        <form id="header-form" data-turbolinks-permanent action="?action=redirect" method="post">
             <div class="form-group row">
 
                 <div class="col-lg-5 col-md-4 col-sm-6 col-xs-12">
@@ -117,7 +119,7 @@ $purifier = new HTMLPurifier($purifier_config);
                     ?>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 random-column">
-                    <a role="button" href="?random=true"
+                    <a role="button" href="?action=random"
                        class="btn btn-outline-primary col-sm-12 col-xs-12 random-button">Generate
                         Random</a>
                 </div>
@@ -177,12 +179,12 @@ $purifier = new HTMLPurifier($purifier_config);
                                 <div class="col-sm-4 text-right">
                                     <a class="btn btn-sm btn-outline-primary " download="true"
                                        role="button"
-                                       href="?download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Download
+                                       href="?action=download_email&download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Download
                                     </a>
 
                                     <a class="btn btn-sm btn-outline-danger"
                                        role="button"
-                                       href="?delete_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Delete
+                                       href="?action=delete_email&delete_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Delete
                                     </a>
                                 </div>
                             </div>
@@ -256,8 +258,7 @@ $purifier = new HTMLPurifier($purifier_config);
 </main>
 <footer>
     <p>Powered by <a href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
-        | <a href="https://github.com/synox/disposable-mailbox"><span class="octicon octicon-mark-github"></span>
-            Fork me on github</a></p>
+        | <a href="https://github.com/synox/disposable-mailbox">Contribute to the development on Github.</a></p>
 </footer>
 </body>
 </html>

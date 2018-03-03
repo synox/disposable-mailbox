@@ -14,13 +14,13 @@ A **self-hosted** disposable mailbox  service (aka trash mail)  :cloud: :envelop
 * Automatic refresh. Download and delete your emails.
 * Display emails as text or html with sanitization  filter. 
 * Display emails based on one [catch-all imap mailbox](https://www.google.ch/search?q=how+to+setup+catch-all+imap+mailbox).
-* Only requires PHP  >=5.3.0 and [imap extension](http://php.net/manual/book.imap.php)
+* Only requires PHP  >=7.2 and [imap extension](http://php.net/manual/book.imap.php)
 
 ## Usage
 
 ### Requirements
 
-* webserver with php >=5.3.0
+* webserver with php >=7.2
 * php [imap extension](http://php.net/manual/book.imap.php)
 * IMAP account and a domain with [catch-all configuration](https://www.google.ch/search?q=how+to+setup+catch-all+imap+mailbox). (all emails go to one mailbox). 
 
