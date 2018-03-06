@@ -13,9 +13,9 @@ require_once './router.php';
 $imapClient = new ImapClient($config['imap']['url'], $config['imap']['username'], $config['imap']['password']);
 
 $router = new Router($_SERVER['REQUEST_METHOD'], $_GET['action'] ?? NULL, $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
-$page = $router->route();
-$page->setViewHandler(new ServerRenderViewHandler());
-$page->invoke($imapClient);
+$controller = $router->route();
+$controller->setViewHandler(new ServerRenderViewHandler());
+$controller->invoke($imapClient);
 
 // delete after each request
 $imapClient->delete_old_messages($config['delete_messages_older_than']);

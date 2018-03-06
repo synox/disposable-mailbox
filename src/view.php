@@ -17,40 +17,6 @@ interface ViewHandler {
     function downloadEmailAsRfc822($full_email, $filename);
 }
 
-class JsonViewHandler implements ViewHandler {
-
-    private function json($obj) {
-        header('Content-type: application/json');
-
-        // Never cache requests:
-        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-        header("Cache-Control: post-check=0, pre-check=0", false);
-        header("Pragma: no-cache");
-        print json_encode($obj);
-        die();
-    }
-
-    function done($address) {
-        $this->json(array('status' => "success"));
-    }
-
-    function error($status, $msg) {
-        @http_response_code($status);
-        $this->json(array('status' => "failure", 'error' => $msg));
-    }
-
-    function displayEmails($emails, $config, $user) {
-        $this->json(array('status' => "success", 'emails' => $emails));
-    }
-
-    function newAddress($address) {
-        $this->json(array('status' => "failure", 'address' => $address));
-    }
-
-    function downloadEmailAsRfc822($full_email, $filename) {
-        $this->json(array('status' => "success", 'body' => $full_email));
-    }
-}
 
 class ServerRenderViewHandler implements ViewHandler {
     function done($address) {
