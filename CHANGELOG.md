@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - refactored code into multiple php files.
 - Requires PHP version  >=7.2
 - make all addresses lowercase  #30
+- fixed error when downloading email 
 
 ### Added 
 - better horizontal spacing for header (from @Spegeli) and style
@@ -24,6 +25,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Blacklist some usernames, configurable  #27
 - copyToClipboard button #30
 - mail counter in title
+- rest api option
 
 ## [0.1.4] - 2017-04-15
 

@@ -184,7 +184,7 @@ $purifier = new HTMLPurifier($purifier_config);
 
                                     <a class="btn btn-sm btn-outline-danger"
                                        role="button"
-                                       href="?action=delete_email&delete_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Delete
+                                       href="?action=delete_email&email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Delete
                                     </a>
                                 </div>
                             </div>

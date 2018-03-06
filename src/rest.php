@@ -8,13 +8,13 @@ require_once './backend-libs/autoload.php';
 require_once './user.php';
 require_once './imap_client.php';
 require_once './controller.php';
-require_once './router.php';
+require_once './router.rest.php';
 
 $imapClient = new ImapClient($config['imap']['url'], $config['imap']['username'], $config['imap']['password']);
 
-$router = new Router($_SERVER['REQUEST_METHOD'], $_GET['action'] ?? NULL, $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
+$router = new RestRouter($_SERVER['REQUEST_METHOD'], $_GET['action'] ?? NULL, $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
 $page = $router->route();
-$page->setViewHandler(new ServerRenderViewHandler());
+$page->setViewHandler(new JsonViewHandler());
 $page->invoke($imapClient);
 
 // delete after each request

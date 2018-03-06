@@ -1,8 +1,19 @@
 <?php
 
 require_once './imap_client.php';
+require_once './view.php';
 
-abstract class Page {
+
+abstract class Controller {
+
+    /**
+     * @var ViewHandler
+     */
+    protected $viewHandler;
+
+    public function setViewHandler(ViewHandler $outputHandler) {
+        $this->viewHandler = $outputHandler;
+    }
 
     function invoke(ImapClient $imapClient) {
     }
@@ -23,22 +34,12 @@ abstract class Page {
         $name = $word . $nr;
 
         $domain = $domains[array_rand($domains)];
-        header("location: ?$name@$domain");
-    }
-
-    /**
-     * print error and stop program.
-     * @param $status integer http status
-     * @param $text string error text
-     */
-    function error($status, $text) {
-        @http_response_code($status);
-        die("{\"error\": \"$text\"}");
+        $this->viewHandler->newAddress("$name@$domain");
     }
 
 }
 
-class RedirectToAddressPage extends Page {
+class RedirectToAddressController extends Controller {
     private $username;
     private $domain;
     private $config_blocked_usernames;
@@ -51,11 +52,11 @@ class RedirectToAddressPage extends Page {
 
     function invoke(ImapClient $imapClient) {
         $user = User::parseUsernameAndDomain($this->username, $this->domain, $this->config_blocked_usernames);
-        header("location: ?" . $user->username . "@" . $user->domain);
+        $this->viewHandler->newAddress($user->username . "@" . $user->domain);
     }
 }
 
-class DownloadEmailPage extends Page {
+class DownloadEmailController extends Controller {
 
     private $email_id;
     private $address;
@@ -75,21 +76,18 @@ class DownloadEmailPage extends Page {
         $this->if_invalid_redirect_to_random($user, $this->config_domains);
 
         $download_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
-        if ($imapClient->load_one_email($download_email_id, $user) !== null) {
-            header("Content-Type: message/rfc822; charset=utf-8");
-            header("Content-Disposition: attachment; filename=\"" . $user->address . "-" . $download_email_id . ".eml\"");
-
-            $headers = imap_fetchheader($this->mailbox->getImapStream(), $download_email_id, FT_UID);
-            $body = imap_body($this->mailbox->getImapStream(), $download_email_id, FT_UID);
-            print $headers . "\n" . $body;
+        $full_email = $imapClient->load_one_email_fully($download_email_id, $user);
+        if ($full_email !== null) {
+            $filename = $user->address . "-" . $download_email_id . ".eml";
+            $this->viewHandler->downloadEmailAsRfc822($full_email, $filename);
         } else {
-            $this->error(404, 'download error: invalid username/mailid combination');
+            $this->viewHandler->error(404, 'download error: invalid username/mailid combination');
         }
     }
 }
 
 
-class DeleteEmailPage extends Page {
+class DeleteEmailController extends Controller {
     private $email_id;
     private $address;
     private $config_domains;
@@ -108,14 +106,14 @@ class DeleteEmailPage extends Page {
 
         $delete_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
         if ($imapClient->delete_email($delete_email_id, $user)) {
-            header("location: ?" . $user->address);
+            $this->viewHandler->done($this->address);
         } else {
-            $this->error(404, 'delete error: invalid username/mailid combination');
+            $this->viewHandler->error(404, 'delete error: invalid username/mailid combination');
         }
     }
 }
 
-class RedirectToRandomAddressPage extends Page {
+class RedirectToRandomAddressController extends Controller {
     private $config_domains;
 
     public function __construct($config_domains) {
@@ -128,7 +126,7 @@ class RedirectToRandomAddressPage extends Page {
 
 }
 
-class DisplayEmailsPage extends Page {
+class DisplayEmailsController extends Controller {
     private $address;
     private $config;
 
@@ -142,16 +140,14 @@ class DisplayEmailsPage extends Page {
         // print emails with html template
         $user = User::parseDomain($this->address, $this->config['blocked_usernames']);
         $this->if_invalid_redirect_to_random($user, $this->config['domains']);
-
-        // Set variables for frontend template:
         $emails = $imapClient->get_emails($user);
-        $config = $this->config;
-        require "frontend.template.php";
+
+        $this->viewHandler->displayEmails($emails, $this->config, $user);
     }
 }
 
-class InvalidRequestPage extends Page {
+class InvalidRequestController extends Controller {
     function invoke(ImapClient $imapClient) {
-        $this->error(400, "Bad Request");
+        $this->viewHandler->error(400, "Bad Request");
     }
 }
