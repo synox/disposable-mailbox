@@ -46,15 +46,15 @@ class ImapClient {
     /**
      * Load exactly one email, the $address in TO or CC has to match.
      */
-    public function load_one_email(int $mailid, User $user): \PhpImap\IncomingMail {
+    public function load_one_email(int $mailid, User $user): ?\PhpImap\IncomingMail {
         // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
         // the recipient in the email has to match the $address.
-        $emails = $this->_load_emails(array($mailid), $user);
+        @$emails = $this->_load_emails(array($mailid), $user);
         return count($emails) === 1 ? $emails[0] : null;
     }
 
 
-    public function load_one_email_fully($download_email_id, $user) {
+    public function load_one_email_fully($download_email_id, $user): ?string {
         if ($this->load_one_email($download_email_id, $user) !== null) {
             $headers = imap_fetchheader($this->mailbox->getImapStream(), $download_email_id, FT_UID);
             $body = imap_body($this->mailbox->getImapStream(), $download_email_id, FT_UID);
