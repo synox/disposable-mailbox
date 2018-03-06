@@ -18,25 +18,12 @@ abstract class Controller {
     function invoke(ImapClient $imapClient) {
     }
 
-    function if_invalid_redirect_to_random(User $user, array $config_domains) {
+    function validate_user(User $user, array $config_domains) {
         if ($user->isInvalid($config_domains)) {
-            $this->redirect_to_random($config_domains);
+            $this->viewHandler->invalid_input($config_domains);
             exit();
         }
     }
-
-    function redirect_to_random(array $domains) {
-        $wordLength = rand(3, 8);
-        $container = new PronounceableWord_DependencyInjectionContainer();
-        $generator = $container->getGenerator();
-        $word = $generator->generateWordOfGivenLength($wordLength);
-        $nr = rand(51, 91);
-        $name = $word . $nr;
-
-        $domain = $domains[array_rand($domains)];
-        $this->viewHandler->newAddress("$name@$domain");
-    }
-
 }
 
 class RedirectToAddressController extends Controller {
@@ -73,7 +60,7 @@ class DownloadEmailController extends Controller {
 
     function invoke(ImapClient $imapClient) {
         $user = User::parseDomain($this->address, $this->config_blocked_usernames);
-        $this->if_invalid_redirect_to_random($user, $this->config_domains);
+        $this->validate_user($user, $this->config_domains);
 
         $download_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
         $full_email = $imapClient->load_one_email_fully($download_email_id, $user);
@@ -102,7 +89,7 @@ class DeleteEmailController extends Controller {
 
     function invoke(ImapClient $imapClient) {
         $user = User::parseDomain($this->address, $this->config_blocked_usernames);
-        $this->if_invalid_redirect_to_random($user, $this->config_domains);
+        $this->validate_user($user, $this->config_domains);
 
         $delete_email_id = filter_var($this->email_id, FILTER_SANITIZE_NUMBER_INT);
         if ($imapClient->delete_email($delete_email_id, $user)) {
@@ -121,7 +108,8 @@ class RedirectToRandomAddressController extends Controller {
     }
 
     function invoke(ImapClient $imapClient) {
-        $this->redirect_to_random($this->config_domains);
+        $address = User::get_random_address($this->config_domains);
+        $this->viewHandler->newAddress($address);
     }
 
 }
@@ -135,11 +123,10 @@ class DisplayEmailsController extends Controller {
         $this->config = $config;
     }
 
-
     function invoke(ImapClient $imapClient) {
         // print emails with html template
         $user = User::parseDomain($this->address, $this->config['blocked_usernames']);
-        $this->if_invalid_redirect_to_random($user, $this->config['domains']);
+        $this->validate_user($user, $this->config['domains']);
         $emails = $imapClient->get_emails($user);
 
         $this->viewHandler->displayEmails($emails, $this->config, $user);

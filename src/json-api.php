@@ -13,20 +13,24 @@ require_once 'router.php';
 class RestRouter extends Router {
 
     function route(): Controller {
-        if ($this->action === "download_email"
+        if ($this->method === "GET"
+            && $this->action === "download_email"
             && isset($this->get_vars['email_id'])
             && isset($this->get_vars['address'])) {
             return new DownloadEmailController($this->get_vars['email_id'], $this->get_vars['address'], $this->config['domains'], $this->config['blocked_usernames']);
 
-        } elseif ($this->action === "delete_email"
+        } elseif ($this->method === "DELETE"
             && isset($this->get_vars['email_id'])
             && isset($this->get_vars['address'])) {
             return new DeleteEmailController($this->get_vars['email_id'], $this->get_vars['address'], $this->config['domains'], $this->config['blocked_usernames']);
 
-        } elseif ($this->action === 'get_random_username') {
+        } elseif ($this->method === "GET"
+            && $this->action === 'random_username') {
             return new RedirectToRandomAddressController($this->config['domains']);
 
-        } elseif ($this->action === 'get_emails' && isset($this->get_vars['address'])) {
+        } elseif ($this->method === "GET"
+            && $this->action === 'emails'
+            && isset($this->get_vars['address'])) {
             return new DisplayEmailsController($this->get_vars['address'], $this->config);
 
         } else {
@@ -67,6 +71,10 @@ class JsonViewHandler implements ViewHandler {
 
     function downloadEmailAsRfc822($full_email, $filename) {
         $this->json(array('status' => "success", 'body' => $full_email));
+    }
+
+    function invalid_input($config_domains) {
+        $this->error(400, 'Bad Request');
     }
 }
 

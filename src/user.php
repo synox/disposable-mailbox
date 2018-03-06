@@ -5,6 +5,18 @@ class User {
     public $username;
     public $domain;
 
+    public static function get_random_address(array $domains): string {
+        $wordLength = rand(3, 8);
+        $container = new PronounceableWord_DependencyInjectionContainer();
+        $generator = $container->getGenerator();
+        $word = $generator->generateWordOfGivenLength($wordLength);
+        $nr = rand(51, 91);
+        $name = $word . $nr;
+
+        $domain = $domains[array_rand($domains)];
+        return "$name@$domain";
+    }
+
     public function isInvalid(array $config_domains): bool {
         if (empty($this->username) || empty($this->domain)) {
             return true;

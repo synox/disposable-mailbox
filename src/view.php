@@ -15,6 +15,8 @@ interface ViewHandler {
     function newAddress($string);
 
     function downloadEmailAsRfc822($full_email, $filename);
+
+    function invalid_input($config_domains);
 }
 
 
@@ -41,5 +43,10 @@ class ServerRenderViewHandler implements ViewHandler {
         header("Content-Type: message/rfc822; charset=utf-8");
         header("Content-Disposition: attachment; filename=\"$filename\"");
         print $full_email;
+    }
+
+    function invalid_input($config_domains) {
+        $address = User::get_random_address($config_domains);
+        $this->newAddress($address);
     }
 }
