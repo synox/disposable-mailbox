@@ -1,4 +1,8 @@
 <?php
+if (version_compare(phpversion(), '7.2', '<')) {
+    die("ERROR! The php version isn't high enough, you need at least 7.2 to run this application! But you have: " . phpversion());
+}
+
 # set the new path of config.php (must be in a safe location outside the `public_html`)
 require_once '../../config.php';
 
