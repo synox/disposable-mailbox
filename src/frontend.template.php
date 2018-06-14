@@ -15,6 +15,11 @@ $purifier_config->set('HTML.Nofollow', true);
 $purifier_config->set('HTML.ForbiddenElements', array("img"));
 $purifier = new HTMLPurifier($purifier_config);
 
+$mailIds = array_map(function ($mail) {
+    return $mail->id;
+}, $emails);
+$mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_CHARS);
+
 ?>
 <html lang="en">
 <head>
@@ -41,11 +46,30 @@ $purifier = new HTMLPurifier($purifier_config);
             document.execCommand('copy', false);
             inp.remove();
         }
+
+
+        setInterval(function () {
+            var r = new XMLHttpRequest();
+            r.open("GET", "./json-api.php?action=has_new_messages&address=$<?php echo $user->address?>&email_ids=<?php echo $mailIdsJoinedString?>", true);
+            r.onreadystatechange = function () {
+                if (r.readyState != 4 || r.status != 200) return;
+                if (r.responseText > 0) {
+                    console.log("There are", r.responseText, "new mails.");
+                    document.getElementById("new-content-avalable").style.display = 'block';
+                }
+            };
+            r.send();
+
+        }, 15000);
+
     </script>
 </head>
 
 
-<body data-turbolinks="false">
+<body>
+<div id="new-content-avalable" class="alert alert-info alert-fixed" role="alert">
+    <strong>New mails</strong> have arrived - <a href="javascript:location.reload();" class="alert-link">reload!</a>
+</div>
 
 <header>
     <div class="container">

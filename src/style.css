@@ -30,6 +30,19 @@ div.min-height {
     min-height: 400px;
 }
 
+.alert-fixed {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 9999;
+    border-radius: 0px;
+    text-align: center;
+}
+
+#new-content-avalable {
+    display: none;
+}
 header {
     background-color: #D9E2E9;
     padding-top: 5px;
