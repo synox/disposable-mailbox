@@ -100,6 +100,35 @@ class DeleteEmailController extends Controller {
     }
 }
 
+class HasNewMessagesController extends Controller {
+    private $email_ids;
+    private $address;
+    private $config_domains;
+    private $config_blocked_usernames;
+
+    public function __construct($email_ids, $address, $config_domains, array $config_blocked_usernames) {
+        $this->email_ids = $email_ids;
+        $this->address = $address;
+        $this->config_domains = $config_domains;
+        $this->config_blocked_usernames = $config_blocked_usernames;
+    }
+
+    function invoke(ImapClient $imapClient) {
+        $user = User::parseDomain($this->address, $this->config_blocked_usernames);
+        $this->validate_user($user, $this->config_domains);
+        $emails = $imapClient->get_emails($user);
+
+        $knownMailIds = explode('|', $this->email_ids);
+
+        $newMailIds = array_map(function ($mail) {
+            return $mail->id;
+        }, $emails);
+
+        $onlyNewMailIds = array_diff($newMailIds, $knownMailIds);
+        $this->viewHandler->new_mail_counter_json(count($onlyNewMailIds));
+    }
+}
+
 class RedirectToRandomAddressController extends Controller {
     private $config_domains;
 
