@@ -53,7 +53,6 @@ class ServerRenderViewHandler implements ViewHandler {
     }
 
     function new_mail_counter_json($counter) {
-        header('Content-Type: application/json');
-        print json_encode($counter);
+        $this->error("not implemented for ServerRenderViewHandler, see json-api");
     }
 }
