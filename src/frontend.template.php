@@ -47,6 +47,21 @@ $mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_C
             inp.remove();
         }
 
+        function toggle_email_visibility(email_id) {
+            var mailPreviewHeader = document.getElementById("email-preview-header-" + email_id);
+            var mailFullHeader = document.getElementById("email-fullheader-" + email_id);
+            var mailBoy = document.getElementById("email-content-" + email_id);
+
+            if (mailPreviewHeader.style.display !== 'none') {
+                mailPreviewHeader.style.display = 'none';
+                mailFullHeader.style.display = 'block';
+                mailBoy.style.display = 'block';
+            } else {
+                mailPreviewHeader.style.display = 'block';
+                mailFullHeader.style.display = 'none';
+                mailBoy.style.display = 'none';
+            }
+        }
 
         setInterval(function () {
             var r = new XMLHttpRequest();
@@ -157,7 +172,42 @@ $mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_C
                 <div class="email-table">
 
                     <div class="card email">
-                        <div class="card-block header-shadow">
+                        <!-- preview header -->
+                        <div class="card-block header-shadow"
+                             id="email-preview-header-<?php echo filter_var($email->id, FILTER_SANITIZE_SPECIAL_CHARS); ?>"
+                             onclick="toggle_email_visibility('<?php echo filter_var($email->id, FILTER_SANITIZE_SPECIAL_CHARS); ?>')">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <b class="card-title">
+                                        <?php echo filter_var($email->subject, FILTER_SANITIZE_SPECIAL_CHARS); ?>
+                                    </b>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h6 class="card-subtitle mt-1 text-muted">
+                                        <?php
+                                        echo filter_var($email->fromName, FILTER_SANITIZE_SPECIAL_CHARS);
+                                        echo ' &lt;';
+                                        echo filter_var($email->fromAddress, FILTER_SANITIZE_SPECIAL_CHARS);
+                                        echo '&gt;';
+                                        ?>
+                                    </h6>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h6 class="card-subtitle mt-1 text-muted"
+                                        style="text-align: right">
+                                        <?php echo filter_var($email->date, FILTER_SANITIZE_SPECIAL_CHARS); ?>
+                                    </h6>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- full header -->
+                        <div class="card-block header-shadow email-fullheader"
+                             id="email-fullheader-<?php echo filter_var($email->id, FILTER_SANITIZE_SPECIAL_CHARS); ?>"
+                             onclick="toggle_email_visibility('<?php echo filter_var($email->id, FILTER_SANITIZE_SPECIAL_CHARS); ?>')">
                             <div class="row">
                                 <div class="col-sm-8">
                                     <h3 class="card-title">
@@ -197,7 +247,10 @@ $mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_C
 
                             </div>
                         </div>
-                        <div class="card-block">
+
+                        <!-- email content -->
+                        <div class="card-block email-content"
+                             id="email-content-<?php echo filter_var($email->id, FILTER_SANITIZE_SPECIAL_CHARS); ?>">
                             <h6 class="card-subtitle text-muted">
                                 To: <?php echo filter_var($email->toString, FILTER_SANITIZE_SPECIAL_CHARS); ?></h6>
 

@@ -40,6 +40,14 @@ div.min-height {
     text-align: center;
 }
 
+.email-fullheader {
+    display: none;
+}
+
+.email-content {
+    display: none;
+}
+
 #new-content-avalable {
     display: none;
 }
