@@ -11,7 +11,7 @@ A **self-hosted** disposable mailbox  service (aka trash mail)  :cloud: :envelop
 ## Features
 
 * Anonymous usage, generate random email addresses. 
-* Automatic refresh. Download and delete your emails.
+* New Mail notification. Download and delete your emails.
 * Display emails as text or html with sanitization  filter. 
 * Display emails based on one [catch-all imap mailbox](https://www.google.ch/search?q=how+to+setup+catch-all+imap+mailbox).
 * Only requires PHP  >=7.2 and [imap extension](http://php.net/manual/book.imap.php)
