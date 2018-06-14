@@ -28,6 +28,11 @@ class RestRouter extends Router {
             && $this->action === 'random_username') {
             return new RedirectToRandomAddressController($this->config['domains']);
 
+        } elseif ($this->action === "has_new_messages"
+            && isset($this->get_vars['email_ids'])
+            && isset($this->get_vars['address'])) {
+            return new HasNewMessagesController($this->get_vars['email_ids'], $this->get_vars['address'], $this->config['domains'], $this->config['blocked_usernames']);
+
         } elseif ($this->method === "GET"
             && $this->action === 'emails'
             && isset($this->get_vars['address'])) {
@@ -76,6 +81,12 @@ class JsonViewHandler implements ViewHandler {
     function invalid_input($config_domains) {
         $this->error(400, 'Bad Request');
     }
+
+    function new_mail_counter_json($counter) {
+        header('Content-Type: application/json');
+        print json_encode($counter);
+    }
+
 }
 
 

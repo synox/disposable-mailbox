@@ -37,11 +37,6 @@ class Router {
             && isset($this->get_vars['address'])) {
             return new DeleteEmailController($this->get_vars['email_id'], $this->get_vars['address'], $this->config['domains'], $this->config['blocked_usernames']);
 
-        } elseif ($this->action === "has_new_messages"
-            && isset($this->get_vars['email_ids'])
-            && isset($this->get_vars['address'])) {
-            return new HasNewMessagesController($this->get_vars['email_ids'], $this->get_vars['address'], $this->config['domains'], $this->config['blocked_usernames']);
-
         } elseif ($this->action === 'random') {
             return new RedirectToRandomAddressController($this->config['domains']);
 
