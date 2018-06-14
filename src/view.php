@@ -17,6 +17,8 @@ interface ViewHandler {
     function downloadEmailAsRfc822($full_email, $filename);
 
     function invalid_input($config_domains);
+
+    function new_mail_counter_json($counter);
 }
 
 
@@ -48,5 +50,10 @@ class ServerRenderViewHandler implements ViewHandler {
     function invalid_input($config_domains) {
         $address = User::get_random_address($config_domains);
         $this->newAddress($address);
+    }
+
+    function new_mail_counter_json($counter) {
+        header('Content-Type: application/json');
+        print json_encode($counter);
     }
 }
