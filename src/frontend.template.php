@@ -31,42 +31,8 @@ $purifier = new HTMLPurifier($purifier_config);
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="spinner.css">
-    <script src="turbolinks.js"></script>
-    <meta name="turbolinks-cache-control" content="no-preview">
 
     <script>
-        // https://stackoverflow.com/a/48234990/79461
-        var reloadWithTurbolinks = (function () {
-            var scrollPosition;
-            var focusId;
-
-            function reload() {
-                Turbolinks.visit(window.location.toString(), {action: 'replace'})
-            }
-
-            document.addEventListener('turbolinks:before-render', function () {
-                scrollPosition = [window.scrollX, window.scrollY];
-                focusId = document.activeElement.id;
-            });
-            document.addEventListener('turbolinks:load', function () {
-                if (scrollPosition) {
-                    window.scrollTo.apply(window, scrollPosition);
-                    scrollPosition = null
-                }
-                if (focusId) {
-                    document.getElementById(focusId).focus();
-                    focusId = null;
-                }
-            });
-            return reload;
-        })();
-
-
-        setInterval(function () {
-            reloadWithTurbolinks();
-        }, 15000);
-
-
         function copyToClipboard(text) {
             var inp = document.createElement('input');
             document.body.appendChild(inp);
@@ -75,8 +41,6 @@ $purifier = new HTMLPurifier($purifier_config);
             document.execCommand('copy', false);
             inp.remove();
         }
-
-
     </script>
 </head>
 
@@ -90,7 +54,7 @@ $purifier = new HTMLPurifier($purifier_config);
             mailbox:
         </small>
 
-        <form id="header-form" data-turbolinks-permanent action="?action=redirect" method="post">
+        <form id="header-form" action="?action=redirect" method="post">
             <div class="form-group row">
 
                 <div class="col-lg-5 col-md-4 col-sm-6 col-xs-12">
