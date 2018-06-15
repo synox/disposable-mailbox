@@ -180,8 +180,9 @@ $mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_C
                 <div class="email-table">
 
                     <div class="card email">
+
                         <!-- preview header -->
-                        <div class="card-block header-shadow"
+                        <div class="card-block header-shadow email-preview-header"
                              id="email-preview-header-<?php echo filter_var($email->id, FILTER_SANITIZE_SPECIAL_CHARS); ?>"
                              onclick="toggle_email_visibility('<?php echo filter_var($email->id, FILTER_SANITIZE_SPECIAL_CHARS); ?>')">
                             <div class="row">
