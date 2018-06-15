@@ -50,16 +50,16 @@ $mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_C
         function toggle_email_visibility(email_id) {
             var mailPreviewHeader = document.getElementById("email-preview-header-" + email_id);
             var mailFullHeader = document.getElementById("email-fullheader-" + email_id);
-            var mailBoy = document.getElementById("email-content-" + email_id);
+            var mailBody = document.getElementById("email-content-" + email_id);
 
             if (mailPreviewHeader.style.display !== 'none') {
                 mailPreviewHeader.style.display = 'none';
                 mailFullHeader.style.display = 'block';
-                mailBoy.style.display = 'block';
+                mailBody.style.display = 'block';
             } else {
                 mailPreviewHeader.style.display = 'block';
                 mailFullHeader.style.display = 'none';
-                mailBoy.style.display = 'none';
+                mailBody.style.display = 'none';
             }
         }
 
@@ -71,6 +71,11 @@ $mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_C
                 if (r.responseText > 0) {
                     console.log("There are", r.responseText, "new mails.");
                     document.getElementById("new-content-avalable").style.display = 'block';
+                    
+                    // If there are no emails displayed, we can reload the page without loosing any state. 
+                    if(<?php echo count($emails)?> === 0) {
+                        location.reload();
+                    }
                 }
             };
             r.send();
