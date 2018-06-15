@@ -38,6 +38,9 @@ $mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_C
     <link rel="stylesheet" href="spinner.css">
 
     <script>
+
+        var mailCount = <?php echo count($emails)?>;
+
         function copyToClipboard(text) {
             var inp = document.createElement('input');
             document.body.appendChild(inp);
@@ -71,9 +74,9 @@ $mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_C
                 if (r.responseText > 0) {
                     console.log("There are", r.responseText, "new mails.");
                     document.getElementById("new-content-avalable").style.display = 'block';
-                    
-                    // If there are no emails displayed, we can reload the page without loosing any state. 
-                    if(<?php echo count($emails)?> === 0) {
+
+                    // If there are no emails displayed, we can reload the page without looing any state.
+                    if (mailCount === 0) {
                         location.reload();
                     }
                 }
