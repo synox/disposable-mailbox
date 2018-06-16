@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2018-06-16
+
 ### Changed
 - Show list of mails and show them only on click. 
 - Removed Turbolinks to allow for simpler code in new features. Add new mail alert. 
