@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## [Unreleased]
 
 ### Changed
+- Show list of mails and show them only on click. 
 - Removed Turbolinks to allow for simpler code in new features. Add new mail alert. 
 - Rewrote to use mostly pure php. Uses Javascript only where it’s necessary. 
 - fixed problem where only one domain is defined
