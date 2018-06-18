@@ -83,49 +83,64 @@
             padding-left: 3rem;
         }
 
+        .alert-fixed {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            z-index: 9999;
+            border-radius: 0px;
+            text-align: center;
+        }
+
+
     </style>
 </head>
 <body>
 
 
-<div id="new-content-avalable" class="alert alert-info alert-fixed" role="alert">
-    <!--TODO: alert-fixed does not work -->
-    <strong>New mails</strong> have arrived - <a href="javascript:location.reload();" class="alert-link">reload!</a>
+<div id="new-content-avalable">
+    <div class="alert alert-info alert-fixed" role="alert">
+        <strong>New mails</strong> have arrived - <a href="javascript:location.reload();" class="alert-link">reload!</a>
+    </div>
+    <!-- move the rest of the page a bit down show show all content -->
+    <div style="height: 3rem">&nbsp;</div>
 </div>
-
 
 <header>
 
     <div class="container">
-
         <div class="row">
-
-
             <p class="lead col">
-                Your disposable mailbox
-                <strong class="my-address" id="my-address"
-                        data-tooltip="tooltip" data-placement="top" title="Click to copy address"
-                        data-clipboard-target="#my-address">user@domain.com
+                Your disposable mailbox is ready. <br>
+
+                <strong id="my-address">
+                    user@domain.com
                 </strong>
-                is ready.
+
+            </p>
+            <p class="col buttons">
+                <button type="button" class="btn btn-outline-dark" data-tooltip="tooltip"
+                        data-placement="top" title="open random mailbox"
+                        data-clipboard-target="#my-address">
+                    <i class="far fa-copy"></i><br> Copy
+                </button>
+
+                <!--<button type="button" class="btn btn-outline-dark" data-tooltip="tooltip" data-placement="top"-->
+                <!--title="open random mailbox"><i class="fas fa-sync"></i> Refresh</button>-->
+
+
                 <button type="button" class="btn btn-outline-primary"
                         data-toggle="collapse" title="choose your own address"
                         data-target=".change-address-toggle"
-                        data-tooltip="tooltip" aria-controls="address-box-edit" aria-expanded="false">change
-                    address
+                        data-tooltip="tooltip" aria-controls="address-box-edit" aria-expanded="false">
+                    <i class="fas fa-user-edit"></i> <br>change address
                 </button>
-                <button type="button" class="btn btn-outline-dark" data-tooltip="tooltip" data-placement="top"
-                        title="open random mailbox"><i class="fas fa-random"></i></button>
+                <button type="button" class="btn btn-outline-dark" data-tooltip="tooltip"
+                        data-placement="top" title="open random mailbox">
+                    <i class="fas fa-random"></i> <br>random</button>
 
             </p>
-            <div class="col-md-auto">
-                <select id="language-selection" class="custom-select float-right " title="Language">
-                    <option selected>English</option>
-                    <option value="1">Deutsch</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
         </div>
 
         <form class="collapse change-address-toggle" id="address-box-edit">
@@ -207,19 +222,24 @@
                         <p>Hi Joe</p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis arcu erat, luctus
                             vitae
-                            consectetur imperdiet, congue sit amet purus. Vivamus vel aliquet neque. Aenean
+                            consectetur imperdiet, congue sit amet purus. Vivamus vel aliquet neque.
+                            Aenean
                             sed luctus
-                            justo, at tempus risus. Cras quis tempus nunc, vitae imperdiet neque. Ut feugiat
+                            justo, at tempus risus. Cras quis tempus nunc, vitae imperdiet neque. Ut
+                            feugiat
                             risus non
-                            volutpat fermentum. Aliquam consectetur mauris ut leo faucibus, eu varius tortor
+                            volutpat fermentum. Aliquam consectetur mauris ut leo faucibus, eu varius
+                            tortor
                             posuere.
-                            Morbi dictum nunc quam, blandit viverra mi auctor vitae. Donec ornare venenatis
+                            Morbi dictum nunc quam, blandit viverra mi auctor vitae. Donec ornare
+                            venenatis
                             augue vel
                             vulputate. Nunc porttitor magna felis, eu suscipit orci auctor varius.
                             Pellentesque posuere
                             dolor ex, eu eleifend odio bibendum a. Pellentesque a placerat dolor, vel
                             ultricies odio.
-                            Nunc feugiat nibh ac vehicula semper. Quisque sit amet aliquet nisi. Curabitur vel
+                            Nunc feugiat nibh ac vehicula semper. Quisque sit amet aliquet nisi. Curabitur
+                            vel
                             nulla
                             venenatis, accumsan dolor ut, vestibulum urna. Morbi congue elit facilisis,
                             vehicula felis
@@ -268,19 +288,24 @@
                         <p>Hi Joe</p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis arcu erat, luctus
                             vitae
-                            consectetur imperdiet, congue sit amet purus. Vivamus vel aliquet neque. Aenean
+                            consectetur imperdiet, congue sit amet purus. Vivamus vel aliquet neque.
+                            Aenean
                             sed luctus
-                            justo, at tempus risus. Cras quis tempus nunc, vitae imperdiet neque. Ut feugiat
+                            justo, at tempus risus. Cras quis tempus nunc, vitae imperdiet neque. Ut
+                            feugiat
                             risus non
-                            volutpat fermentum. Aliquam consectetur mauris ut leo faucibus, eu varius tortor
+                            volutpat fermentum. Aliquam consectetur mauris ut leo faucibus, eu varius
+                            tortor
                             posuere.
-                            Morbi dictum nunc quam, blandit viverra mi auctor vitae. Donec ornare venenatis
+                            Morbi dictum nunc quam, blandit viverra mi auctor vitae. Donec ornare
+                            venenatis
                             augue vel
                             vulputate. Nunc porttitor magna felis, eu suscipit orci auctor varius.
                             Pellentesque posuere
                             dolor ex, eu eleifend odio bibendum a. Pellentesque a placerat dolor, vel
                             ultricies odio.
-                            Nunc feugiat nibh ac vehicula semper. Quisque sit amet aliquet nisi. Curabitur vel
+                            Nunc feugiat nibh ac vehicula semper. Quisque sit amet aliquet nisi. Curabitur
+                            vel
                             nulla
                             venenatis, accumsan dolor ut, vestibulum urna. Morbi congue elit facilisis,
                             vehicula felis
@@ -309,6 +334,15 @@
 
 <footer>
     <div class="container">
+
+
+        <select id="language-selection" class="custom-select " title="Language">
+            <option selected>English</option>
+            <option value="1">Deutsch</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+
         <p class="text-justify">This is a disposable mailbox service. Everybody can read all emails.
             <a class="btn btn-dark btn-sm" data-toggle="collapse" href="#about" role="button"
                aria-expanded="false"
@@ -320,19 +354,23 @@
 
             <p class="text-justify">This keeps your main mailbox clean from spam.</p>
 
-            <p class="text-justify">Just choose an address and use it on websites you don't trust and don't
+            <p class="text-justify">Just choose an address and use it on websites you don't trust and
+                don't
                 want to use
                 your
                 main email address.
-                Once you are done, you can just forget about the mailbox. All the spam stays here and does not
+                Once you are done, you can just forget about the mailbox. All the spam stays here and does
+                not
                 fill up
                 your
                 main mailbox.
             </p>
 
             <p class="text-justify">
-                You select the address you want to use and received emails will be displayed automatically.
-                There is not registration and no passwords. If you know the address, you can read the emails.
+                You select the address you want to use and received emails will be displayed
+                automatically.
+                There is not registration and no passwords. If you know the address, you can read the
+                emails.
                 <strong>Basically, all emails are public. So don't use it for sensitive data.</strong>
 
 
@@ -361,7 +399,7 @@
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 
 <script>
-    clipboard = new ClipboardJS('#my-address');
+    clipboard = new ClipboardJS('[data-clipboard-target]');
     $(function () {
         $('[data-tooltip="tooltip"]').tooltip()
     });
