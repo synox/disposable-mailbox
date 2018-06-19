@@ -22,14 +22,64 @@
             flex-direction: column;
         }
 
-        .my-address {
-            background-color: #feffed;
-            padding: 0.5rem;
+        #my-address {
+            margin-top: 0.5rem;
             cursor: pointer;
+            margin-left: 1rem;
         }
 
+        .my-address-block {
+            background-color: #F8F9FA;
+            padding: 0.5rem;
+            white-space: nowrap;
+            padding-left: 0;
+            margin-left: 1rem;
+            text-align: center;
+        }
+
+        .get-new-address-col {
+            text-align: center;
+            padding: 0.5rem;
+
+        }
+        .my-address {
+            background-color: #F8F9FA;
+            padding: 0.5rem;
+        }
+
+        .copy-button {
+            font-size: 75%;
+            color: #808080;
+            cursor: pointer;
+            background-color: transparent;
+            border: 0;
+            border-radius: 0.25rem;
+        }
+
+        .copy-button:hover {
+            color: #fff;
+            background-color: #007BFF;
+        }
+
+        /* from https://github.com/twbs/bootstrap/blob/620257456ed0685cae6b6ff51d2ab1e37f02a4fa/assets/scss/_clipboard-js.scss and adapted */
+        .btn-clipboard2 {
+            display: block;
+            padding: 0.25rem 0.5rem;
+            font-size: 75%;
+            color: #818a91;
+
+        }
+
+        .my-address-copy {
+            background-color: #F8F9FA;
+            padding-right: 0;
+            padding-left: 0;
+        }
+
+        /* --- */
+
         header {
-            background-color: #f9f9f9;
+            /*background-color: #f9f9f9;*/
             padding-bottom: 1rem;
             padding-top: 1rem;
         }
@@ -110,38 +160,65 @@
 <header>
 
     <div class="container">
-        <div class="row">
-            <p class="lead col">
-                Your disposable mailbox is ready. <br>
+        <p class="lead ">
+            Your disposable mailbox is ready.
+        </p>
+        <div class="row" id="address-box-normal">
 
-                <strong id="my-address">
+            <div class="col my-address-block">
+                <span id="my-address">
                     user@domain.com
-                </strong>
-
-            </p>
-            <p class="col buttons">
-                <button type="button" class="btn btn-outline-dark" data-tooltip="tooltip"
-                        data-placement="top" title="open random mailbox"
-                        data-clipboard-target="#my-address">
-                    <i class="far fa-copy"></i><br> Copy
+                </span>&nbsp;<button class="copy-button" data-clipboard-target="#my-address">
+                    Copy
                 </button>
-
-                <!--<button type="button" class="btn btn-outline-dark" data-tooltip="tooltip" data-placement="top"-->
-                <!--title="open random mailbox"><i class="fas fa-sync"></i> Refresh</button>-->
-
-
-                <button type="button" class="btn btn-outline-primary"
+            </div>
+            <div class="col get-new-address-col">
+                <button type="button" class="btn btn-outline-dark"
                         data-toggle="collapse" title="choose your own address"
                         data-target=".change-address-toggle"
-                        data-tooltip="tooltip" aria-controls="address-box-edit" aria-expanded="false">
-                    <i class="fas fa-user-edit"></i> <br>change address
-                </button>
-                <button type="button" class="btn btn-outline-dark" data-tooltip="tooltip"
-                        data-placement="top" title="open random mailbox">
-                    <i class="fas fa-random"></i> <br>random</button>
-
-            </p>
+                        aria-controls="address-box-normal address-box-edit" aria-expanded="false">get new address</button>
+            </div>
         </div>
+
+        <!--<div class="col">-->
+        <!--<button type="button" class="btn btn-outline-primary">change address-->
+        <!--</button>-->
+
+
+        <!--<button type="button" class="btn btn-outline-dark" data-toggle="tooltip" data-placement="top"-->
+        <!--title="open random mailbox"><i class="fas fa-random"></i></button>-->
+        <!--</div>-->
+
+        <!--<div class="row">-->
+        <!--<div class="col-sm">-->
+        <!--<strong id="my-address">-->
+        <!--user@domain.com-->
+        <!--</strong>-->
+        <!--<button type="button" class="btn btn-light copy-button" data-tooltip="tooltip"-->
+        <!--data-placement="top" title="open random mailbox"-->
+        <!--data-clipboard-target="#my-address">-->
+        <!--<i class="far fa-copy"></i> Copy-->
+        <!--</button>-->
+        <!--</div>-->
+        <!--<div class="col-md">-->
+
+        <!--&lt;!&ndash;<button type="button" class="btn btn-outline-dark" data-tooltip="tooltip" data-placement="top"&ndash;&gt;-->
+        <!--&lt;!&ndash;title="open random mailbox"><i class="fas fa-sync"></i> Refresh</button>&ndash;&gt;-->
+        <!--<button type="button" class="btn"-->
+        <!--data-toggle="collapse" title="choose your own address"-->
+        <!--data-target=".change-address-toggle"-->
+        <!--data-tooltip="tooltip" aria-controls="address-box-edit" aria-expanded="false">-->
+        <!--<i class="fas fa-random"></i> get new address-->
+        <!--</button>-->
+        <!--&lt;!&ndash;<button type="button" class="btn btn-outline-dark" data-tooltip="tooltip"&ndash;&gt;-->
+        <!--&lt;!&ndash;data-placement="top" title="open random mailbox">&ndash;&gt;-->
+        <!--&lt;!&ndash;<i class="fas fa-random"></i> random&ndash;&gt;-->
+        <!--&lt;!&ndash;</button>&ndash;&gt;-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</strong>-->
+        <!--</p>-->
+        <!--</div>-->
 
         <form class="collapse change-address-toggle" id="address-box-edit">
             <div class="card">
@@ -336,7 +413,7 @@
     <div class="container">
 
 
-        <select id="language-selection" class="custom-select " title="Language">
+        <select id="language-selection" class="custom-select" title="Language">
             <option selected>English</option>
             <option value="1">Deutsch</option>
             <option value="2">Two</option>
@@ -344,7 +421,7 @@
         </select>
 
         <p class="text-justify">This is a disposable mailbox service. Everybody can read all emails.
-            <a class="btn btn-dark btn-sm" data-toggle="collapse" href="#about" role="button"
+            <a class="btn btn-outline-dark btn-sm" data-toggle="collapse" href="#about" role="button"
                aria-expanded="false"
                aria-controls="about">
                 Show Details
