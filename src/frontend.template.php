@@ -20,11 +20,12 @@ $mailIds = array_map(function ($mail) {
 }, $emails);
 $mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_CHARS);
 
-function niceDate($date){
+function niceDate($date) {
+    // TODO: make nicer
     return $date;
 }
-?>
 
+?>
 
 
 <!doctype html>
@@ -40,9 +41,9 @@ function niceDate($date){
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
           integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
           crossorigin="anonymous">
-        <title><?php
-            echo $emails ? "(" . count($emails) . ") " : "";
-            echo $user->address ?></title>
+    <title><?php
+        echo $emails ? "(" . count($emails) . ") " : "";
+        echo $user->address ?></title>
     <link rel="stylesheet" href="spinner.css">
     <link rel="stylesheet" href="style.css">
 
@@ -79,7 +80,8 @@ function niceDate($date){
 
         <button type="button" class="btn btn-outline-secondary" onclick="location.reload()">
             <i class="fas fa-sync"></i>
-            Reload!</button>
+            Reload!
+        </button>
 
     </div>
     <!-- move the rest of the page a bit down to show all content -->
@@ -97,8 +99,8 @@ function niceDate($date){
                 <span id="my-address">
                     <?php echo $user->address ?>
                 </span>&nbsp;<button class="copy-button" data-clipboard-target="#my-address">
-                Copy
-            </button>
+                    Copy
+                </button>
             </div>
 
 
@@ -118,8 +120,8 @@ function niceDate($date){
                 <div class="card-body">
                     <p>
                         <a href="?action=random" role="button" class="btn btn-dark">
-                        <i class="fa fa-random"></i>
-                        Open random mailbox
+                            <i class="fa fa-random"></i>
+                            Open random mailbox
                         </a>
                     </p>
 
@@ -139,15 +141,14 @@ function niceDate($date){
                                     <div class="input-group-text">@</div>
                                 </div>
 
-                                 <select class="custom-select" id="inlineFormInputGroupUsername" name="domain">
-                                        <?php
-                                        foreach ($config['domains'] as $aDomain) {
-                                            $selected = $aDomain === $user->domain ? ' selected ' : '';
-                                            print "<option value='$aDomain' $selected>@$aDomain</option>";
-                                        }
-                                        ?>
+                                <select class="custom-select" id="inlineFormInputGroupUsername" name="domain">
+                                    <?php
+                                    foreach ($config['domains'] as $aDomain) {
+                                        $selected = $aDomain === $user->domain ? ' selected ' : '';
+                                        print "<option value='$aDomain' $selected>@$aDomain</option>";
+                                    }
+                                    ?>
                                 </select>
-
 
 
                             </div>
@@ -168,92 +169,93 @@ function niceDate($date){
 
         <div id="email-list" class="list-group">
 
-<?php        foreach ($emails as $email) {
-            $safe_email_id = filter_var($email->id, FILTER_VALIDATE_INT);
-            ?>
-            <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse"
-               href="#mail-box-<?php echo $email->id?>"
-               role="button"
-               aria-expanded="false" aria-controls="mail-box-<?php echo $email->id?>">
+            <?php foreach ($emails as $email) {
+                $safe_email_id = filter_var($email->id, FILTER_VALIDATE_INT);
+                ?>
+                <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse"
+                   href="#mail-box-<?php echo $email->id ?>"
+                   role="button"
+                   aria-expanded="false" aria-controls="mail-box-<?php echo $email->id ?>">
 
-                <div class="media">
-                    <button class="btn btn-white open-collapse-button">
-                        <i class="fas fa-caret-right expand-button-closed"></i>
-                        <i class="fas fa-caret-down expand-button-opened"></i>
-                    </button>
+                    <div class="media">
+                        <button class="btn btn-white open-collapse-button">
+                            <i class="fas fa-caret-right expand-button-closed"></i>
+                            <i class="fas fa-caret-down expand-button-opened"></i>
+                        </button>
 
 
-                    <div class="media-body">
-                        <h6 class="list-group-item-heading"><?php echo filter_var($email->fromName, FILTER_SANITIZE_SPECIAL_CHARS)?><span class="text-muted"><?php echo filter_var($email->fromAddress, FILTER_SANITIZE_SPECIAL_CHARS)?></span>
-                            <small class="float-right"><?php echo niceDate($email->date)?></small>
-                        </h6>
-                        <p class="list-group-item-text text-truncate">
-                            <?php echo filter_var($email->subject, FILTER_SANITIZE_SPECIAL_CHARS); ?>
+                        <div class="media-body">
+                            <h6 class="list-group-item-heading"><?php echo filter_var($email->fromName, FILTER_SANITIZE_SPECIAL_CHARS) ?>
+                                <span class="text-muted"><?php echo filter_var($email->fromAddress, FILTER_SANITIZE_SPECIAL_CHARS) ?></span>
+                                <small class="float-right"><?php echo niceDate($email->date) ?></small>
+                            </h6>
+                            <p class="list-group-item-text text-truncate">
+                                <?php echo filter_var($email->subject, FILTER_SANITIZE_SPECIAL_CHARS); ?>
 
-                            <span class="float-right primary">
-                            <a class="btn btn-outline-primary btn-sm " download="true"
-                               role="button"
-                               href="?action=download_email&download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Download
-                            </a>
+                                <span class="float-right primary">
+                                <a class="btn btn-outline-primary btn-sm " download="true"
+                                   role="button"
+                                   href="?action=download_email&download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Download
+                                </a>
 
-                            <a class="btn btn-outline-danger btn-sm"
-                               role="button"
-                               href="?action=delete_email&email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Delete
-                            </a>
-                        </span>
-                        </p>
+                                <a class="btn btn-outline-danger btn-sm"
+                                   role="button"
+                                   href="?action=delete_email&email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Delete
+                                </a>
+                            </span>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                <div id="mail-box-<?php echo $email->id ?>" role="tabpanel" aria-labelledby="headingCollapse1"
+                     class="card-collapse collapse"
+                     aria-expanded="true">
+                    <div class="card-body">
+                        <div class="card-block email-body">
+                            <?php
+                            $safeHtml = $purifier->purify($email->textHtml);
+
+                            $safeText = htmlspecialchars($email->textPlain);
+                            $safeText = nl2br($safeText);
+                            $safeText = \AutoLinkExtension::auto_link_text($safeText);
+
+                            $hasHtml = strlen(trim($safeHtml)) > 0;
+                            $hasText = strlen(trim($safeText)) > 0;
+
+                            if ($config['prefer_plaintext']) {
+                                if ($hasText) {
+                                    echo $safeText;
+                                } else {
+                                    echo $safeHtml;
+                                }
+                            } else {
+                                if ($hasHtml) {
+                                    echo $safeHtml;
+                                } else {
+                                    echo $safeText;
+                                }
+                            }
+                            ?>
+
+                        </div>
                     </div>
                 </div>
-            </a>
-            <div id="mail-box-<?php echo $email->id?>" role="tabpanel" aria-labelledby="headingCollapse1"
-                 class="card-collapse collapse"
-                 aria-expanded="true">
-                <div class="card-body">
-                    <div class="card-block email-body">
-                         <?php
-                                    $safeHtml = $purifier->purify($email->textHtml);
-
-                                    $safeText = htmlspecialchars($email->textPlain);
-                                    $safeText = nl2br($safeText);
-                                    $safeText = \AutoLinkExtension::auto_link_text($safeText);
-
-                                    $hasHtml = strlen(trim($safeHtml)) > 0;
-                                    $hasText = strlen(trim($safeText)) > 0;
-
-                                    if ($config['prefer_plaintext']) {
-                                        if ($hasText) {
-                                            echo $safeText;
-                                        } else {
-                                            echo $safeHtml;
-                                        }
-                                    } else {
-                                        if ($hasHtml) {
-                                            echo $safeHtml;
-                                        } else {
-                                            echo $safeText;
-                                        }
-                                    }
-                                    ?>
-
-                    </div>
-                </div>
-            </div>
             <?php } ?>
         </div>
 
- <?php
+        <?php
         if (empty($emails)) { ?>
-        <div id="empty-mailbox">
-            <hr>
-            <p>Emails will appear here automatically. </p>
-            <div class="spinner">
-                <div class="rect1"></div>
-                <div class="rect2"></div>
-                <div class="rect3"></div>
-                <div class="rect4"></div>
-                <div class="rect5"></div>
+            <div id="empty-mailbox">
+                <hr>
+                <p>Emails will appear here automatically. </p>
+                <div class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
             </div>
-        </div>
         <?php } ?>
     </div>
 </main>
@@ -337,11 +339,10 @@ function niceDate($date){
     /** from https://github.com/twbs/bootstrap/blob/c11132351e3e434f6d4ed72e5a418eb692c6a319/assets/js/src/application.js */
     clipboard.on('success', function (e) {
         $(e.trigger)
-        .attr('title', 'Copied!')
-        .tooltip('_fixTitle')
-        .tooltip('show')
-        .attr('title', 'Copy to clipboard')
-        .tooltip('_fixTitle');
+            .attr('title', 'Copied!')
+            .tooltip('_fixTitle')
+            .tooltip('show')
+            .tooltip('_fixTitle');
         e.clearSelection();
     });
 
