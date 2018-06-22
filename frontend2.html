@@ -45,6 +45,7 @@
 
         .email-list-item {
             padding-left: 0;
+            padding-bottom: 0;
         }
 
         .copy-button {
@@ -78,8 +79,8 @@
         }
 
         footer {
-            padding-top: 3rem;
-            background-color: #dee2e6;
+            padding-top: 1rem;
+            background-color: #eeeeee;
         }
 
         .open-collapse-button {
@@ -113,7 +114,6 @@
         }
 
         .email-body {
-            padding-left: 3rem;
         }
 
         .alert-fixed {
@@ -136,7 +136,12 @@
 
 <div id="new-content-avalable">
     <div class="alert alert-info alert-fixed" role="alert">
-        <strong>New mails</strong> have arrived - <a href="javascript:location.reload();" class="alert-link">reload!</a>
+        <strong>New emails</strong> have arrived.
+
+        <button type="button" class="btn btn-outline-secondary" onclick="location.reload()">
+            <i class="fas fa-sync"></i>
+            Reload!</button>
+
     </div>
     <!-- move the rest of the page a bit down show show all content -->
     <div style="height: 3rem">&nbsp;</div>
@@ -161,8 +166,8 @@
                 <button type="button" class="btn btn-outline-dark"
                         data-toggle="collapse" title="choose your own address"
                         data-target=".change-address-toggle"
-                        aria-controls="address-box-normal address-box-edit" aria-expanded="false">get new
-                    address
+                        aria-controls="address-box-normal address-box-edit" aria-expanded="false">
+                    <i class="fas fa-magic"></i> Change address
                 </button>
             </div>
         </div>
@@ -171,7 +176,13 @@
         <form class="collapse change-address-toggle" id="address-box-edit">
             <div class="card">
                 <div class="card-body">
-                    Choose a new address:
+                    <p>
+                        <button type="button" class="btn btn-dark"><i class="fa fa-random"></i> Open random
+                            mailbox
+                        </button>
+                    </p>
+
+                    or create your own address:
                     <div class="form-row align-items-center">
                         <div class="col-sm">
                             <label class="sr-only" for="inlineFormInputName">Address</label>
@@ -179,7 +190,7 @@
                                    placeholder="address"
                                    value="user123">
                         </div>
-                        <div class="col-sm-4 my-1">
+                        <div class="col-sm-auto my-1">
                             <label class="sr-only" for="inlineFormInputGroupUsername">Domain</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -196,11 +207,7 @@
                             <button type="submit" class="btn btn-primary">Open mailbox</button>
                         </div>
                     </div>
-                    <br>
-                    Or geneate a random email address:
-                    <button type="button" class="btn btn-dark"><i class="fa fa-random"></i> Open random
-                        mailbox
-                    </button>
+
                 </div>
             </div>
         </form>
@@ -208,9 +215,9 @@
 </header>
 
 <main>
-    <div class="container" id="map">
+    <div class="container">
 
-        <div class="list-group">
+        <div id="email-list" class="list-group">
 
 
             <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse"
@@ -280,7 +287,8 @@
 
             <!-- next email -->
 
-            <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse" href="#mail-box-2"
+            <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse"
+               href="#mail-box-2"
                role="button"
                aria-expanded="false" aria-controls="mail-box-1">
 
@@ -345,15 +353,16 @@
 
         </div>
 
-
-        <hr>
-        <p>Emails will appear here automatically. They will be deleted after 30 days.</p>
-        <div class="spinner">
-            <div class="rect1"></div>
-            <div class="rect2"></div>
-            <div class="rect3"></div>
-            <div class="rect4"></div>
-            <div class="rect5"></div>
+        <div id="empty-mailbox">
+            <hr>
+            <p>Emails will appear here automatically. </p>
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
         </div>
     </div>
 </main>
@@ -369,16 +378,19 @@
             <option value="3">Three</option>
         </select>
 
-        <p class="text-justify">This is a disposable mailbox service. Everybody can read all emails.
-            <a class="btn btn-outline-dark btn-sm" data-toggle="collapse" href="#about" role="button"
+        <br>
+        <small class="text-justify quick-summary">
+            This is a disposable mailbox service. Whoever knows your username, can read your emails.
+            Emails will be deleted after 30 days.
+            <a data-toggle="collapse" href="#about"
                aria-expanded="false"
                aria-controls="about">
                 Show Details
             </a>
-        </p>
+        </small>
         <div class="card card-body collapse" id="about" style="max-width: 40rem">
 
-            <p class="text-justify">This keeps your main mailbox clean from spam.</p>
+            <p class="text-justify">This disposable mailbox keeps your main mailbox clean from spam.</p>
 
             <p class="text-justify">Just choose an address and use it on websites you don't trust and
                 don't
@@ -403,11 +415,12 @@
             </p>
         </div>
 
-
-        <small>Powered by <a
-                href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
-            | <a href="https://github.com/synox/disposable-mailbox">Contribute to the development on
-                Github.</a></small>
+        <p>
+            <small>Powered by
+                <a
+                        href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
+            </small>
+        </p>
     </div>
 </footer>
 
@@ -439,9 +452,9 @@
         .attr('title', 'Copy to clipboard')
         .tooltip('_fixTitle');
         e.clearSelection();
-    })
-
+    });
 
 </script>
+
 </body>
 </html>
