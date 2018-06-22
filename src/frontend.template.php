@@ -20,52 +20,34 @@ $mailIds = array_map(function ($mail) {
 }, $emails);
 $mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_CHARS);
 
+function niceDate($date){
+    return $date;
+}
 ?>
+
+
+
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title><?php
-        echo $emails ? "(" . count($emails) . ") " : "";
-        echo $user->address ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/x-icon" href="favicon.gif">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+          crossorigin="anonymous">
+        <title><?php
+            echo $emails ? "(" . count($emails) . ") " : "";
+            echo $user->address ?></title>
     <link rel="stylesheet" href="spinner.css">
+    <link rel="stylesheet" href="style.css">
 
     <script>
-
         var mailCount = <?php echo count($emails)?>;
-
-        function copyToClipboard(text) {
-            var inp = document.createElement('input');
-            document.body.appendChild(inp);
-            inp.value = text;
-            inp.select();
-            document.execCommand('copy', false);
-            inp.remove();
-        }
-
-        function toggle_email_visibility(email_id) {
-            var mailPreviewHeader = document.getElementById("email-preview-header-" + email_id);
-            var mailFullHeader = document.getElementById("email-fullheader-" + email_id);
-            var mailBody = document.getElementById("email-content-" + email_id);
-
-            if (mailPreviewHeader.style.display !== 'none') {
-                mailPreviewHeader.style.display = 'none';
-                mailFullHeader.style.display = 'block';
-                mailBody.style.display = 'block';
-            } else {
-                mailPreviewHeader.style.display = 'block';
-                mailFullHeader.style.display = 'none';
-                mailBody.style.display = 'none';
-            }
-        }
-
         setInterval(function () {
             var r = new XMLHttpRequest();
             r.open("GET", "./json-api.php?action=has_new_messages&address=$<?php echo $user->address?>&email_ids=<?php echo $mailIdsJoinedString?>", true);
@@ -86,229 +68,284 @@ $mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_C
         }, 15000);
 
     </script>
+
 </head>
-
-
 <body>
-<div id="new-content-avalable" class="alert alert-info alert-fixed" role="alert">
-    <strong>New mails</strong> have arrived - <a href="javascript:location.reload();" class="alert-link">reload!</a>
+
+
+<div id="new-content-avalable">
+    <div class="alert alert-info alert-fixed" role="alert">
+        <strong>New emails</strong> have arrived.
+
+        <button type="button" class="btn btn-outline-secondary" onclick="location.reload()">
+            <i class="fas fa-sync"></i>
+            Reload!</button>
+
+    </div>
+    <!-- move the rest of the page a bit down to show all content -->
+    <div style="height: 3rem">&nbsp;</div>
 </div>
 
 <header>
     <div class="container">
-        <small class="form-text text-muted">
-            You have <span class="badge badge-pill badge-info"><?php echo count($emails); ?> </span> messages in your
-            mailbox:
-        </small>
+        <p class="lead ">
+            Your disposable mailbox is ready.
+        </p>
+        <div class="row" id="address-box-normal">
 
-        <form id="header-form" action="?action=redirect" method="post">
-            <div class="form-group row">
+            <div class="col my-address-block">
+                <span id="my-address">
+                    <?php echo $user->address ?>
+                </span>&nbsp;<button class="copy-button" data-clipboard-target="#my-address">
+                Copy
+            </button>
+            </div>
 
-                <div class="col-lg-5 col-md-4 col-sm-6 col-xs-12">
-                    <input id="username" class="form-control form-control-lg" name="username" title="username"
-                           value="<?php echo $user->username ?>">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    <?php
-                    if (count($config['domains']) == 1) {
-                        $domain = $config['domains'][0];
-                        print "<h3>@$domain</h3>";
-                        print "<input type='hidden' name='domain' value='$domain'/>";
-                    } else {
-                        ?>
-                        <select id="domain" class="form-control form-control-lg" name="domain" title="domain"
-                                onchange="this.form.submit()">
-                            <?php
-                            foreach ($config['domains'] as $aDomain) {
-                                $selected = $aDomain === $user->domain ? ' selected ' : '';
-                                print "<option value='$aDomain' $selected>@$aDomain</option>";
-                            }
-                            ?>
-                        </select>
-                        <?php
-                    }
-                    ?>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 random-column">
-                    <a role="button" href="?action=random"
-                       class="btn btn-outline-primary col-sm-12 col-xs-12 random-button">Generate
-                        Random</a>
+
+            <div class="col get-new-address-col">
+                <button type="button" class="btn btn-outline-dark"
+                        data-toggle="collapse" title="choose your own address"
+                        data-target=".change-address-toggle"
+                        aria-controls="address-box-normal address-box-edit" aria-expanded="false">
+                    <i class="fas fa-magic"></i> Change address
+                </button>
+            </div>
+        </div>
+
+
+        <form class="collapse change-address-toggle" id="address-box-edit" action="?action=redirect" method="post">
+            <div class="card">
+                <div class="card-body">
+                    <p>
+                        <a href="?action=random" role="button" class="btn btn-dark">
+                        <i class="fa fa-random"></i>
+                        Open random mailbox
+                        </a>
+                    </p>
+
+
+                    or create your own address:
+                    <div class="form-row align-items-center">
+                        <div class="col-sm">
+                            <label class="sr-only" for="inlineFormInputName">username</label>
+                            <input name="username" type="text" class="form-control" id="inlineFormInputName"
+                                   placeholder="username"
+                                   value="<?php echo $user->username ?>">
+                        </div>
+                        <div class="col-sm-auto my-1">
+                            <label class="sr-only" for="inlineFormInputGroupUsername">Domain</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">@</div>
+                                </div>
+
+                                 <select class="custom-select" id="inlineFormInputGroupUsername" name="domain">
+                                        <?php
+                                        foreach ($config['domains'] as $aDomain) {
+                                            $selected = $aDomain === $user->domain ? ' selected ' : '';
+                                            print "<option value='$aDomain' $selected>@$aDomain</option>";
+                                        }
+                                        ?>
+                                </select>
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-auto my-1">
+                            <button type="submit" class="btn btn-primary">Open mailbox</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </form>
     </div>
 </header>
 
-
 <main>
-    <div class="container min-height">
+    <div class="container">
 
-        <?php
-        if (empty($emails)) {
+        <div id="email-list" class="list-group">
+
+<?php        foreach ($emails as $email) {
+            $safe_email_id = filter_var($email->id, FILTER_VALIDATE_INT);
             ?>
-            <div>
-                <div class="card waiting-screen">
-                    <div class="card-block">
-                        <p class="lead">Your mailbox <strong
-                            ><?php echo $user->address ?></strong> is ready. </p>
-                        <p>
-                            <button class="btn btn-outline-primary"
-                                    onClick="copyToClipboard('<?php echo $user->address ?>');">
-                                Copy email address
-                            </button>
+            <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse"
+               href="#mail-box-<?php echo $email->id?>"
+               role="button"
+               aria-expanded="false" aria-controls="mail-box-<?php echo $email->id?>">
+
+                <div class="media">
+                    <button class="btn btn-white open-collapse-button">
+                        <i class="fas fa-caret-right expand-button-closed"></i>
+                        <i class="fas fa-caret-down expand-button-opened"></i>
+                    </button>
+
+
+                    <div class="media-body">
+                        <h6 class="list-group-item-heading"><?php echo filter_var($email->fromName, FILTER_SANITIZE_SPECIAL_CHARS)?><span class="text-muted"><?php echo filter_var($email->fromAddress, FILTER_SANITIZE_SPECIAL_CHARS)?></span>
+                            <small class="float-right"><?php echo niceDate($email->date)?></small>
+                        </h6>
+                        <p class="list-group-item-text text-truncate">
+                            <?php echo filter_var($email->subject, FILTER_SANITIZE_SPECIAL_CHARS); ?>
+
+                            <span class="float-right primary">
+                            <a class="btn btn-outline-primary btn-sm " download="true"
+                               role="button"
+                               href="?action=download_email&download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Download
+                            </a>
+
+                            <a class="btn btn-outline-danger btn-sm"
+                               role="button"
+                               href="?action=delete_email&email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Delete
+                            </a>
+                        </span>
                         </p>
+                    </div>
+                </div>
+            </a>
+            <div id="mail-box-<?php echo $email->id?>" role="tabpanel" aria-labelledby="headingCollapse1"
+                 class="card-collapse collapse"
+                 aria-expanded="true">
+                <div class="card-body">
+                    <div class="card-block email-body">
+                         <?php
+                                    $safeHtml = $purifier->purify($email->textHtml);
 
+                                    $safeText = htmlspecialchars($email->textPlain);
+                                    $safeText = nl2br($safeText);
+                                    $safeText = \AutoLinkExtension::auto_link_text($safeText);
 
-                        <p>Emails will appear here automatically. They will be deleted after 30 days.</p>
-                        <div class="spinner">
-                            <div class="rect1"></div>
-                            <div class="rect2"></div>
-                            <div class="rect3"></div>
-                            <div class="rect4"></div>
-                            <div class="rect5"></div>
-                        </div>
+                                    $hasHtml = strlen(trim($safeHtml)) > 0;
+                                    $hasText = strlen(trim($safeText)) > 0;
+
+                                    if ($config['prefer_plaintext']) {
+                                        if ($hasText) {
+                                            echo $safeText;
+                                        } else {
+                                            echo $safeHtml;
+                                        }
+                                    } else {
+                                        if ($hasHtml) {
+                                            echo $safeHtml;
+                                        } else {
+                                            echo $safeText;
+                                        }
+                                    }
+                                    ?>
+
                     </div>
                 </div>
             </div>
-            <?php
-        } else {
+            <?php } ?>
+        </div>
 
-            foreach ($emails as $email) {
-                $safe_email_id = filter_var($email->id, FILTER_VALIDATE_INT);
-                ?>
-
-                <div class="email-table">
-
-                    <div class="card email">
-
-                        <!-- preview header -->
-                        <div class="card-block header-shadow email-preview-header"
-                             id="email-preview-header-<?php echo filter_var($email->id, FILTER_SANITIZE_SPECIAL_CHARS); ?>"
-                             onclick="toggle_email_visibility('<?php echo filter_var($email->id, FILTER_SANITIZE_SPECIAL_CHARS); ?>')">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <b class="card-title">
-                                        <?php echo filter_var($email->subject, FILTER_SANITIZE_SPECIAL_CHARS); ?>
-                                    </b>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <h6 class="card-subtitle mt-1 text-muted">
-                                        <?php
-                                        echo filter_var($email->fromName, FILTER_SANITIZE_SPECIAL_CHARS);
-                                        echo ' &lt;';
-                                        echo filter_var($email->fromAddress, FILTER_SANITIZE_SPECIAL_CHARS);
-                                        echo '&gt;';
-                                        ?>
-                                    </h6>
-                                </div>
-                                <div class="col-sm-4">
-                                    <h6 class="card-subtitle mt-1 text-muted"
-                                        style="text-align: right">
-                                        <?php echo filter_var($email->date, FILTER_SANITIZE_SPECIAL_CHARS); ?>
-                                    </h6>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- full header -->
-                        <div class="card-block header-shadow email-fullheader"
-                             id="email-fullheader-<?php echo filter_var($email->id, FILTER_SANITIZE_SPECIAL_CHARS); ?>"
-                             onclick="toggle_email_visibility('<?php echo filter_var($email->id, FILTER_SANITIZE_SPECIAL_CHARS); ?>')">
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <h3 class="card-title">
-                                        <?php echo filter_var($email->subject, FILTER_SANITIZE_SPECIAL_CHARS); ?>
-                                    </h3>
-                                </div>
-                                <div class="col-sm-4 text-right">
-                                    <a class="btn btn-sm btn-outline-primary " download="true"
-                                       role="button"
-                                       href="?action=download_email&download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Download
-                                    </a>
-
-                                    <a class="btn btn-sm btn-outline-danger"
-                                       role="button"
-                                       href="?action=delete_email&email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Delete
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <h6 class="card-subtitle mt-1 text-muted">
-                                        <?php
-                                        echo filter_var($email->fromName, FILTER_SANITIZE_SPECIAL_CHARS);
-                                        echo ' &lt;';
-                                        echo filter_var($email->fromAddress, FILTER_SANITIZE_SPECIAL_CHARS);
-                                        echo '&gt;';
-                                        ?>
-                                    </h6>
-                                </div>
-                                <div class="col-sm-4">
-                                    <h6 class="card-subtitle mt-1 text-muted"
-                                        style="text-align: right">
-                                        <?php echo filter_var($email->date, FILTER_SANITIZE_SPECIAL_CHARS); ?>
-                                    </h6>
-                                </div>
-
-
-                            </div>
-                        </div>
-
-                        <!-- email content -->
-                        <div class="card-block email-content"
-                             id="email-content-<?php echo filter_var($email->id, FILTER_SANITIZE_SPECIAL_CHARS); ?>">
-                            <h6 class="card-subtitle text-muted">
-                                To: <?php echo filter_var($email->toString, FILTER_SANITIZE_SPECIAL_CHARS); ?></h6>
-
-                            <?php
-                            foreach ($email->cc as $cc) {
-                                print "<h6 class='card-subtitle text-muted'>CC: " . filter_var($cc, FILTER_SANITIZE_SPECIAL_CHARS) . "</h6>";
-                            }
-                            ?>
-
-                            <div class="mt-2 card-text">
-                                <?php
-                                $safeHtml = $purifier->purify($email->textHtml);
-
-                                $safeText = htmlspecialchars($email->textPlain);
-                                $safeText = nl2br($safeText);
-                                $safeText = \AutoLinkExtension::auto_link_text($safeText);
-
-                                $hasHtml = strlen(trim($safeHtml)) > 0;
-                                $hasText = strlen(trim($safeText)) > 0;
-
-                                if ($config['prefer_plaintext']) {
-                                    if ($hasText) {
-                                        echo $safeText;
-                                    } else {
-                                        echo $safeHtml;
-                                    }
-                                } else {
-                                    if ($hasHtml) {
-                                        echo $safeHtml;
-                                    } else {
-                                        echo $safeText;
-                                    }
-                                }
-                                ?>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <?php
-            } // end foreach $email
-        } // end: has emails
-        ?>
+ <?php
+        if (empty($emails)) { ?>
+        <div id="empty-mailbox">
+            <hr>
+            <p>Emails will appear here automatically. </p>
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+        </div>
+        <?php } ?>
     </div>
 </main>
+
 <footer>
-    <p>Powered by <a href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
-        | <a href="https://github.com/synox/disposable-mailbox">Contribute to the development on Github.</a></p>
+    <div class="container">
+
+
+        <select id="language-selection" class="custom-select" title="Language">
+            <option selected>English</option>
+            <option value="1">Deutsch</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+
+        <br>
+        <small class="text-justify quick-summary">
+            This is a disposable mailbox service. Whoever knows your username, can read your emails.
+            Emails will be deleted after 30 days.
+            <a data-toggle="collapse" href="#about"
+               aria-expanded="false"
+               aria-controls="about">
+                Show Details
+            </a>
+        </small>
+        <div class="card card-body collapse" id="about" style="max-width: 40rem">
+
+            <p class="text-justify">This disposable mailbox keeps your main mailbox clean from spam.</p>
+
+            <p class="text-justify">Just choose an address and use it on websites you don't trust and
+                don't
+                want to use
+                your
+                main email address.
+                Once you are done, you can just forget about the mailbox. All the spam stays here and does
+                not
+                fill up
+                your
+                main mailbox.
+            </p>
+
+            <p class="text-justify">
+                You select the address you want to use and received emails will be displayed
+                automatically.
+                There is not registration and no passwords. If you know the address, you can read the
+                emails.
+                <strong>Basically, all emails are public. So don't use it for sensitive data.</strong>
+
+
+            </p>
+        </div>
+
+        <p>
+            <small>Powered by
+                <a
+                        href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
+            </small>
+        </p>
+    </div>
 </footer>
+
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
+<script>
+    clipboard = new ClipboardJS('[data-clipboard-target]');
+    $(function () {
+        $('[data-tooltip="tooltip"]').tooltip()
+    });
+
+    /** from https://github.com/twbs/bootstrap/blob/c11132351e3e434f6d4ed72e5a418eb692c6a319/assets/js/src/application.js */
+    clipboard.on('success', function (e) {
+        $(e.trigger)
+        .attr('title', 'Copied!')
+        .tooltip('_fixTitle')
+        .tooltip('show')
+        .attr('title', 'Copy to clipboard')
+        .tooltip('_fixTitle');
+        e.clearSelection();
+    });
+
+</script>
+
 </body>
 </html>
