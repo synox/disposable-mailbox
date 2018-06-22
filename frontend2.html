@@ -24,8 +24,8 @@
 
         #my-address {
             margin-top: 0.5rem;
-            cursor: pointer;
             margin-left: 1rem;
+            color: black;
         }
 
         .my-address-block {
@@ -35,16 +35,16 @@
             padding-left: 0;
             margin-left: 1rem;
             text-align: center;
+            padding-right: 0;
         }
 
         .get-new-address-col {
             text-align: center;
             padding: 0.5rem;
-
         }
-        .my-address {
-            background-color: #F8F9FA;
-            padding: 0.5rem;
+
+        .email-list-item {
+            padding-left: 0;
         }
 
         .copy-button {
@@ -60,23 +60,6 @@
             color: #fff;
             background-color: #007BFF;
         }
-
-        /* from https://github.com/twbs/bootstrap/blob/620257456ed0685cae6b6ff51d2ab1e37f02a4fa/assets/scss/_clipboard-js.scss and adapted */
-        .btn-clipboard2 {
-            display: block;
-            padding: 0.25rem 0.5rem;
-            font-size: 75%;
-            color: #818a91;
-
-        }
-
-        .my-address-copy {
-            background-color: #F8F9FA;
-            padding-right: 0;
-            padding-left: 0;
-        }
-
-        /* --- */
 
         header {
             /*background-color: #f9f9f9;*/
@@ -143,7 +126,6 @@
             text-align: center;
         }
 
-
         #address-box-edit {
             margin: 1rem;
         }
@@ -172,14 +154,16 @@
                 <span id="my-address">
                     user@domain.com
                 </span>&nbsp;<button class="copy-button" data-clipboard-target="#my-address">
-                    Copy
-                </button>
+                Copy
+            </button>
             </div>
             <div class="col get-new-address-col">
                 <button type="button" class="btn btn-outline-dark"
                         data-toggle="collapse" title="choose your own address"
                         data-target=".change-address-toggle"
-                        aria-controls="address-box-normal address-box-edit" aria-expanded="false">get new address</button>
+                        aria-controls="address-box-normal address-box-edit" aria-expanded="false">get new
+                    address
+                </button>
             </div>
         </div>
 
@@ -229,7 +213,8 @@
         <div class="list-group">
 
 
-            <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#mail-box-1"
+            <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse"
+               href="#mail-box-1"
                role="button"
                aria-expanded="false" aria-controls="mail-box-1">
 
@@ -295,7 +280,7 @@
 
             <!-- next email -->
 
-            <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#mail-box-2"
+            <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse" href="#mail-box-2"
                role="button"
                aria-expanded="false" aria-controls="mail-box-1">
 
