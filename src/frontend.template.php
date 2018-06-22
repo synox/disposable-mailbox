@@ -169,9 +169,13 @@ function niceDate($date) {
 
         <div id="email-list" class="list-group">
 
-            <?php foreach ($emails as $email) {
+            <?php
+            foreach ($emails
+
+                     as $email) {
                 $safe_email_id = filter_var($email->id, FILTER_VALIDATE_INT);
                 ?>
+
                 <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse"
                    href="#mail-box-<?php echo $email->id ?>"
                    role="button"
@@ -241,22 +245,174 @@ function niceDate($date) {
                     </div>
                 </div>
             <?php } ?>
-        </div>
 
-        <?php
-        if (empty($emails)) { ?>
-            <div id="empty-mailbox">
-                <hr>
-                <p>Emails will appear here automatically. </p>
-                <div class="spinner">
-                    <div class="rect1"></div>
-                    <div class="rect2"></div>
-                    <div class="rect3"></div>
-                    <div class="rect4"></div>
-                    <div class="rect5"></div>
+            <?php
+            if (empty($emails)) { ?>
+                <div id="empty-mailbox">
+                    <hr>
+                    <p>Emails will appear here automatically. </p>
+                    <div class="spinner">
+                        <div class="rect1"></div>
+                        <div class="rect2"></div>
+                        <div class="rect3"></div>
+                        <div class="rect4"></div>
+                        <div class="rect5"></div>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+</main>
+
+<main>
+    <div class="container">
+
+        <div id="email-list" class="list-group">
+
+
+            <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse"
+               href="#mail-box-1"
+               role="button"
+               aria-expanded="false" aria-controls="mail-box-1">
+
+                <div class="media">
+                    <button class="btn btn-white open-collapse-button">
+                        <i class="fas fa-caret-right expand-button-closed"></i>
+                        <i class="fas fa-caret-down expand-button-opened"></i>
+                    </button>
+
+
+                    <div class="media-body">
+                        <h6 class="list-group-item-heading">Myservice Inc, UK <span class="text-muted">newsletter@reply.asdf.com</span>
+                            <small class="float-right">Today</small>
+                        </h6>
+                        <p class="list-group-item-text text-truncate">
+                            Sagen Sie uns Ihre Meinung!
+
+                            <span class="float-right primary">
+                            <button class="btn btn-outline-primary btn-sm">Download</button>
+                            <button class="btn btn-outline-danger btn-sm">Delete</button>
+                        </span>
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <div id="mail-box-1" role="tabpanel" aria-labelledby="headingCollapse1"
+                 class="card-collapse collapse"
+                 aria-expanded="true">
+                <div class="card-body">
+                    <div class="card-block email-body">
+                        <p>Hi Joe</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis arcu erat, luctus
+                            vitae
+                            consectetur imperdiet, congue sit amet purus. Vivamus vel aliquet neque.
+                            Aenean
+                            sed luctus
+                            justo, at tempus risus. Cras quis tempus nunc, vitae imperdiet neque. Ut
+                            feugiat
+                            risus non
+                            volutpat fermentum. Aliquam consectetur mauris ut leo faucibus, eu varius
+                            tortor
+                            posuere.
+                            Morbi dictum nunc quam, blandit viverra mi auctor vitae. Donec ornare
+                            venenatis
+                            augue vel
+                            vulputate. Nunc porttitor magna felis, eu suscipit orci auctor varius.
+                            Pellentesque posuere
+                            dolor ex, eu eleifend odio bibendum a. Pellentesque a placerat dolor, vel
+                            ultricies odio.
+                            Nunc feugiat nibh ac vehicula semper. Quisque sit amet aliquet nisi. Curabitur
+                            vel
+                            nulla
+                            venenatis, accumsan dolor ut, vestibulum urna. Morbi congue elit facilisis,
+                            vehicula felis
+                            in, placerat erat.
+
+                        <p>Regards,
+                            <br>jim</p>
+                    </div>
                 </div>
             </div>
-        <?php } ?>
+
+
+            <!-- next email -->
+
+            <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse"
+               href="#mail-box-2"
+               role="button"
+               aria-expanded="false" aria-controls="mail-box-1">
+
+                <div class="media">
+                    <button class="btn btn-white open-collapse-button">
+                        <i class="fas fa-caret-right expand-button-closed"></i>
+                        <i class="fas fa-caret-down expand-button-opened"></i>
+                    </button>
+
+
+                    <div class="media-body">
+                        <h6 class="list-group-item-heading">Myservice Inc, UK <span class="text-muted">newsletter@reply.asdf.com</span>
+                            <small class="float-right">Today</small>
+                        </h6>
+                        <p class="list-group-item-text text-truncate">
+                            Sagen Sie uns Ihre Meinung!
+
+                            <span class="float-right primary">
+                            <button class="btn btn-outline-primary btn-sm">Download</button>
+                            <button class="btn btn-outline-danger btn-sm">Delete</button>
+                        </span>
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <div id="mail-box-2" role="tabpanel" aria-labelledby="headingCollapse1"
+                 class="card-collapse collapse"
+                 aria-expanded="true">
+                <div class="card-body">
+                    <div class="card-block">
+                        <p>Hi Joe</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis arcu erat, luctus
+                            vitae
+                            consectetur imperdiet, congue sit amet purus. Vivamus vel aliquet neque.
+                            Aenean
+                            sed luctus
+                            justo, at tempus risus. Cras quis tempus nunc, vitae imperdiet neque. Ut
+                            feugiat
+                            risus non
+                            volutpat fermentum. Aliquam consectetur mauris ut leo faucibus, eu varius
+                            tortor
+                            posuere.
+                            Morbi dictum nunc quam, blandit viverra mi auctor vitae. Donec ornare
+                            venenatis
+                            augue vel
+                            vulputate. Nunc porttitor magna felis, eu suscipit orci auctor varius.
+                            Pellentesque posuere
+                            dolor ex, eu eleifend odio bibendum a. Pellentesque a placerat dolor, vel
+                            ultricies odio.
+                            Nunc feugiat nibh ac vehicula semper. Quisque sit amet aliquet nisi. Curabitur
+                            vel
+                            nulla
+                            venenatis, accumsan dolor ut, vestibulum urna. Morbi congue elit facilisis,
+                            vehicula felis
+                            in, placerat erat.
+
+                        <p>Regards,
+                            <br>jim</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="empty-mailbox">
+            <hr>
+            <p>Emails will appear here automatically. </p>
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+        </div>
     </div>
 </main>
 
