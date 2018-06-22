@@ -193,24 +193,27 @@ function niceDate($date) {
                                 <span class="text-muted"><?php echo filter_var($email->fromAddress, FILTER_SANITIZE_SPECIAL_CHARS) ?></span>
                                 <small class="float-right"><?php echo niceDate($email->date) ?></small>
                             </h6>
-                            <p class="list-group-item-text text-truncate">
+                            <p class="list-group-item-text text-truncate" style="width: 75%">
                                 <?php echo filter_var($email->subject, FILTER_SANITIZE_SPECIAL_CHARS); ?>
-
-                                <span class="float-right primary">
-                                <a class="btn btn-outline-primary btn-sm " download="true"
-                                   role="button"
-                                   href="?action=download_email&download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Download
-                                </a>
-
-                                <a class="btn btn-outline-danger btn-sm"
-                                   role="button"
-                                   href="?action=delete_email&email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>">Delete
-                                </a>
-                            </span>
                             </p>
+                            <div class="float-right primary">
+                                <button class="btn btn-outline-primary btn-sm" download="true"
+                                        type="button"
+                                        onclick="window.location = '?action=download_email&download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>'">
+                                    Download
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm"
+                                        type="button"
+                                        onclick="window.location = '?action=delete_email&email_id=
+                                        <?php echo $safe_email_id; ?>&amp;address=
+                                        <?php echo $user->address ?>'">Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </a>
+
+
                 <div id="mail-box-<?php echo $email->id ?>" role="tabpanel" aria-labelledby="headingCollapse1"
                      class="card-collapse collapse"
                      aria-expanded="true">
@@ -249,7 +252,6 @@ function niceDate($date) {
             <?php
             if (empty($emails)) { ?>
                 <div id="empty-mailbox">
-                    <hr>
                     <p>Emails will appear here automatically. </p>
                     <div class="spinner">
                         <div class="rect1"></div>
@@ -263,171 +265,18 @@ function niceDate($date) {
         </div>
 </main>
 
-<main>
-    <div class="container">
-
-        <div id="email-list" class="list-group">
-
-
-            <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse"
-               href="#mail-box-1"
-               role="button"
-               aria-expanded="false" aria-controls="mail-box-1">
-
-                <div class="media">
-                    <button class="btn btn-white open-collapse-button">
-                        <i class="fas fa-caret-right expand-button-closed"></i>
-                        <i class="fas fa-caret-down expand-button-opened"></i>
-                    </button>
-
-
-                    <div class="media-body">
-                        <h6 class="list-group-item-heading">Myservice Inc, UK <span class="text-muted">newsletter@reply.asdf.com</span>
-                            <small class="float-right">Today</small>
-                        </h6>
-                        <p class="list-group-item-text text-truncate">
-                            Sagen Sie uns Ihre Meinung!
-
-                            <span class="float-right primary">
-                            <button class="btn btn-outline-primary btn-sm">Download</button>
-                            <button class="btn btn-outline-danger btn-sm">Delete</button>
-                        </span>
-                        </p>
-                    </div>
-                </div>
-            </a>
-            <div id="mail-box-1" role="tabpanel" aria-labelledby="headingCollapse1"
-                 class="card-collapse collapse"
-                 aria-expanded="true">
-                <div class="card-body">
-                    <div class="card-block email-body">
-                        <p>Hi Joe</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis arcu erat, luctus
-                            vitae
-                            consectetur imperdiet, congue sit amet purus. Vivamus vel aliquet neque.
-                            Aenean
-                            sed luctus
-                            justo, at tempus risus. Cras quis tempus nunc, vitae imperdiet neque. Ut
-                            feugiat
-                            risus non
-                            volutpat fermentum. Aliquam consectetur mauris ut leo faucibus, eu varius
-                            tortor
-                            posuere.
-                            Morbi dictum nunc quam, blandit viverra mi auctor vitae. Donec ornare
-                            venenatis
-                            augue vel
-                            vulputate. Nunc porttitor magna felis, eu suscipit orci auctor varius.
-                            Pellentesque posuere
-                            dolor ex, eu eleifend odio bibendum a. Pellentesque a placerat dolor, vel
-                            ultricies odio.
-                            Nunc feugiat nibh ac vehicula semper. Quisque sit amet aliquet nisi. Curabitur
-                            vel
-                            nulla
-                            venenatis, accumsan dolor ut, vestibulum urna. Morbi congue elit facilisis,
-                            vehicula felis
-                            in, placerat erat.
-
-                        <p>Regards,
-                            <br>jim</p>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- next email -->
-
-            <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse"
-               href="#mail-box-2"
-               role="button"
-               aria-expanded="false" aria-controls="mail-box-1">
-
-                <div class="media">
-                    <button class="btn btn-white open-collapse-button">
-                        <i class="fas fa-caret-right expand-button-closed"></i>
-                        <i class="fas fa-caret-down expand-button-opened"></i>
-                    </button>
-
-
-                    <div class="media-body">
-                        <h6 class="list-group-item-heading">Myservice Inc, UK <span class="text-muted">newsletter@reply.asdf.com</span>
-                            <small class="float-right">Today</small>
-                        </h6>
-                        <p class="list-group-item-text text-truncate">
-                            Sagen Sie uns Ihre Meinung!
-
-                            <span class="float-right primary">
-                            <button class="btn btn-outline-primary btn-sm">Download</button>
-                            <button class="btn btn-outline-danger btn-sm">Delete</button>
-                        </span>
-                        </p>
-                    </div>
-                </div>
-            </a>
-            <div id="mail-box-2" role="tabpanel" aria-labelledby="headingCollapse1"
-                 class="card-collapse collapse"
-                 aria-expanded="true">
-                <div class="card-body">
-                    <div class="card-block">
-                        <p>Hi Joe</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis arcu erat, luctus
-                            vitae
-                            consectetur imperdiet, congue sit amet purus. Vivamus vel aliquet neque.
-                            Aenean
-                            sed luctus
-                            justo, at tempus risus. Cras quis tempus nunc, vitae imperdiet neque. Ut
-                            feugiat
-                            risus non
-                            volutpat fermentum. Aliquam consectetur mauris ut leo faucibus, eu varius
-                            tortor
-                            posuere.
-                            Morbi dictum nunc quam, blandit viverra mi auctor vitae. Donec ornare
-                            venenatis
-                            augue vel
-                            vulputate. Nunc porttitor magna felis, eu suscipit orci auctor varius.
-                            Pellentesque posuere
-                            dolor ex, eu eleifend odio bibendum a. Pellentesque a placerat dolor, vel
-                            ultricies odio.
-                            Nunc feugiat nibh ac vehicula semper. Quisque sit amet aliquet nisi. Curabitur
-                            vel
-                            nulla
-                            venenatis, accumsan dolor ut, vestibulum urna. Morbi congue elit facilisis,
-                            vehicula felis
-                            in, placerat erat.
-
-                        <p>Regards,
-                            <br>jim</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div id="empty-mailbox">
-            <hr>
-            <p>Emails will appear here automatically. </p>
-            <div class="spinner">
-                <div class="rect1"></div>
-                <div class="rect2"></div>
-                <div class="rect3"></div>
-                <div class="rect4"></div>
-                <div class="rect5"></div>
-            </div>
-        </div>
-    </div>
-</main>
-
 <footer>
     <div class="container">
 
 
-        <select id="language-selection" class="custom-select" title="Language">
-            <option selected>English</option>
-            <option value="1">Deutsch</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-        </select>
+        <!--        <select id="language-selection" class="custom-select" title="Language">-->
+        <!--            <option selected>English</option>-->
+        <!--            <option value="1">Deutsch</option>-->
+        <!--            <option value="2">Two</option>-->
+        <!--            <option value="3">Three</option>-->
+        <!--        </select>-->
+        <!--        <br>-->
 
-        <br>
         <small class="text-justify quick-summary">
             This is a disposable mailbox service. Whoever knows your username, can read your emails.
             Emails will be deleted after 30 days.
