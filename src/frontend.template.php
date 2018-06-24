@@ -196,19 +196,6 @@ function niceDate($date) {
                             <p class="list-group-item-text text-truncate" style="width: 75%">
                                 <?php echo filter_var($email->subject, FILTER_SANITIZE_SPECIAL_CHARS); ?>
                             </p>
-                            <div class="float-right primary">
-                                <button class="btn btn-outline-primary btn-sm" download="true"
-                                        type="button"
-                                        onclick="window.location = '?action=download_email&download_email_id=<?php echo $safe_email_id; ?>&amp;address=<?php echo $user->address ?>'">
-                                    Download
-                                </button>
-                                <button class="btn btn-outline-danger btn-sm"
-                                        type="button"
-                                        onclick="window.location = '?action=delete_email&email_id=
-                                        <?php echo $safe_email_id; ?>&amp;address=
-                                        <?php echo $user->address ?>'">Delete
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </a>
@@ -219,6 +206,20 @@ function niceDate($date) {
                      aria-expanded="true">
                     <div class="card-body">
                         <div class="card-block email-body">
+                            <div class="float-right primary">
+                                <a class="btn btn-outline-primary btn-sm" download="true"
+                                   role="button"
+                                   href="<?php echo "?action=download_email&email_id=$safe_email_id&address=$user->address" ?>">
+                                    Download
+                                </a>
+
+                                <a class="btn btn-outline-danger btn-sm"
+                                   role="button"
+                                   href="<?php echo "?action=delete_email&email_id=$safe_email_id&address=$user->address" ?>">
+                                    Delete
+                                </a>
+                            </div>
+
                             <?php
                             $safeHtml = $purifier->purify($email->textHtml);
 
