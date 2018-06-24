@@ -1,33 +1,102 @@
-html > body {
-    /* override bootstrap background */
-    background: #f9f9f9;
 
+html > body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
 }
 
+#my-address {
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    color: black;
+}
+
+.my-address-block {
+    background-color: #F8F9FA;
+    padding: 0.5rem;
+    white-space: nowrap;
+    padding-left: 0;
+    margin-left: 1rem;
+    text-align: center;
+    padding-right: 0;
+}
+
+.get-new-address-col {
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.email-list-item {
+    padding-left: 0;
+    padding-bottom: 0;
+}
+
+.copy-button {
+    font-size: 75%;
+    color: #808080;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0.25rem;
+}
+
+.copy-button:hover {
+    color: #fff;
+    background-color: #007BFF;
+}
+
+header {
+    /*background-color: #f9f9f9;*/
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+
 main {
-    flex: 1;
-    padding-bottom: 30px;
+    flex: 1; /* stick footer to the bottom */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+#language-selection {
+    width: 10rem;
 }
 
 footer {
-    font-size: 12px;
+    padding-top: 1rem;
+    background-color: #eeeeee;
+}
+
+.open-collapse-button {
+    background-color: transparent;
+    width: 3rem;
+}
+
+.open-collapse-button > i {
+    font-size: 1.5em;
+}
+
+[aria-expanded="false"] .expand-button-closed {
+    display: block;
+}
+
+[aria-expanded="false"] .expand-button-opened {
+    display: none;
+}
+
+[aria-expanded="true"] .expand-button-closed {
+    display: none;
+}
+
+[aria-expanded="true"] .expand-button-opened {
+    display: block;
+}
+
+#new-content-avalable {
+    display: none;
     text-align: center;
-    padding-top: 1em;
 }
 
-.card-block {
-    padding: 1.25rem;
-}
-
-.email-table {
-    margin-top: 20px;
-}
-
-div.min-height {
-    min-height: 400px;
+.email-body {
 }
 
 .alert-fixed {
@@ -39,48 +108,6 @@ div.min-height {
     border-radius: 0px;
     text-align: center;
 }
-
-.email-fullheader {
-    display: none;
-}
-
-.email-preview-header {
-    cursor: pointer;
-}
-
-.email-content {
-    display: none;
-}
-
-#new-content-avalable {
-    display: none;
-}
-header {
-    background-color: #D9E2E9;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-}
-
-.email-table > .email {
-    border-top: 5px solid #7C96AB;
-
-}
-
-.header-shadow {
-    box-shadow: 0 2px 2px rgba(182, 182, 182, 0.75);
-}
-
-.waiting-screen {
-    padding: 40px 15px;
-    text-align: center;
-}
-
-.random-column {
-    border-left: 1px dashed #333;
-}
-
-.random-button {
-    height: 48px;
-    padding: 10px;
+#address-box-edit {
+    margin: 1rem;
 }

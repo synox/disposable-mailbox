@@ -10,6 +10,20 @@ class ComposerStaticInit125dddd280a32cf75b181166154246ec
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
     );
 
+    public static $prefixLengthsPsr4 = array (
+        'M' => 
+        array (
+            'Moment\\' => 7,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'Moment\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fightbulc/moment/src',
+        ),
+    );
+
     public static $prefixesPsr0 = array (
         'P' => 
         array (
@@ -34,6 +48,8 @@ class ComposerStaticInit125dddd280a32cf75b181166154246ec
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit125dddd280a32cf75b181166154246ec::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit125dddd280a32cf75b181166154246ec::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit125dddd280a32cf75b181166154246ec::$prefixesPsr0;
 
         }, null, ClassLoader::class);
