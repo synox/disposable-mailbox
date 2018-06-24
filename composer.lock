@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c071b40be7f9bdf56a06a9e52d220684",
-    "content-hash": "31df20b392f8545dda12635a78572bf7",
+  "hash": "1175b971ed4569a8c9f93646384529e7",
+  "content-hash": "4b2136dccba636ec0370e8547b0a738e",
     "packages": [
         {
             "name": "ezyang/htmlpurifier",
-            "version": "v4.9.3",
+          "version": "v4.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
-                "reference": "95e1bae3182efc0f3422896a3236e991049dac69"
+              "reference": "d85d39da4576a6934b72480be6978fb10c860021"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/95e1bae3182efc0f3422896a3236e991049dac69",
-                "reference": "95e1bae3182efc0f3422896a3236e991049dac69",
+              "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d85d39da4576a6934b72480be6978fb10c860021",
+              "reference": "d85d39da4576a6934b72480be6978fb10c860021",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,70 @@
             "keywords": [
                 "html"
             ],
-            "time": "2017-06-03 02:28:16"
+          "time": "2018-02-23 01:58:20"
+        },
+      {
+        "name": "fightbulc/moment",
+        "version": "1.26.10",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/fightbulc/moment.php.git",
+          "reference": "2fe6607fdbbd45b48708f539c70fde89ca9d10e6"
+        },
+        "dist": {
+          "type": "zip",
+          "url": "https://api.github.com/repos/fightbulc/moment.php/zipball/2fe6607fdbbd45b48708f539c70fde89ca9d10e6",
+          "reference": "2fe6607fdbbd45b48708f539c70fde89ca9d10e6",
+          "shasum": ""
+        },
+        "require": {
+          "php": ">=5.3.0"
+        },
+        "require-dev": {
+          "phpunit/phpunit": "4.2.*"
+        },
+        "type": "library",
+        "autoload": {
+          "psr-4": {
+            "Moment\\": "src/"
+          }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+          "MIT"
+        ],
+        "authors": [
+          {
+            "name": "Ashish Tilara",
+            "email": "ashish@itcutives.com",
+            "role": "developer"
+          },
+          {
+            "name": "Jaroslaw Kozak",
+            "email": "jaroslaw.kozak68@gmail.com",
+            "role": "developer"
+          },
+          {
+            "name": "Tino Ehrich",
+            "email": "tino@bigpun.me",
+            "role": "developer"
+          }
+        ],
+        "description": "Parse, validate, manipulate, and display dates in PHP w/ i18n support. Inspired by moment.js",
+        "keywords": [
+          "date",
+          "display",
+          "format",
+          "i18n",
+          "locale",
+          "manipulate",
+          "moment",
+          "parse",
+          "time",
+          "translation",
+          "validate"
+        ],
+        "time": "2017-08-14 05:06:04"
         },
         {
             "name": "gnugat/PronounceableWord",
