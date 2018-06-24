@@ -5,7 +5,7 @@ A **self-hosted** disposable mailbox  service (aka trash mail)  :cloud: :envelop
 
 **Demo**: [BhadooMail](https://bhadoomail.com/) 
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot_example.png)
 
 
 ## Features
