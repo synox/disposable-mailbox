@@ -6,8 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## [Unreleased]
 
 ### Breaking Changes
+- added $config['locale'].  See config.sample.php - you have to set it.
 
- - added $config['locale'].  See config.sample.php - you have to set it.
+### Changed
+- new layout & design with more whitespace and more explanations.  
+
 
 ## [0.2.0] - 2018-06-16
 
