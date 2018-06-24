@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Breaking Changes
+
+ - added $config['locale'].  See config.sample.php - you have to set it.
+
 ## [0.2.0] - 2018-06-16
 
 ### Changed
