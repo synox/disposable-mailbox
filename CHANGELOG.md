@@ -5,12 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.2.1] - 2018-07-01
+
 ### Breaking Changes
 - added $config['locale'].  See config.sample.php - you have to set it.
 
 ### Changed
 - new layout & design with more whitespace and more explanations.  
-
+- Show dates in local and relative format. 
 
 ## [0.2.0] - 2018-06-16
 

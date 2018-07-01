@@ -192,7 +192,8 @@ function niceDate($date) {
                         <div class="media-body">
                             <h6 class="list-group-item-heading"><?php echo filter_var($email->fromName, FILTER_SANITIZE_SPECIAL_CHARS) ?>
                                 <span class="text-muted"><?php echo filter_var($email->fromAddress, FILTER_SANITIZE_SPECIAL_CHARS) ?></span>
-                                <small class="float-right"><?php echo niceDate($email->date) ?></small>
+                                <small class="float-right"
+                                       title="<?php echo $email->date ?>"><?php echo niceDate($email->date) ?></small>
                             </h6>
                             <p class="list-group-item-text text-truncate" style="width: 75%">
                                 <?php echo filter_var($email->subject, FILTER_SANITIZE_SPECIAL_CHARS); ?>
