@@ -97,11 +97,7 @@ function niceDate($date) {
         <div class="row" id="address-box-normal">
 
             <div class="col my-address-block">
-                <span id="my-address">
-                    <?php echo $user->address ?>
-                </span>&nbsp;<button class="copy-button" data-clipboard-target="#my-address">
-                    Copy
-                </button>
+                <span id="my-address"><?php echo $user->address ?></span>&nbsp;<button class="copy-button" data-clipboard-target="#my-address">Copy</button>
             </div>
 
 
