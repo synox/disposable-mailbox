@@ -142,7 +142,7 @@ function niceDate($date) {
                                     <?php
                                     foreach ($config['domains'] as $aDomain) {
                                         $selected = $aDomain === $user->domain ? ' selected ' : '';
-                                        print "<option value='$aDomain' $selected>@$aDomain</option>";
+                                        print "<option value='$aDomain' $selected>$aDomain</option>";
                                     }
                                     ?>
                                 </select>
