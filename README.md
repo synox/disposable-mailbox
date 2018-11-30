@@ -47,6 +47,8 @@ Disposable-mailbox can be installed by copying the src directory to a webserver.
 5. edit `index.php` and `json-api.php`: set the new path to `config.php`.
 6. open it in your browser, check your php error log for messages. 
 
+### Common Errors
+* If you are using Cloudflare, and have a 500 Error, `novalidate-cert` to the imap url in `config.php`
 
 ### Build it yourself
 The src directory contains all required files. If you want to update the php dependencies, you can update them yourself.  You must have [composer](https://getcomposer.org/download/) installed. 
