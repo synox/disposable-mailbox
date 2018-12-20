@@ -304,7 +304,7 @@ function niceDate($date) {
             <p class="text-justify">
                 You select the address you want to use and received emails will be displayed
                 automatically.
-                There is not registration and no passwords. If you know the address, you can read the
+                There is no registration and no passwords. If you know the address, you can read the
                 emails.
                 <strong>Basically, all emails are public. So don't use it for sensitive data.</strong>
 
