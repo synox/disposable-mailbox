@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### Changed
+- find config.php automatically in current and parent directories. Show error message if not found. 
+
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
