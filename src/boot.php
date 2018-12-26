@@ -3,9 +3,10 @@ if (version_compare(phpversion(), '7.2', '<')) {
     die("ERROR! The php version isn't high enough, you need at least 7.2 to run this application! But you have: " . phpversion());
 }
 
-# set the new path of config.php (must be in a safe location outside the `public_html`)
-#require_once '../../config.php';
-
+/**
+ * searches for a config-file in the current and parent directories until found. 
+ * @return path to found config file, or FALSE otherwise. 
+ */
 function find_config($filename='config.php'){
 	$path_length = substr_count(getcwd(),DIRECTORY_SEPARATOR)
 		+ 1; # also search the current directory
@@ -22,6 +23,9 @@ function find_config($filename='config.php'){
 	return FALSE;
 }
 
+/**
+ * searches and loads the config file. Prints an error if not found. 
+ */
 function load_config(){
 	global $config;
 	$file = find_config();
@@ -36,4 +40,3 @@ load_config();
 
 # load php dependencies:
 require_once './backend-libs/autoload.php';
-
