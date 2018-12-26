@@ -8,16 +8,17 @@ if (version_compare(phpversion(), '7.2', '<')) {
  * @return path to found config file, or FALSE otherwise. 
  */
 function find_config($filename='config.php'){
+	// Count the deph of the current directory, so we know how far we can go up. 
 	$path_length = substr_count(getcwd(),DIRECTORY_SEPARATOR)
-		+ 1; # also search the current directory
+		+ 1; // also search the current directory
 
-	$dir = '.';
+	$dir = '.'; // updated in each loop
 	for($i=0; $i<$path_length;$i++){
 		$config_filename = $dir . DIRECTORY_SEPARATOR . $filename;
 		if(file_exists($config_filename)){
 			return $config_filename;
 		} else {
-			$dir = '../'.$dir;
+			$dir = '../' . $dir;
 		}
 	}
 	return FALSE;
