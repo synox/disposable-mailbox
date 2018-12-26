@@ -43,9 +43,8 @@ Disposable-mailbox can be installed by copying the src directory to a webserver.
 
 2. download a [release](https://github.com/synox/disposable-mailbox/releases) or clone this repository
 3. copy the files in the `src` directory to your web server (not the whole repo!).
-4. rename `config.sample.php` to `config.php` and apply the imap settings. Move `config.php` to a safe location outside the `public_html`.
-5. edit `index.php` and `json-api.php`: set the new path to `config.php`.
-6. open it in your browser, check your php error log for messages. 
+4. rename `config.sample.php` to `config.php` and apply the imap settings. Move `config.php` to a safe location in a *parent directory* outside the `public_html`, so it is not reachable through the browser.
+5. open it in your browser, check your php error log for messages. 
 
 
 ### Build it yourself
