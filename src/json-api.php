@@ -1,9 +1,7 @@
 <?php
-# set the new path of config.php (must be in a safe location outside the `public_html`)
-require_once '../../config.php';
 
-# load php dependencies:
-require_once 'backend-libs/autoload.php';
+# load config file and dependencies
+require_once './boot.php';
 
 require_once 'user.php';
 require_once 'imap_client.php';
