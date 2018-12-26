@@ -1,12 +1,11 @@
 # Change Log
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/).
+
+
+## [Unreleased]
 
 ### Changed
 - find config.php automatically in current and parent directories. Show error message if not found. 
-
-The format is based on [Keep a Changelog](http://keepachangelog.com/).
-
-## [Unreleased]
 
 ## [0.2.1] - 2018-07-01
 
