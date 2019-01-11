@@ -262,6 +262,7 @@ function niceDate($date) {
                 </div>
             <?php } ?>
         </div>
+    </div>
 </main>
 
 <footer>
