@@ -62,6 +62,11 @@ Install php dependecies:
 
     ini_set('display_errors', 1);    ini_set('display_startup_errors', 1);    error_reporting(E_ALL);
 
+## Testing on MacOs
+ * brew install php 
+ * brew install kabel/php-ext/php-imap
+ * php -S localhost:8000 -t src
+ 
 
 ## Credit :thumbsup:
 

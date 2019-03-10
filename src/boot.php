@@ -3,6 +3,8 @@ if (version_compare(phpversion(), '7.2', '<')) {
     die("ERROR! The php version isn't high enough, you need at least 7.2 to run this application! But you have: " . phpversion());
 }
 
+extension_loaded("imap") || die('ERROR: IMAP extension not loaded. Please see the installation instructions in the README.md');
+
 /**
  * searches for a config-file in the current and parent directories until found. 
  * @return path to found config file, or FALSE otherwise. 
@@ -32,6 +34,9 @@ function load_config(){
 	$file = find_config();
 	if ( $file !== FALSE) {
 		require_once($file);
+		if(!isset($config) || !is_array($config)){
+            die('ERROR: Config file is invalid. Please see the installation instructions in the README.md');
+        }
 	} else {
 		die('ERROR: Config file not found. Please see the installation instructions in the README.md');
 	}

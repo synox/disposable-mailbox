@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. The format 
 ### Changed
 - find config.php automatically in current and parent directories. Show error message if not found. 
 - use local CSS/JS instead of CDN
+- detect missing imap extension and config error
 
 ## [0.2.1] - 2018-07-01
 
