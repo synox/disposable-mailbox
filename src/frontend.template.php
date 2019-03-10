@@ -251,7 +251,7 @@ function niceDate($date) {
             <?php
             if (empty($emails)) { ?>
                 <div id="empty-mailbox">
-                    <p>Emails will appear here automatically. </p>
+                    <p>Mailbox is empty. Emails will appear here automatically. </p>
                     <div class="spinner">
                         <div class="rect1"></div>
                         <div class="rect2"></div>

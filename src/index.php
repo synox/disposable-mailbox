@@ -37,7 +37,8 @@ if (DisplayEmailsController::matches()) {
     HasNewMessagesController::invoke($imapClient, $config);
     die();
 } else {
-    InvalidRequestController::invoke($imapClient, $config);
+    // If requesting the main site, just redirect to a new random mailbox.
+    RedirectToRandomAddressController::invoke($imapClient, $config);
 }
 
 
