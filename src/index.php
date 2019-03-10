@@ -1,24 +1,40 @@
 <?php
+
+// check for common errors
 if (version_compare(phpversion(), '7.2', '<')) {
     die("ERROR! The php version isn't high enough, you need at least 7.2 to run this application! But you have: " . phpversion());
 }
+extension_loaded("imap") || die('ERROR: IMAP extension not loaded. Please see the installation instructions in the README.md');
 
-# load config file and dependencies
-require_once './boot.php';
 
+# load php dependencies:
+require_once './backend-libs/autoload.php';
+require_once './config_helper.php';
 require_once './user.php';
 require_once './imap_client.php';
 require_once './controller.php';
-require_once './router.php';
+
+load_config();
 
 $imapClient = new ImapClient($config['imap']['url'], $config['imap']['username'], $config['imap']['password']);
 
-$router = new Router($_SERVER['REQUEST_METHOD'], $_GET['action'] ?? NULL, $_GET, $_POST, $_SERVER['QUERY_STRING'], $config);
-$controller = $router->route();
-$controller->setViewHandler(new ServerRenderViewHandler());
-$controller->invoke($imapClient);
+if (DisplayEmailsController::matches()) {
+    DisplayEmailsController::invoke($imapClient, $config);
+} elseif (RedirectToAddressController::matches()) {
+    RedirectToAddressController::invoke($imapClient, $config);
+} elseif (RedirectToRandomAddressController::matches()) {
+    RedirectToRandomAddressController::invoke($imapClient, $config);
+} elseif (DownloadEmailController::matches()) {
+    DownloadEmailController::invoke($imapClient, $config);
+} elseif (DeleteEmailController::matches()) {
+    DeleteEmailController::invoke($imapClient, $config);
+} elseif (HasNewMessagesController::matches()) {
+    HasNewMessagesController::invoke($imapClient, $config);
+} else {
+    // If requesting the main site, just redirect to a new random mailbox.
+    RedirectToRandomAddressController::invoke($imapClient, $config);
+}
+
 
 // delete after each request
 $imapClient->delete_old_messages($config['delete_messages_older_than']);
-
-?>

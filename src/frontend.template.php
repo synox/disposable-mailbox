@@ -45,14 +45,14 @@ function niceDate($date) {
     <title><?php
         echo $emails ? "(" . count($emails) . ") " : "";
         echo $user->address ?></title>
-    <link rel="stylesheet" href="spinner.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/spinner.css">
+    <link rel="stylesheet" href="assets/custom.css">
 
     <script>
         var mailCount = <?php echo count($emails)?>;
         setInterval(function () {
             var r = new XMLHttpRequest();
-            r.open("GET", "./json-api.php?action=has_new_messages&address=$<?php echo $user->address?>&email_ids=<?php echo $mailIdsJoinedString?>", true);
+            r.open("GET", "?action=has_new_messages&address=<?php echo $user->address?>&email_ids=<?php echo $mailIdsJoinedString?>", true);
             r.onreadystatechange = function () {
                 if (r.readyState != 4 || r.status != 200) return;
                 if (r.responseText > 0) {
@@ -251,7 +251,7 @@ function niceDate($date) {
             <?php
             if (empty($emails)) { ?>
                 <div id="empty-mailbox">
-                    <p>Emails will appear here automatically. </p>
+                    <p>The mailbox is empty. Checking for new emails automatically. </p>
                     <div class="spinner">
                         <div class="rect1"></div>
                         <div class="rect2"></div>
@@ -269,13 +269,13 @@ function niceDate($date) {
     <div class="container">
 
 
-        <!--        <select id="language-selection" class="custom-select" title="Language">-->
-        <!--            <option selected>English</option>-->
-        <!--            <option value="1">Deutsch</option>-->
-        <!--            <option value="2">Two</option>-->
-        <!--            <option value="3">Three</option>-->
-        <!--        </select>-->
-        <!--        <br>-->
+<!--                <select id="language-selection" class="custom-select" title="Language">-->
+<!--                    <option selected>English</option>-->
+<!--                    <option value="1">Deutsch</option>-->
+<!--                    <option value="2">Two</option>-->
+<!--                    <option value="3">Three</option>-->
+<!--                </select>-->
+<!--                <br>-->
 
         <small class="text-justify quick-summary">
             This is a disposable mailbox service. Whoever knows your username, can read your emails.
