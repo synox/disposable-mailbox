@@ -1,7 +1,15 @@
 <?php
 
-class AutoLinkExtension {
-    static public function auto_link_text(string $string) {
+/**
+ * Adapted from https://plugins.trac.wordpress.org/browser/sem-external-links/trunk/sem-autolink-uri.php
+ * which is MIT/GPL licenced.
+ *    Author: Denis de Bernardy & Mike Koepke
+ *    Author URI: https://www.semiologic.com
+ */
+class AutoLinkExtension
+{
+    static public function auto_link_text(string $string)
+    {
 
         $string = preg_replace_callback("/
             ((?<![\"'])                                     # don't look inside quotes
