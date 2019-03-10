@@ -251,7 +251,7 @@ function niceDate($date) {
             <?php
             if (empty($emails)) { ?>
                 <div id="empty-mailbox">
-                    <p>Mailbox is empty. Emails will appear here automatically. </p>
+                    <p>The mailbox is empty. Checking for new emails automatically. </p>
                     <div class="spinner">
                         <div class="rect1"></div>
                         <div class="rect2"></div>
@@ -269,13 +269,13 @@ function niceDate($date) {
     <div class="container">
 
 
-        <!--        <select id="language-selection" class="custom-select" title="Language">-->
-        <!--            <option selected>English</option>-->
-        <!--            <option value="1">Deutsch</option>-->
-        <!--            <option value="2">Two</option>-->
-        <!--            <option value="3">Three</option>-->
-        <!--        </select>-->
-        <!--        <br>-->
+<!--                <select id="language-selection" class="custom-select" title="Language">-->
+<!--                    <option selected>English</option>-->
+<!--                    <option value="1">Deutsch</option>-->
+<!--                    <option value="2">Two</option>-->
+<!--                    <option value="3">Three</option>-->
+<!--                </select>-->
+<!--                <br>-->
 
         <small class="text-justify quick-summary">
             This is a disposable mailbox service. Whoever knows your username, can read your emails.
