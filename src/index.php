@@ -20,22 +20,16 @@ $imapClient = new ImapClient($config['imap']['url'], $config['imap']['username']
 
 if (DisplayEmailsController::matches()) {
     DisplayEmailsController::invoke($imapClient, $config);
-    die();
 } elseif (RedirectToAddressController::matches()) {
     RedirectToAddressController::invoke($imapClient, $config);
-    die();
 } elseif (RedirectToRandomAddressController::matches()) {
     RedirectToRandomAddressController::invoke($imapClient, $config);
-    die();
 } elseif (DownloadEmailController::matches()) {
     DownloadEmailController::invoke($imapClient, $config);
-    die();
 } elseif (DeleteEmailController::matches()) {
     DeleteEmailController::invoke($imapClient, $config);
-    die();
 } elseif (HasNewMessagesController::matches()) {
     HasNewMessagesController::invoke($imapClient, $config);
-    die();
 } else {
     // If requesting the main site, just redirect to a new random mailbox.
     RedirectToRandomAddressController::invoke($imapClient, $config);
