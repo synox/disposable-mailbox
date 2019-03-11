@@ -28,8 +28,8 @@ if (DisplayEmailsController::matches()) {
     DownloadEmailController::invoke($imapClient, $config);
 } elseif (DeleteEmailController::matches()) {
     DeleteEmailController::invoke($imapClient, $config);
-} elseif (HasNewMessagesController::matches()) {
-    HasNewMessagesController::invoke($imapClient, $config);
+} elseif (HasNewMessagesControllerJson::matches()) {
+    HasNewMessagesControllerJson::invoke($imapClient, $config);
 } else {
     // If requesting the main site, just redirect to a new random mailbox.
     RedirectToRandomAddressController::invoke($imapClient, $config);

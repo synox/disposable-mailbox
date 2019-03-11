@@ -15,9 +15,12 @@ class DisplayEmailsController {
     public static function invoke(ImapClient $imapClient, array $config) {
         $address = $_SERVER['QUERY_STRING'] ?? '';
 
-        // print emails with html template
         $user = User::parseDomain($address, $config['blocked_usernames']);
-        $user->isInvalid($config['domains']) && RedirectToRandomAddressController::invoke($imapClient, $config);
+        if ($user->isInvalid($config['domains'])) {
+            RedirectToRandomAddressController::invoke($imapClient, $config);
+            return;
+        }
+
         $emails = $imapClient->get_emails($user);
 
         DisplayEmailsController::render($emails, $config, $user);
@@ -53,15 +56,11 @@ class RedirectToRandomAddressController {
 
     public static function invoke(ImapClient $imapClient, array $config) {
         $address = User::get_random_address($config{'domains'});
-
         RedirectToAddressController::render($address);
-
-        // finish rendering, this might be called from another controller as a fallback
-        exit();
     }
 }
 
-class HasNewMessagesController {
+class HasNewMessagesControllerJson {
     public static function matches() {
         return ($_GET['action'] ?? null) === "has_new_messages"
             && isset($_GET['email_ids'])
@@ -74,18 +73,19 @@ class HasNewMessagesController {
         $address = $_GET['address'];
 
         $user = User::parseDomain($address, $config['blocked_usernames']);
-        $user->isInvalid($config['domains']) && RedirectToRandomAddressController::invoke($imapClient, $config);
+        if ($user->isInvalid($config['domains'])) {
+            render_error(400, "invalid email address");
+        }
+
         $emails = $imapClient->get_emails($user);
-
         $knownMailIds = explode('|', $email_ids);
-
         $newMailIds = array_map(function ($mail) {
             return $mail->id;
         }, $emails);
 
         $onlyNewMailIds = array_diff($newMailIds, $knownMailIds);
 
-        HasNewMessagesController::render(count($onlyNewMailIds));
+        HasNewMessagesControllerJson::render(count($onlyNewMailIds));
     }
 
     public static function render($counter) {
@@ -107,7 +107,10 @@ class DownloadEmailController {
         $address = $_GET['address'];
 
         $user = User::parseDomain($address, $config['blocked_usernames']);
-        $user->isInvalid($config['domains']) && RedirectToRandomAddressController::invoke($imapClient, $config);
+        if ($user->isInvalid($config['domains'])) {
+            RedirectToRandomAddressController::invoke($imapClient, $config);
+            return;
+        }
 
         $download_email_id = filter_var($email_id, FILTER_SANITIZE_NUMBER_INT);
         $full_email = $imapClient->load_one_email_fully($download_email_id, $user);
@@ -138,7 +141,10 @@ class DeleteEmailController {
         $address = $_GET['address'];
 
         $user = User::parseDomain($address, $config['blocked_usernames']);
-        $user->isInvalid($config['domains']) && RedirectToRandomAddressController::invoke($imapClient, $config);
+        if ($user->isInvalid($config['domains'])) {
+            RedirectToRandomAddressController::invoke($imapClient, $config);
+            return;
+        }
 
         $delete_email_id = filter_var($email_id, FILTER_SANITIZE_NUMBER_INT);
         if ($imapClient->delete_email($delete_email_id, $user)) {
