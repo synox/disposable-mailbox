@@ -97,6 +97,7 @@ footer {
 }
 
 .email-body {
+    word-wrap: break-word;
 }
 
 .alert-fixed {
