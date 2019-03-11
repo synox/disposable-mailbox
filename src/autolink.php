@@ -6,12 +6,10 @@
  *    Author: Denis de Bernardy & Mike Koepke
  *    Author URI: https://www.semiologic.com
  */
-class AutoLinkExtension
-{
-    static public function auto_link_text(string $string)
-    {
-
-        $string = preg_replace_callback("/
+class AutoLinkExtension {
+    public static function auto_link_text(string $string) {
+        $string = preg_replace_callback(
+            "/
             ((?<![\"'])                                     # don't look inside quotes
             (\b
             (                           # protocol or www.
@@ -49,9 +47,10 @@ class AutoLinkExtension
                     $href = 'http://' . $href;
                 }
                 return '<a href="' . $href . '" rel="noreferrer">' . $url . '</a>';
-            }, $string);
+            },
+            $string
+        );
 
         return $string;
     }
-
 }

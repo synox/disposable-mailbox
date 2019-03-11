@@ -20,7 +20,7 @@ class User {
     public function isInvalid(array $config_domains): bool {
         if (empty($this->username) || empty($this->domain)) {
             return true;
-        } else if (!in_array($this->domain, $config_domains)) {
+        } elseif (!in_array($this->domain, $config_domains)) {
             return true;
         } else {
             return false;
@@ -77,5 +77,4 @@ class User {
         $username = preg_replace('/^.*@/', "", $username);   // remove part before @
         return preg_replace('/[^A-Za-z0-9_.+-]/', "", $username);   // remove special characters
     }
-
 }

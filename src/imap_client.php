@@ -62,7 +62,6 @@ class ImapClient {
         } else {
             return null;
         }
-
     }
 
     /**
@@ -71,8 +70,7 @@ class ImapClient {
      * @param $user User
      * @return array of emails
      */
-    private
-    function _load_emails(array $mail_ids, User $user) {
+    private function _load_emails(array $mail_ids, User $user) {
         $emails = array();
         foreach ($mail_ids as $id) {
             $mail = $this->mailbox->getMail($id);
@@ -87,8 +85,7 @@ class ImapClient {
     /**
      * deletes messages older than X days.
      */
-    public
-    function delete_old_messages(string $delete_messages_older_than) {
+    public function delete_old_messages(string $delete_messages_older_than) {
         $ids = $this->mailbox->searchMailbox('BEFORE ' . date('d-M-Y', strtotime($delete_messages_older_than)));
         foreach ($ids as $id) {
             $this->mailbox->deleteMail($id);
