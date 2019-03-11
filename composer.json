@@ -7,6 +7,6 @@
     "fightbulc/moment": "*"
   },
   "config": {
-    "vendor-dir": "src/backend-libs"
+    "vendor-dir": "src/vendor"
   }
 }
