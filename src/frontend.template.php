@@ -22,10 +22,42 @@ $mailIds = array_map(function ($mail) {
 }, $emails);
 $mailIdsJoinedString = filter_var(join('|', $mailIds), FILTER_SANITIZE_SPECIAL_CHARS);
 
+// define bigger renderings here to keep the php sections within the html short.
 function niceDate($date) {
     $m = new \Moment\Moment($date, date_default_timezone_get());
     return $m->calendar();
 }
+
+function printMessageBody($email) {
+    global $config;
+    global $purifier;
+
+    // To avoid showing empty mails, first purify the html and plaintext
+    // before checking if they are empty.
+    $safeHtml = $purifier->purify($email->textHtml);
+
+    $safeText = htmlspecialchars($email->textPlain);
+    $safeText = nl2br($safeText);
+    $safeText = \AutoLinkExtension::auto_link_text($safeText);
+
+    $hasHtml = strlen(trim($safeHtml)) > 0;
+    $hasText = strlen(trim($safeText)) > 0;
+
+    if ($config['prefer_plaintext']) {
+        if ($hasText) {
+            echo $safeText;
+        } else {
+            echo $safeHtml;
+        }
+    } else {
+        if ($hasHtml) {
+            echo $safeHtml;
+        } else {
+            echo $safeText;
+        }
+    }
+}
+
 ?>
 
 
@@ -59,7 +91,7 @@ function niceDate($date) {
                     console.log("There are", r.responseText, "new mails.");
                     document.getElementById("new-content-avalable").style.display = 'block';
 
-                    // If there are no emails displayed, we can reload the page without looing any state.
+                    // If there are no emails displayed, we can reload the page without losing any state.
                     if (mailCount === 0) {
                         location.reload();
                     }
@@ -167,9 +199,7 @@ function niceDate($date) {
         <div id="email-list" class="list-group">
 
             <?php
-            foreach ($emails
-
-                     as $email) {
+            foreach ($emails as $email) {
                 $safe_email_id = filter_var($email->id, FILTER_VALIDATE_INT); ?>
 
                 <a class="list-group-item list-group-item-action email-list-item" data-toggle="collapse"
@@ -216,29 +246,7 @@ function niceDate($date) {
                                     Delete
                                 </a>
                             </div>
-                <?php
-                $safeHtml = $purifier->purify($email->textHtml);
-
-                $safeText = htmlspecialchars($email->textPlain);
-                $safeText = nl2br($safeText);
-                $safeText = \AutoLinkExtension::auto_link_text($safeText);
-
-                $hasHtml = strlen(trim($safeHtml)) > 0;
-                $hasText = strlen(trim($safeText)) > 0;
-
-                if ($config['prefer_plaintext']) {
-                    if ($hasText) {
-                        echo $safeText;
-                    } else {
-                        echo $safeHtml;
-                    }
-                } else {
-                    if ($hasHtml) {
-                        echo $safeHtml;
-                    } else {
-                        echo $safeText;
-                    }
-                } ?>
+                             <?php printMessageBody($email); ?>
 
                         </div>
                     </div>
