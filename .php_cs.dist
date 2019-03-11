@@ -1,0 +1,15 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->exclude('src/backend-libs/')
+    ->in('src')
+;
+
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@PSR2' => true,
+        'lowercase_constants' => true,
+        'braces' => ['position_after_functions_and_oop_constructs' => 'same']
+    ])
+    ->setFinder($finder)
+;
