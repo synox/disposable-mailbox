@@ -10,3 +10,15 @@ https://help.github.com/articles/fork-a-repo/
  * *batteries included/No build process:* the user should only download the repo and update the config file in order to run the app.   
  * *no database:* the application does not have it's own database. The IMAP server is the database. 
  
+ 
+ ## Standards
+ We try to follow the following standards:
+  * https://github.com/php-pds/skeleton
+  * http://keepachangelog.com
+  * 
+  
+## Do before pull request
+ * run code style fixer (https://cs.symfony.com/)
+   * `brew install php-cs-fixer`
+   * `php-cs-fixer fix`
+ 
