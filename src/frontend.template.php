@@ -28,9 +28,8 @@ function niceDate($date) {
     return $m->calendar();
 }
 
-function printMessageBody($email) {
+function printMessageBody($email, $purifier) {
     global $config;
-    global $purifier;
 
     // To avoid showing empty mails, first purify the html and plaintext
     // before checking if they are empty.
@@ -246,7 +245,7 @@ function printMessageBody($email) {
                                     Delete
                                 </a>
                             </div>
-                             <?php printMessageBody($email); ?>
+                             <?php printMessageBody($email, $purifier); ?>
 
                         </div>
                     </div>
