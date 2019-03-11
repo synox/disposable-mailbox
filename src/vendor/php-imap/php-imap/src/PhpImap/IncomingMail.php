@@ -4,26 +4,18 @@
  * @see https://github.com/barbushin/php-imap
  * @author Barbushin Sergey http://linkedin.com/in/barbushin
  */
-class IncomingMail {
-
-	public $id;
-	public $date;
-	public $subject;
-
-	public $fromName;
-	public $fromAddress;
-
-	public $to = array();
-	public $toString;
-	public $cc = array();
-	public $replyTo = array();
-
-	public $messageId;
+class IncomingMail extends IncomingMailHeader {
 
 	public $textPlain;
 	public $textHtml;
 	/** @var IncomingMailAttachment[] */
 	protected $attachments = array();
+
+	public function setHeader(IncomingMailHeader $header) {
+		foreach(get_object_vars($header) as $property => $value) {
+			$this->$property = $value;
+		}
+	}
 
 	public function addAttachment(IncomingMailAttachment $attachment) {
 		$this->attachments[$attachment->id] = $attachment;
@@ -48,18 +40,16 @@ class IncomingMail {
 	public function replaceInternalLinks($baseUri) {
 		$baseUri = rtrim($baseUri, '\\/') . '/';
 		$fetchedHtml = $this->textHtml;
+		$search = array();
+		$replace = array();
 		foreach($this->getInternalLinksPlaceholders() as $attachmentId => $placeholder) {
-			if(isset($this->attachments[$attachmentId])) {
-				$fetchedHtml = str_replace($placeholder, $baseUri . basename($this->attachments[$attachmentId]->filePath), $fetchedHtml);
+			foreach($this->attachments as $attachment) {
+				if($attachment->contentId == $attachmentId) {
+					$search[] = $placeholder;
+					$replace[] = $baseUri . basename($this->attachments[$attachment->id]->filePath);
+				}
 			}
 		}
-		return $fetchedHtml;
+		return str_replace($search, $replace, $fetchedHtml);
 	}
-}
-
-class IncomingMailAttachment {
-
-	public $id;
-	public $name;
-	public $filePath;
 }

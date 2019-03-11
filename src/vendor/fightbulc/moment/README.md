@@ -28,12 +28,8 @@ PHP 5.3 or later since moment.php is based on php's [DateTime Class](http://php.
 
 Easy install via composer. Still no idea what composer is? Inform yourself [here](http://getcomposer.org).
 
-```json
-{
-    "require": {
-        "fightbulc/moment": "*"
-    }
-}
+```
+composer require fightbulc/moment
 ```
 
 -------------------------------------------------
@@ -115,10 +111,11 @@ __Supported languages so far:__
 ```fr_FR``` French (Europe)  
 ```de_DE``` German (Germany)  
 ```hu_HU``` Hungarian    
-```in_ID``` Indonesian  
+```id_ID``` Indonesian  
 ```it_IT``` Italian  
 ```ja_JP``` Japanese  
-```oc_LNC``` Lengadocian    
+```oc_LNC``` Lengadocian
+```lv_LV``` Latvian (Latviešu)
 ```pl_PL``` Polish  
 ```pt_BR``` Portuguese (Brazil)  
 ```pt_PT``` Portuguese (Portugal)  
@@ -416,6 +413,30 @@ You can now run through the result and put it formatted into a drop-down field o
 -------------------------------------------------
 
 # Changelog
+
+### 1.29.0
+ - updated Italian locale
+ - added:
+    - custom formats for en_US
+    - flag for loading similar locale
+
+### 1.28.3
+ - fixed typehint issue
+
+### 1.28.2
+ - fixed:
+    - missing relativeTime format
+    - allow 9-digit unixtime
+
+### 1.28.1
+ - fixed RFC2822 as valid format
+
+### 1.28.0
+ - fixed relative time
+ - added Norwegian locale
+
+### 1.27.0
+ - fixes and locale additions [(see commits for the 22.11.2018)](https://github.com/fightbulc/moment.php/commits/master)
 
 ### 1.26.10
  - fixed:

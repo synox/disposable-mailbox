@@ -111,13 +111,13 @@
             "version": "2.0.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:gnugat/PronounceableWord.git",
-                "reference": "60a19dc7148e92de35ea536b9f873b86365d48f0"
+                "url": "https://github.com/gnugat-legacy/PronounceableWord.git",
+                "reference": "fcdc0dc39775fa625040c37003727019657d001b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gnugat/PronounceableWord/zipball/60a19dc7148e92de35ea536b9f873b86365d48f0",
-                "reference": "60a19dc7148e92de35ea536b9f873b86365d48f0",
+                "url": "https://api.github.com/repos/gnugat-legacy/PronounceableWord/zipball/fcdc0dc39775fa625040c37003727019657d001b",
+                "reference": "fcdc0dc39775fa625040c37003727019657d001b",
                 "shasum": ""
             },
             "require": {

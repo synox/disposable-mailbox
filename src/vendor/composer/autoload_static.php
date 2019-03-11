@@ -11,6 +11,10 @@ class ComposerStaticInit125dddd280a32cf75b181166154246ec
     );
 
     public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'PhpImap\\' => 8,
+        ),
         'M' => 
         array (
             'Moment\\' => 7,
@@ -18,6 +22,10 @@ class ComposerStaticInit125dddd280a32cf75b181166154246ec
     );
 
     public static $prefixDirsPsr4 = array (
+        'PhpImap\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-imap/php-imap/src/PhpImap',
+        ),
         'Moment\\' => 
         array (
             0 => __DIR__ . '/..' . '/fightbulc/moment/src',
@@ -30,10 +38,6 @@ class ComposerStaticInit125dddd280a32cf75b181166154246ec
             'PronounceableWord_' => 
             array (
                 0 => __DIR__ . '/..' . '/gnugat/PronounceableWord/src',
-            ),
-            'PhpImap' => 
-            array (
-                0 => __DIR__ . '/..' . '/php-imap/php-imap/src',
             ),
         ),
         'H' => 

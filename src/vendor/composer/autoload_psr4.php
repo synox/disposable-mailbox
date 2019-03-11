@@ -6,5 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'PhpImap\\' => array($vendorDir . '/php-imap/php-imap/src/PhpImap'),
     'Moment\\' => array($vendorDir . '/fightbulc/moment/src'),
 );
