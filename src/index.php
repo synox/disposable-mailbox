@@ -10,7 +10,7 @@ extension_loaded("imap") || die('ERROR: IMAP extension not loaded. Please see th
 # load php dependencies:
 require_once './vendor/autoload.php';
 require_once './config_helper.php';
-require_once './user.php';
+require_once './User.php';
 require_once './imap_client.php';
 require_once './controller.php';
 
