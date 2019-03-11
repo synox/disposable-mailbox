@@ -1,7 +1,7 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('src/backend-libs/')
+    ->exclude('backend-libs')
     ->in('src')
 ;
 
