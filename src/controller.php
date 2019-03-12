@@ -27,8 +27,8 @@ class DisplayEmailsController {
     }
 
     public static function render($emails, $config, $user) {
-        // variables that have to be defined here for frontend template: $emails, $config
-        require "frontend.template.php";
+        // variables that have to be defined here for frontend template: $emails, $config, $user
+        require "templates/inbox.php";
     }
 }
 
