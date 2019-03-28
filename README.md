@@ -5,6 +5,8 @@ A **self-hosted** disposable mailbox  service (aka trash mail)  :cloud: :envelop
 
 **Demo**: [BhadooMail](https://inbox.bhadoomail.com/inbox/) 
 
+**PHP is not your thing? You should try the more efficient NodeJs version:** https://github.com/synox/void-mail
+
 ![Screenshot](docs/screenshot_example.png)
 
 
