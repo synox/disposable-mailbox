@@ -150,16 +150,16 @@
         },
         {
             "name": "php-imap/php-imap",
-            "version": "3.0.21",
+            "version": "3.0.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barbushin/php-imap.git",
-                "reference": "3a8b7664c2318286c06e981830dc67cc66cedffb"
+                "reference": "34231ebb0820243e3fcb7acf116cf3902495e892"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/3a8b7664c2318286c06e981830dc67cc66cedffb",
-                "reference": "3a8b7664c2318286c06e981830dc67cc66cedffb",
+                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/34231ebb0820243e3fcb7acf116cf3902495e892",
+                "reference": "34231ebb0820243e3fcb7acf116cf3902495e892",
                 "shasum": ""
             },
             "require": {
@@ -198,7 +198,7 @@
                 "pop3",
                 "receive emails"
             ],
-            "time": "2019-06-04T07:57:52+00:00"
+            "time": "2019-06-11T06:34:37+00:00"
         }
     ],
     "packages-dev": [],
