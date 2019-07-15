@@ -107,7 +107,7 @@
             "time": "2019-04-18T08:27:34+00:00"
         },
         {
-            "name": "gnugat/PronounceableWord",
+            "name": "gnugat/pronounceableword",
             "version": "2.0.0",
             "source": {
                 "type": "git",
@@ -150,16 +150,16 @@
         },
         {
             "name": "php-imap/php-imap",
-            "version": "3.0.26",
+            "version": "3.0.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barbushin/php-imap.git",
-                "reference": "62664de68468d67050e99ae0ece4ccaf0211155a"
+                "reference": "bb357ef8b7daa44ab8c3c0e4791b1f61ac167949"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/62664de68468d67050e99ae0ece4ccaf0211155a",
-                "reference": "62664de68468d67050e99ae0ece4ccaf0211155a",
+                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/bb357ef8b7daa44ab8c3c0e4791b1f61ac167949",
+                "reference": "bb357ef8b7daa44ab8c3c0e4791b1f61ac167949",
                 "shasum": ""
             },
             "require": {
@@ -199,7 +199,7 @@
                 "pop3",
                 "receive emails"
             ],
-            "time": "2019-06-14T11:09:59+00:00"
+            "time": "2019-07-13T15:21:56+00:00"
         }
     ],
     "packages-dev": [],
