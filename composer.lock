@@ -86,8 +86,8 @@
             "authors": [
                 {
                     "name": "Tino Ehrich",
-                    "email": "tino@bigpun.me",
-                    "role": "developer"
+                    "role": "developer",
+                    "email": "tino@bigpun.me"
                 }
             ],
             "description": "Parse, validate, manipulate, and display dates in PHP w/ i18n support. Inspired by moment.js",
@@ -150,16 +150,16 @@
         },
         {
             "name": "php-imap/php-imap",
-            "version": "3.0.28",
+            "version": "3.0.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barbushin/php-imap.git",
-                "reference": "1abe83bdca77e3270400d6d73bf27638a7733865"
+                "reference": "15340028e27fdbe619999f4c300af2a06dd4a4f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/1abe83bdca77e3270400d6d73bf27638a7733865",
-                "reference": "1abe83bdca77e3270400d6d73bf27638a7733865",
+                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/15340028e27fdbe619999f4c300af2a06dd4a4f0",
+                "reference": "15340028e27fdbe619999f4c300af2a06dd4a4f0",
                 "shasum": ""
             },
             "require": {
@@ -199,7 +199,7 @@
                 "pop3",
                 "receive emails"
             ],
-            "time": "2019-07-23T09:25:42+00:00"
+            "time": "2019-09-07T13:44:13+00:00"
         }
     ],
     "packages-dev": [],
