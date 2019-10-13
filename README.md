@@ -77,7 +77,3 @@ This could not be possible without...
 
  * https://github.com/barbushin/php-imap, https://github.com/gnugat-legacy/PronounceableWord, http://htmlpurifier.org/, 
  * https://github.com/turbolinks/turbolinks, http://tobiasahlin.com/spinkit/
-
-[![BrowserStack](docs/browserstack.png)](https://www.browserstack.com/)
-
-Supported by [BrowserStack](https://www.browserstack.com/), which allows us to test projects online with any browser as a service. :-) 
